@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,OAAQ;EACJ,MAAM,EAAE,IAAI;EACZ,KAAK,EAAE,IAAI;EACX,cAAO;IACH,UAAU,EAAE,IAAI;IAChB,KAAK,EAAE,IAAI;IACX,gBAAgB,EAAE,IAAI;IACtB,UAAU,EAAE,mGAAqF;IACjG,aAAa,EAAE,IAAI",
+"sources": ["../../scss/partials/Panels.scss"],
+"names": [],
+"file": "Panels.css"
+}
