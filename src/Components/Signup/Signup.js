@@ -1,30 +1,71 @@
 import React, { Component } from 'react';
-import { SignupData } from '../../Constants/appConstants';
+import { SignupData,  SERVICES_CONST } from '../../Constants/appConstants';
+import Services from '../../Services/Services';
 
 export default class Signup extends Component {
+
+    constructor(props) {
+        super(props);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleSubmit(e) {
+        e.preventDefault();
+        
+        const formData = {};
+        for (const field in this.refs) {
+          formData[field] = this.refs[field].value;
+        }
+        const responseData = Services(SERVICES_CONST.SIGNUP, formData);
+    }
+
     render() {
         return (
-            <div className="Login-container">
-                <span className="Login-text">{SignupData.signupText}</span>
-                <form method="post">
+            <div className="form-container">
+                <span className="form-header">{SignupData.signupText}</span>
+                <form onSubmit={this.handleSubmit}>
                     <div className="form-control">
                         <input 
                             type="text"
-                            name="username" 
-                            id="username" 
-                            placeholder="Enter your username" 
+                            ref="emp" 
+                            id="empid" 
+                            placeholder="Enter your Employee Id" 
+                        />
+                    </div>
+                    <div className="form-control">
+                        <input 
+                            type="text" 
+                            ref="name" 
+                            id="name" 
+                            placeholder="Enter your name" 
+                        />
+                    </div>
+                    <div className="form-control">
+                        <input 
+                            type="email"
+                            ref="email" 
+                            id="email" 
+                            placeholder="Enter your email" 
                         />
                     </div>
                     <div className="form-control">
                         <input 
                             type="password" 
-                            name="password" 
+                            ref="password" 
                             id="password" 
                             placeholder="Enter your password" 
                         />
                     </div>
                     <div className="form-control">
-                        <input type="submit" value="Login" onClick={(e) => this.onLogin(e)} />
+                        <input 
+                            type="text" 
+                            ref="role" 
+                            id="role" 
+                            placeholder="Enter your role" 
+                        />
+                    </div>
+                    <div className="form-control">
+                        <input type="submit" value="Login" />
                     </div>
                 </form>
             </div>

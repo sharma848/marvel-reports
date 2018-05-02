@@ -1,4 +1,4 @@
-.Login-container {
+.form-container {
   width: 350px;
   height: auto;
   margin: 0 auto;
@@ -6,14 +6,14 @@
   background-color: #fff;
   margin-top: 50px;
   padding: 40px 70px; }
-  .Login-container .Login-text {
+  .form-container .form-header {
     font-size: 20px;
     display: block;
     text-align: center; }
-  .Login-container .signup {
+  .form-container .signup {
     text-align: center;
     margin-top: 20px; }
-    .Login-container .signup a {
+    .form-container .signup a {
       margin-left: 5px;
       text-decoration: none; }
 
@@ -27,6 +27,14 @@
     border: none;
     border-bottom: 2px solid #e4e4e4; }
     .form-control input[type="text"]:focus {
+      outline: none; }
+  .form-control input[type="email"] {
+    margin: 15px 0;
+    padding: 8px 0;
+    width: 200px;
+    border: none;
+    border-bottom: 2px solid #e4e4e4; }
+    .form-control input[type="email"]:focus {
       outline: none; }
   .form-control input[type="password"] {
     margin: 15px 0;
@@ -64,5 +72,30 @@ html {
 .app {
   max-width: 1300px;
   margin: 0 auto; }
+
+.btn {
+  margin: 15px 0;
+  padding: 10px 0;
+  width: 200px;
+  background-color: #ff9a19;
+  color: #000;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px; }
+  .btn.btn-success {
+    background-color: #5cb85c;
+    color: white; }
+  .btn.btn-danger {
+    background-color: #c9302c;
+    color: white; }
+
+.action-panel {
+  width: 350px;
+  height: auto;
+  margin: 0 auto;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.05);
+  background-color: #fff;
+  margin-top: 50px;
+  padding: 40px 70px; }
 
 /*# sourceMappingURL=style.css.map */

@@ -1,85 +1,77 @@
 import React, { Component } from 'react';
-import { LoginData } from '../../Constants/appConstants';
+import { LoginData, SERVICES_CONST } from '../../Constants/appConstants';
+import Services from '../../Services/Services';
 
 export default class Login extends Component {
 
     static shiftFocusToUserInput() {
-        const inputbox = document.getElementById('username');
+        const inputbox = document.getElementById('emp');
         inputbox.focus();
     }
 
     constructor(props) {
         super(props);
         this.state = {
-            loginDetails: {
-                username: '',
-                password: ''
-            }
-        }
+            abc: true
+        };
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.escFunction = this.escFunction.bind(this);
     }
 
     componentDidMount() {
         Login.shiftFocusToUserInput();
+        document.addEventListener("keydown", this.escFunction, false);
     }
 
-    onLogin = (e) => {
+    componentWillUnmount(){
+        document.removeEventListener("keydown", this.escFunction, false);
+        console.log("event listener removed");
+    }
+
+    escFunction(event){
+        console.log(event);
+        if(event.keyCode === 27) {
+            this.setState({ abc: false });
+        }
+    }
+
+    handleSubmit(e) {
         e.preventDefault();
-        console.log(this.state.loginDetails);
-        this.setState({
-            loginDetails: {
-                username: '',
-                password: ''
-            }
-        });
-    }
-
-    onUsernameChange = (e) => {
-        this.setState({
-            loginDetails: {
-                username: e.target.value,
-                password: this.state.loginDetails.password
-            }
-        });
-    }
-
-    onPasswordChange = (e) => {
-        this.setState({
-            loginDetails: {
-                username: this.state.loginDetails.username,
-                password: e.target.value
-            }
-        });
-    }
+        
+        const formData = {};
+        for (const field in this.refs) {
+          formData[field] = this.refs[field].value;
+        }
+        const responseData = Services(SERVICES_CONST.LOGIN, formData);
+        console.log(responseData);
+      }
 
     render() {
         return (
-            <div className="Login-container">
-                <span className="Login-text">{LoginData.loginText}</span>
-                <form method="post">
+            <div className="form-container">
+                <span className="form-header">{LoginData.loginText}</span>
+                <form onSubmit={this.handleSubmit}>
                     <div className="form-control">
                         <input 
                             type="text"
-                            name="username" 
-                            id="username" 
-                            placeholder="Enter your username" 
-                            value={this.state.loginDetails.username}
-                            onChange={(e) => this.onUsernameChange(e)} 
+                            ref="emp" 
+                            id="emp" 
+                            placeholder="Enter your Employee Id" 
                         />
                     </div>
                     <div className="form-control">
                         <input 
                             type="password" 
-                            name="password" 
+                            ref="password" 
                             id="password" 
                             placeholder="Enter your password" 
-                            value={this.state.loginDetails.password}
-                            onChange={(e) => this.onPasswordChange(e)} 
                         />
                     </div>
                     <div className="form-control">
-                        <input type="submit" value="Login" onClick={(e) => this.onLogin(e)} />
+                        <input type="submit" value="Login" />
                     </div>
                 </form>
+                {this.state.abc ? <div>hello</div> : <div>bye</div>}
             </div>
         );
     }

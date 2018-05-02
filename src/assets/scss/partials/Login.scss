@@ -6,7 +6,7 @@
     background-color: #fff;    
     margin-top: 50px;
     padding: 40px 70px;
-    .form-text {
+    .form-header {
         font-size: 20px;
         display: block;
         text-align: center;
@@ -25,6 +25,16 @@
     display: flex;
     justify-content: space-around;
     input[type="text"] {
+        margin: 15px 0;
+        padding: 8px 0;
+        width: 200px;
+        border: none;
+        border-bottom: 2px solid #e4e4e4;
+        &:focus {
+            outline: none;
+        }
+    }
+    input[type="email"] {
         margin: 15px 0;
         padding: 8px 0;
         width: 200px;
