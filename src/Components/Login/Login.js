@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { LoginData, SERVICES_CONST } from '../../Constants/appConstants';
-import Services from '../../Services/Services';
+import { connect } from 'react-redux';
 
-export default class Login extends Component {
+import { LoginData } from '../../Constants/appConstants';
+import { loginUser } from '../../Actions/index';
+
+export class Login extends Component {
 
     static shiftFocusToUserInput() {
         const inputbox = document.getElementById('emp');
@@ -12,26 +14,26 @@ export default class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            abc: true
+            errorMessage: ''
         };
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.escFunction = this.escFunction.bind(this);
     }
 
     componentDidMount() {
         Login.shiftFocusToUserInput();
-        document.addEventListener("keydown", this.escFunction, false);
+    }
+    componentWillReceiveProps(nextProps) {
+        const data = nextProps.loginData.data;
+        this.validateLogin(data);
     }
 
-    componentWillUnmount(){
-        document.removeEventListener("keydown", this.escFunction, false);
-        console.log("event listener removed");
-    }
-
-    escFunction(event){
-        console.log(event);
-        if(event.keyCode === 27) {
-            this.setState({ abc: false });
+    validateLogin(data) {
+        if(data.statusCode === 200) {
+            this.props.history.push('/dashboard', data);
+        } else {
+            this.setState({
+                errorMessage: data.message
+            });
         }
     }
 
@@ -42,9 +44,8 @@ export default class Login extends Component {
         for (const field in this.refs) {
           formData[field] = this.refs[field].value;
         }
-        const responseData = Services(SERVICES_CONST.LOGIN, formData);
-        console.log(responseData);
-      }
+        this.props.loginUser();
+    }
 
     render() {
         return (
@@ -71,8 +72,16 @@ export default class Login extends Component {
                         <input type="submit" value="Login" />
                     </div>
                 </form>
-                {this.state.abc ? <div>hello</div> : <div>bye</div>}
+                {this.state.errorMessage ? <div>{this.state.errorMessage}</div> : ''}
             </div>
         );
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        loginData: state.loginData
+    };
+}
+
+export default connect(mapStateToProps, { loginUser: loginUser })(Login);

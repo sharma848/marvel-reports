@@ -15,9 +15,9 @@ class Home extends Component {
   render() {
     let element;
     if(this.state.isLoggedIn) {
-      element = <Dashboard />;
+      element = <Dashboard {...this.props}/>;
     } else {
-      element = <Login />;
+      element = <Login {...this.props}/>;
     }
     return (
       <div className="main">

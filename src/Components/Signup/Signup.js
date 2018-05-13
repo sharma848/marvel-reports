@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { SignupData,  SERVICES_CONST } from '../../Constants/appConstants';
-import Services from '../../Services/Services';
 
 export default class Signup extends Component {
 
@@ -16,7 +15,6 @@ export default class Signup extends Component {
         for (const field in this.refs) {
           formData[field] = this.refs[field].value;
         }
-        const responseData = Services(SERVICES_CONST.SIGNUP, formData);
     }
 
     render() {
