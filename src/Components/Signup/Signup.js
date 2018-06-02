@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { SignupData,  SERVICES_CONST } from '../../Constants/appConstants';
+import { SignupData } from '../../Constants/appConstants';
 
 export default class Signup extends Component {
 

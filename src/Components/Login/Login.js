@@ -29,7 +29,7 @@ export class Login extends Component {
 
     validateLogin(data) {
         if(data.statusCode === 200) {
-            this.props.history.push('/dashboard', data);
+            this.props.history.push('/dashboard');
         } else {
             this.setState({
                 errorMessage: data.message
