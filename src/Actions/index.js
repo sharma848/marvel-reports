@@ -14,6 +14,20 @@ export function loginUser() {
     };
 }
 
+// export function getDashboard() {
+//     const url = 'http://localhost:1337/742fc666.ngrok.io/marvel/login';
+
+//     const request = axios.post(url, {
+//         "email":"jatin@gmail.com",
+//         "password":"password"
+//         });
+
+//     return {
+//         type: GET_DASHBOARD,
+//         payload: request
+//     };
+// }
+
 export function getDashboard() {
     const url = 'https://jsonplaceholder.typicode.com/todos';
 
