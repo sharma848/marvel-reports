@@ -6,6 +6,7 @@
     "axios": "^0.18.0",
     "lodash": "^4.17.10",
     "react": "^16.3.1",
+    "react-bootstrap": "^0.32.1",
     "react-dom": "^16.3.1",
     "react-promise": "^2.0.2",
     "react-redux": "^5.0.7",

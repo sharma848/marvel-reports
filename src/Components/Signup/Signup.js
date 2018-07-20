@@ -25,16 +25,15 @@ export default class Signup extends Component {
                     <div className="form-control">
                         <input 
                             type="text"
-                            ref="emp" 
                             id="empid" 
+                            name="empid"
                             placeholder="Enter your Employee Id" 
                         />
                     </div>
                     <div className="form-control">
                         <input 
-                            type="text" 
-                            ref="name" 
-                            id="name" 
+                            type="email" 
+                            id="email" 
                             placeholder="Enter your name" 
                         />
                     </div>

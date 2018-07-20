@@ -1,27 +1,28 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 import { LoginData } from '../../Constants/appConstants';
 import { loginUser } from '../../Actions/index';
 
 export class Login extends Component {
 
-    static shiftFocusToUserInput() {
-        const inputbox = document.getElementById('emp');
-        inputbox.focus();
-    }
-
     constructor(props) {
         super(props);
         this.state = {
-            errorMessage: ''
+            errorMessage: '',
+            email: '',
+            password: '',
+            redirect: false
         };
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
-        Login.shiftFocusToUserInput();
+        if(sessionStorage.getItem('SessionToken') != null) {
+            this.setState({ redirect: true });
+        }
     }
+
     componentWillReceiveProps(nextProps) {
         const data = nextProps.loginData.data;
         this.validateLogin(data);
@@ -29,6 +30,7 @@ export class Login extends Component {
 
     validateLogin(data) {
         if(data.statusCode === 200) {
+            sessionStorage.setItem('SessionToken', data.data.data[0].token);
             this.props.history.push('/dashboard');
         } else {
             this.setState({
@@ -37,34 +39,38 @@ export class Login extends Component {
         }
     }
 
-    handleSubmit(e) {
+    onChange = (e) => {
+        this.setState({ [e.target.name]: e.target.value });
+    }
+
+    handleSubmit = (e) => {
         e.preventDefault();
-        
-        const formData = {};
-        for (const field in this.refs) {
-          formData[field] = this.refs[field].value;
-        }
-        this.props.loginUser();
+        this.props.loginUser(this.state);
     }
 
     render() {
+
+        if(this.state.redirect) {
+            return (<Redirect to={'/dashboard'} />);  
+        }
         return (
             <div className="form-container">
                 <span className="form-header">{LoginData.loginText}</span>
                 <form onSubmit={this.handleSubmit}>
                     <div className="form-control">
                         <input 
-                            type="text"
-                            ref="emp" 
-                            id="emp" 
-                            placeholder="Enter your Employee Id" 
+                            type="email"
+                            name="email"
+                            id="email"
+                            onChange={this.onChange}
+                            placeholder="Enter your email Id" 
                         />
                     </div>
                     <div className="form-control">
                         <input 
                             type="password" 
-                            ref="password" 
-                            id="password" 
+                            name="password"
+                            onChange={this.onChange}
                             placeholder="Enter your password" 
                         />
                     </div>
