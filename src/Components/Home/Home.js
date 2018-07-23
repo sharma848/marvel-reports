@@ -15,12 +15,12 @@ class Home extends Component {
   render() {
     let element;
     if(this.state.isLoggedIn) {
-      element = <Dashboard {...this.props}/>;
+      element = <Dashboard />;
     } else {
-      element = <Login {...this.props}/>;
+      element = <Login />;
     }
     return (
-      <div className="main">
+      <div className="">
         {element}
       </div>
     );

@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 
 import { LoginData } from '../../Constants/appConstants';
 import { loginUser } from '../../Actions/index';
+import SideBar from '../Sidebar/SideBar';
+import Header from '../Header/Header';
 
 export class Login extends Component {
 
@@ -57,28 +60,24 @@ export class Login extends Component {
             <div className="form-container">
                 <span className="form-header">{LoginData.loginText}</span>
                 <form onSubmit={this.handleSubmit}>
-                    <div className="form-control">
                         <input 
                             type="email"
+                            className="form-control"
                             name="email"
                             id="email"
                             onChange={this.onChange}
                             placeholder="Enter your email Id" 
                         />
-                    </div>
-                    <div className="form-control">
                         <input 
-                            type="password" 
+                            type="password"
+                            className="form-control margin-top-10"
                             name="password"
                             onChange={this.onChange}
                             placeholder="Enter your password" 
                         />
-                    </div>
-                    <div className="form-control">
-                        <input type="submit" value="Login" />
-                    </div>
+                    <Button type="submit" className="btn btn-primary">Login</Button>
                 </form>
-                {this.state.errorMessage ? <div>{this.state.errorMessage}</div> : ''}
+                {this.state.errorMessage ? <div className="error-message">{this.state.errorMessage}</div> : ''}
             </div>
         );
     }
