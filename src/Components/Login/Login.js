@@ -75,6 +75,9 @@ export class Login extends Component {
                         />
                     </div>
                     <div className="form-control">
+                        <a href="/signup">Not a user yet? Sign Up!</a>
+                    </div>
+                    <div className="form-control">
                         <input type="submit" value="Login" />
                     </div>
                 </form>
