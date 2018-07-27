@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
 
 import { getDashboard } from '../../Actions/index';
 import Header from '../Header/Header';
 import SideBar from '../Sidebar/SideBar';
+import Routes from '../../routes';
 
 export class Dashboard extends Component {
 
@@ -30,7 +30,7 @@ export class Dashboard extends Component {
 
     componentWillReceiveProps(nextProps) {
         if(nextProps.dashboardData && nextProps.dashboardData.data) {
-            const data = nextProps.dashboardData.data.data[0];
+            const data = nextProps.dashboardData.data.data;
             this.setState({ data: data });
         }
     }
@@ -57,11 +57,14 @@ export class Dashboard extends Component {
 
         return (
             <div className="dashboard">
-                <Header logout={this.logout} />
-                <SideBar />
+                {this.state.data ? (
+                <div>
+                    <Header logout={this.logout} user_name={this.state.data.name} />
+                    <SideBar role={this.state.data.role} />
+                </div>) : ''}
                 <div className="dashboard-container">
                     <div className="action-requests">
-                        {this.state.data ? this.getDetails() : 'Loading...'}
+                {this.state.data ? this.getDetails() : 'Loading...'}
                     </div>
                 </div>
             </div>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
+import { Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 
 export default class Header extends Component {
     render() {
@@ -17,12 +17,12 @@ export default class Header extends Component {
                     <ul class="navbar-nav">
                     <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            User
+                            {this.props.user_name}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item">Account</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" onClick={this.props.logout} >Logout</a>
+                                <a class="dropdown-item" onClick={this.props.logout}>Logout</a>
                             </div>
                         </li>
                     </ul>

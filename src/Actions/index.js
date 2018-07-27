@@ -3,7 +3,7 @@ import axios from 'axios';
 export const LOGIN_USER = 'LOGIN_USER';
 export const GET_DASHBOARD = 'GET_DASHBOARD';
 
-const ROOT_URL = `http://81f1fab2.ngrok.io/marvel`;
+const ROOT_URL = `http://524959da.ngrok.io/marvel`;
 
 export function loginUser(data) {
     const params = { email: data.email, password: data.password };
@@ -17,7 +17,6 @@ export function loginUser(data) {
 }
 
 export function getDashboard() {
-
     const token = sessionStorage.getItem('SessionToken');
 
     const request = axios.get(`${ROOT_URL}/api/user/detail`, { 'headers': { jwttoken: token } });
