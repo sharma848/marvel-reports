@@ -5,9 +5,6 @@ export default class SideBarSuperAdmin extends Component {
         return (
             <div class="sidenav">
                 <a href="">SuperAdmin</a>
-                <a href="">Services</a>
-                <a href="">Clients</a>
-                <a href="">Contact</a>
             </div>
         );
     }

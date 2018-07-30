@@ -5,9 +5,6 @@ export default class SideBarProjectAdmin extends Component {
         return (
             <div class="sidenav">
                 <a href="">ProjectAdmin</a>
-                <a href="">Services</a>
-                <a href="">Clients</a>
-                <a href="">Contact</a>
             </div>
         );
     }
