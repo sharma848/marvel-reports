@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
-
+import { Link } from 'react-router-dom';
 import { SignupData } from '../../Constants/appConstants';
 import { signupUser } from '../../Actions/index';
 
@@ -48,7 +49,7 @@ export class Signup extends Component {
 		}
 	}
 
-	render() {
+		render() {
 		if (this.state.redirect) {
 			return <Redirect to={'/login'} />;
 		}
@@ -57,55 +58,63 @@ export class Signup extends Component {
 			<div className="form-container">
 				<span className="form-header">{SignupData.signupText}</span>
 				<form onSubmit={this.handleSubmit}>
-					<div className="form-control">
+					<div className="form-group">
 						<input
 							type="text"
+							className="form-control"
 							id="eid"
 							name="eid"
 							placeholder="Enter your Employee Id"
 							onChange={this.onChange}
 						/>
 					</div>
-					<div className="form-control">
+					<div className="form-group">
 						<input
-							type="text"
+							type="name"
+							className="form-control"
 							id="name"
 							name="name"
 							placeholder="Enter your name"
 							onChange={this.onChange}
 						/>
 					</div>
-					<div className="form-control">
+					<div className="form-group">
 						<input
 							type="email"
+							className="form-control"
 							name="email"
 							id="email"
 							placeholder="Enter your email"
 							onChange={this.onChange}
 						/>
 					</div>
-					<div className="form-control">
+					<div className="form-group">
 						<input
 							type="password"
+							className="form-control"
 							name="password"
 							id="password"
 							placeholder="Enter your password"
 							onChange={this.onChange}
 						/>
 					</div>
-					<div className="form-control">
+					<div className="form-group">
 						<input
 							type="text"
+							className="form-control"
 							name="role"
 							id="role"
 							placeholder="Enter your role"
 							onChange={this.onChange}
 						/>
 					</div>
-					<div className="form-control">
-						<input type="submit" value="Login" />
+					<div className="form-group">
+						<input type="submit" value="Signup" className="btn btn-large" />
 					</div>
 				</form>
+				<span>
+					Already registered? <Link to={'/login'}>Login</Link>
+				</span>
 				{this.state.errorMessage ? <div>{this.state.errorMessage}</div> : ''}
 			</div>
 		);
@@ -116,5 +125,4 @@ function mapStateToProps(state) {
 		signupData: state.signupData
 	};
 }
-
 export default connect(mapStateToProps, { signupUser: signupUser })(Signup);

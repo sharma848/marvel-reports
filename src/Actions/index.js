@@ -29,9 +29,9 @@ export function loginUser(data) {
 }
 
 export function getDashboard() {
-    const url = 'https://jsonplaceholder.typicode.com/todos';
+    const token = sessionStorage.getItem('SessionToken');
 
-    const request = axios.get(url);
+    const request = axios.get(`${ROOT_URL}/api/user/detail`, { 'headers': { jwttoken: token } });
 
     return {
         type: GET_DASHBOARD,

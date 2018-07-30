@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 
 import { LoginData } from '../../Constants/appConstants';
 import { loginUser } from '../../Actions/index';
@@ -30,7 +31,7 @@ export class Login extends Component {
 
     validateLogin(data) {
         if(data.statusCode === 200) {
-            sessionStorage.setItem('SessionToken', data.data.data[0].token);
+            sessionStorage.setItem('SessionToken', data.data.data.token);
             this.props.history.push('/dashboard');
         } else {
             this.setState({
@@ -57,18 +58,20 @@ export class Login extends Component {
             <div className="form-container">
                 <span className="form-header">{LoginData.loginText}</span>
                 <form onSubmit={this.handleSubmit}>
-                    <div className="form-control">
+                    <div className="form-group">
                         <input 
                             type="email"
+                            className="form-control"
                             name="email"
                             id="email"
                             onChange={this.onChange}
                             placeholder="Enter your email Id" 
                         />
                     </div>
-                    <div className="form-control">
+                    <div className="form-group">
                         <input 
-                            type="password" 
+                            type="password"
+                            className="form-control"
                             name="password"
                             onChange={this.onChange}
                             placeholder="Enter your password" 
@@ -81,7 +84,8 @@ export class Login extends Component {
                         <input type="submit" value="Login" />
                     </div>
                 </form>
-                {this.state.errorMessage ? <div>{this.state.errorMessage}</div> : ''}
+                {this.state.errorMessage ? <div className="error-message">{this.state.errorMessage}</div> : ''}
+                <span>Not registered <Link to={'/signup'}>SignUp</Link></span>
             </div>
         );
     }

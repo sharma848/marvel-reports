@@ -9,6 +9,7 @@
   .form-container .form-header {
     font-size: 20px;
     display: block;
+    padding: 10px;
     text-align: center; }
   .form-container .signup {
     text-align: center;
@@ -16,43 +17,6 @@
     .form-container .signup a {
       margin-left: 5px;
       text-decoration: none; }
-
-.form-control {
-  display: flex;
-  justify-content: space-around; }
-  .form-control input[type="text"] {
-    margin: 15px 0;
-    padding: 8px 0;
-    width: 200px;
-    border: none;
-    border-bottom: 2px solid #e4e4e4; }
-    .form-control input[type="text"]:focus {
-      outline: none; }
-  .form-control input[type="email"] {
-    margin: 15px 0;
-    padding: 8px 0;
-    width: 200px;
-    border: none;
-    border-bottom: 2px solid #e4e4e4; }
-    .form-control input[type="email"]:focus {
-      outline: none; }
-  .form-control input[type="password"] {
-    margin: 15px 0;
-    padding: 8px 0;
-    width: 200px;
-    border: none;
-    border-bottom: 2px solid #e4e4e4; }
-    .form-control input[type="password"]:focus {
-      outline: none; }
-  .form-control input[type="submit"] {
-    margin: 15px 0;
-    padding: 10px 0;
-    width: 200px;
-    background-color: #ff9a19;
-    color: #000;
-    cursor: pointer;
-    border: none;
-    border-radius: 5px; }
 
 .panels {
   height: auto;
@@ -64,10 +28,6 @@
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
     margin-bottom: 30px; }
 
-html {
-  background-image: linear-gradient(320deg, #d6ebe8, rgba(214, 235, 232, 0.3) 49%, #d6ebe8);
-  background-repeat: no-repeat;
-  min-height: 100%; }
 
 .app {
   max-width: 1300px;
@@ -89,13 +49,10 @@ html {
     background-color: #c9302c;
     color: white; }
 
-.action-panel {
-  height: auto;
-  margin: 0 auto;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.05);
-  background-color: #fff;
-  margin-top: 50px;
-  padding: 40px 70px; }
+.dashboard-container {
+  margin-left: 250px;
+  padding: 20px;
+}
 
 /*# sourceMappingURL=style.css.map */
 .card {
@@ -111,4 +68,62 @@ html {
 }
 .pending {
   background: #c9302c;
+}
+.margin-top-10 {
+  margin-top: 10px;
+}
+.btn {
+  color: white;
+  font-weight: normal;
+}
+body {
+  font-family: "Lato", sans-serif;
+}
+
+body {
+  font-family: "Lato", sans-serif;
+}
+
+.sidenav {
+  width: 130px;
+  position: fixed;
+  z-index: 1;
+  background: #eee;
+  overflow-x: hidden;
+  height: 100%;
+  width: 250px;
+}
+
+.sidenav a {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  border-bottom: 1px solid white;
+  font-size: 25px;
+  color: black;
+  display: block;
+}
+
+.sidenav a:hover {
+  color: #064579;
+}
+
+.main {
+  margin-left: 140px; /* Same width as the sidebar + left position in px */
+  font-size: 28px; /* Increased text to enable scrolling */
+  padding: 0px 10px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
+a {
+  cursor: pointer;
+}
+
+.error-message {
+  color: red;
+  font-weight: 600;
+  font-size: 16px;
 }

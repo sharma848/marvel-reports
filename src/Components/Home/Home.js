@@ -20,7 +20,7 @@ class Home extends Component {
       element = <Login {...this.props}/>;
     }
     return (
-      <div className="main">
+      <div className="">
         {element}
       </div>
     );

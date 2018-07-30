@@ -9,7 +9,7 @@ import App from './App';
 import Login from './Components/Login/Login';
 import SignUp from './Components/Signup/Signup';
 import Dashboard from './Components/Dashboard/Dashboard';
-import Home from './Components/Home/Home';
+// import Home from './Components/Home/Home';
 import rootReducer from './Reducers/index';
 
 import './assets/css/style.css';
@@ -22,7 +22,7 @@ ReactDOM.render(
         <BrowserRouter>
             <App>
                 <Switch>
-                    <Route path="/" exact component={Home} />
+                    <Route path="/" exact component={Login} />
                     <Route path="/login" exact component={Login} />
                     <Route path="/signup" exact component={SignUp} />
                     <Route path="/dashboard" exact component={Dashboard} />

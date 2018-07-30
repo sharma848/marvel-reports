@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
+
 import { getDashboard } from '../../Actions/index';
-import Profile from './Profile';
+import Header from '../Header/Header';
+import SideBar from '../Sidebar/SideBar';
+import Routes from '../../routes';
 
 export class Dashboard extends Component {
 
@@ -28,17 +30,17 @@ export class Dashboard extends Component {
 
     componentWillReceiveProps(nextProps) {
         if(nextProps.dashboardData && nextProps.dashboardData.data) {
-            const data = nextProps.dashboardData.data;
+            const data = nextProps.dashboardData.data.data;
             this.setState({ data: data });
         }
     }
 
     getDetails() {
-        const displayData = this.state.data.map((data, i) => {
-            return (
-                <Profile data={data} key={i} />
-            );
-        });
+        const displayData = (<div>
+            {this.state.data.name}<br />
+            {this.state.data.email}<br />
+            {this.state.data.role}
+        </div>);
         return displayData;
     }
     logout = () => {
@@ -55,10 +57,14 @@ export class Dashboard extends Component {
 
         return (
             <div className="dashboard">
-            <Button type="button" onClick={this.logout}>Logout</Button>
-                <div className="action-panel">
+                {this.state.data ? (
+                <div>
+                    <Header logout={this.logout} user_name={this.state.data.name} />
+                    <SideBar role={this.state.data.role} />
+                </div>) : ''}
+                <div className="dashboard-container">
                     <div className="action-requests">
-                        {this.state.data ? this.getDetails() : 'Loading...'}
+                {this.state.data ? this.getDetails() : 'Loading...'}
                     </div>
                 </div>
             </div>
