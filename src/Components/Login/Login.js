@@ -77,8 +77,11 @@ export class Login extends Component {
                             placeholder="Enter your password" 
                         />
                     </div>
-                    <div className="form-group">
-                        <Button type="submit" className="btn btn-large">Login</Button>
+                    <div className="form-control">
+                        <a href="/signup">Not a user yet? Sign Up!</a>
+                    </div>
+                    <div className="form-control">
+                        <input type="submit" value="Login" />
                     </div>
                 </form>
                 {this.state.errorMessage ? <div className="error-message">{this.state.errorMessage}</div> : ''}

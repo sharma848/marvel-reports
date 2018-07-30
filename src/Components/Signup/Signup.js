@@ -1,78 +1,128 @@
 import React, { Component } from 'react';
+
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { SignupData } from '../../Constants/appConstants';
+import { signupUser } from '../../Actions/index';
 
-export default class Signup extends Component {
+const ROOT_URL = `http://524959da.ngrok.io/marvel`;
 
-    constructor(props) {
-        super(props);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
+export class Signup extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			eid: '',
+			name: '',
+			email: '',
+			password: '',
+			role: '',
+			errormsg: '',
+			redirect: false
+		};
+		this.handleSubmit = this.handleSubmit.bind(this);
+	}
 
-    handleSubmit(e) {
-        e.preventDefault();
-        
-        const formData = {};
-        for (const field in this.refs) {
-          formData[field] = this.refs[field].value;
-        }
-    }
+	onChange = (e) => {
+		this.setState({ [e.target.name]: e.target.value });
+	};
 
-    render() {
-        return (
-            <div className="form-container">
-                <span className="form-header">{SignupData.signupText}</span>
-                <form onSubmit={this.handleSubmit}>
-                    <div className="form-group">
-                        <input 
-                            type="text"
-                            className="form-control"
-                            id="empid" 
-                            name="empid"
-                            placeholder="Enter your Employee Id" 
-                        />
-                    </div>
-                    <div className="form-group">
-                        <input 
-                            type="email" 
-                            className="form-control"
-                            id="email" 
-                            placeholder="Enter your name" 
-                        />
-                    </div>
-                    <div className="form-group">
-                        <input 
-                            type="email"
-                            className="form-control"
-                            ref="email" 
-                            id="email" 
-                            placeholder="Enter your email" 
-                        />
-                    </div>
-                    <div className="form-group">
-                        <input 
-                            type="password" 
-                            className="form-control"
-                            ref="password" 
-                            id="password" 
-                            placeholder="Enter your password" 
-                        />
-                    </div>
-                    <div className="form-group">
-                        <input 
-                            type="text" 
-                            className="form-control"
-                            ref="role" 
-                            id="role" 
-                            placeholder="Enter your role" 
-                        />
-                    </div>
-                    <div className="form-group">
-                        <input type="submit" value="Signup" className="btn btn-large"/>
-                    </div>
-                </form>
-                <span>Already registered? <Link to={'/login'}>Login</Link></span>
-            </div>
-        );
-    }
+	handleSubmit = (e) => {
+		e.preventDefault();
+		this.props.signupUser(this.state);
+	};
+
+	componentWillReceiveProps(nextProps) {
+		const data = nextProps.signupData.data;
+		console.log(data);
+		if (nextProps.signupData && nextProps.signupData.data) {
+			this.redirect(nextProps.signupData.data);
+		}
+	}
+
+	redirect(data) {
+		if (data.statusCode === 200) {
+			this.setState({ redirect: true });
+		} else if (data.statusCode != 200) {
+			this.setState({ errorMessage: data.message });
+		}
+	}
+
+		render() {
+		if (this.state.redirect) {
+			return <Redirect to={'/login'} />;
+		}
+
+		return (
+			<div className="form-container">
+				<span className="form-header">{SignupData.signupText}</span>
+				<form onSubmit={this.handleSubmit}>
+					<div className="form-group">
+						<input
+							type="text"
+							className="form-control"
+							id="eid"
+							name="eid"
+							placeholder="Enter your Employee Id"
+							onChange={this.onChange}
+						/>
+					</div>
+					<div className="form-group">
+						<input
+							type="name"
+							className="form-control"
+							id="name"
+							name="name"
+							placeholder="Enter your name"
+							onChange={this.onChange}
+						/>
+					</div>
+					<div className="form-group">
+						<input
+							type="email"
+							className="form-control"
+							name="email"
+							id="email"
+							placeholder="Enter your email"
+							onChange={this.onChange}
+						/>
+					</div>
+					<div className="form-group">
+						<input
+							type="password"
+							className="form-control"
+							name="password"
+							id="password"
+							placeholder="Enter your password"
+							onChange={this.onChange}
+						/>
+					</div>
+					<div className="form-group">
+						<input
+							type="text"
+							className="form-control"
+							name="role"
+							id="role"
+							placeholder="Enter your role"
+							onChange={this.onChange}
+						/>
+					</div>
+					<div className="form-group">
+						<input type="submit" value="Signup" className="btn btn-large" />
+					</div>
+				</form>
+				<span>
+					Already registered? <Link to={'/login'}>Login</Link>
+				</span>
+				{this.state.errorMessage ? <div>{this.state.errorMessage}</div> : ''}
+			</div>
+		);
+	}
 }
+function mapStateToProps(state) {
+	return {
+		signupData: state.signupData
+	};
+}
+export default connect(mapStateToProps, { signupUser: signupUser })(Signup);
