@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { Table } from 'react-bootstrap';
+import { withRouter } from 'react-router';
 
-import { getDashboard, getUserDetails } from '../../Actions/index';
+import { getDashboard } from '../../Actions/index';
 import Header from '../Header/Header';
 import SideBar from '../Sidebar/SideBar';
 import Routes from '../../routes';
@@ -14,15 +14,12 @@ export class Dashboard extends Component {
 		super(props);
 		this.state = {
 			data: null,
-			allUsers: null,
 			redirect: false
 		};
-		this.getDetails = this.getDetails.bind(this);
 	}
 
 	componentWillMount() {
 		this.props.getDashboard();
-		this.props.getUserDetails();
 	}
 
 	componentDidMount() {
@@ -36,38 +33,8 @@ export class Dashboard extends Component {
 			const data = nextProps.dashboardData.data.data;
 			this.setState({ data: data });
 		}
-
-		if (nextProps.usersData && nextProps.usersData.data) {
-			const data = nextProps.usersData.data.data;
-			this.setState({ allUsers: data });
-		}
 	}
 
-	getDetails() {
-		let SNo = 0;
-		const displayData = this.state.allUsers.map((user, index) => {
-			if (user.status === 'pending') {
-				SNo += 1;
-				return <UserDetail userData={user} index={index} SNo={SNo} />;
-			}
-			return '';
-		});
-		return (
-			<Table bordered condensed hover>
-				<thead>
-					<tr>
-						<th>S No.</th>
-						<th>Name</th>
-						<th>Email</th>
-						<th>Status</th>
-						<th>Approve</th>
-						<th>Decline</th>
-					</tr>
-				</thead>
-				<tbody>{displayData}</tbody>
-			</Table>
-		);
-	}
 	logout = () => {
 		console.log(sessionStorage.getItem('SessionToken'));
 		sessionStorage.clear();
@@ -90,7 +57,7 @@ export class Dashboard extends Component {
 					''
 				)}
 				<div className="dashboard-container">
-					<div className="action-requests">{this.state.allUsers ? this.getDetails() : 'Loading...'}</div>
+					{this.props.children}
 				</div>
 			</div>
 		);
@@ -99,14 +66,12 @@ export class Dashboard extends Component {
 
 function mapStateToProps(state) {
 	return {
-		dashboardData: state.dashboardData,
-		usersData: state.usersData
+		dashboardData: state.dashboardData
 	};
 }
 
 const actions = {
-	getDashboard: getDashboard,
-	getUserDetails: getUserDetails
+	getDashboard: getDashboard
 };
 
-export default connect(mapStateToProps, actions)(Dashboard);
+export default withRouter(connect(mapStateToProps, actions)(Dashboard));

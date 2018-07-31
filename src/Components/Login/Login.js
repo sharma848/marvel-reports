@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom';
+import { withRouter } from 'react-router';
 
 import { LoginData } from '../../Constants/appConstants';
 import { loginUser } from '../../Actions/index';
@@ -96,4 +97,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, { loginUser: loginUser })(Login);
+export default withRouter(connect(mapStateToProps, { loginUser: loginUser })(Login));

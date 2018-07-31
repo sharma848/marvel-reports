@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
+import { withRouter } from 'react-router';
 
 import { getUserDetails, updateUserStatus } from '../../Actions/index';
 
@@ -53,4 +54,4 @@ const actions = {
     updateUserStatus: updateUserStatus
 };
 
-export default connect( mapStateToProps, actions )(UserDetail);
+export default withRouter(connect( mapStateToProps, actions )(UserDetail));

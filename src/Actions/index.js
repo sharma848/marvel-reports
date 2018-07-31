@@ -7,7 +7,7 @@ export const USER_DATA = 'USER_DATA';
 export const USER_ACCEPT = 'USER_ACCEPT';
 export const USER_DECLINE = 'USER_DECLINE';
 
-const ROOT_URL = `http://42312efe.ngrok.io/marvel`;
+const ROOT_URL = `http://10a6d299.ngrok.io/marvel`;
 
 export function signupUser(data) {
 	const params = { eid: data.eid, name: data.name, email: data.email, password: data.password, role: data.role };
@@ -35,8 +35,6 @@ export function getDashboard() {
 	const token = sessionStorage.getItem('SessionToken');
 
 	const request = axios.get(`${ROOT_URL}/api/user/detail`, { headers: { jwttoken: token } });
-
-	const request1 = axios.get(`${ROOT_URL}/users`);
 
 	return {
 		type: GET_DASHBOARD,
@@ -66,7 +64,7 @@ export function updateUserStatus(email, status) {
 	const token = sessionStorage.getItem('SessionToken');
 
 	if (status === 'approved') {
-		const request = axios.post(`${ROOT_URL}/marvel/api/super_admin/requests/action/grant?email=${email}`, params, {
+		const request = axios.post(`${ROOT_URL}/api/super_admin/requests/action/grant?email=${email}`, params, {
 			headers: { jwttoken: token }
 		});
 
