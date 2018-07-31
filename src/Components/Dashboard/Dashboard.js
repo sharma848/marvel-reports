@@ -7,7 +7,7 @@ import { getDashboard, getUserDetails, updateUserStatus } from '../../Actions/in
 import Header from '../Header/Header';
 import SideBar from '../Sidebar/SideBar';
 import Routes from '../../routes';
-import UserDetail from '../UserDetail/UserDetail';
+import UserDetail from '../UserDetail/userDetail';
 
 export class Dashboard extends Component {
 
