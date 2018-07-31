@@ -8,6 +8,7 @@ import Header from '../Header/Header';
 import SideBar from '../Sidebar/SideBar';
 import Routes from '../../routes';
 import UserDetail from '../UserDetail/UserDetail';
+import routes from '../../routes';
 
 export class Dashboard extends Component {
 
@@ -89,7 +90,7 @@ export class Dashboard extends Component {
         }
 
         return (
-            <div className="dashboard">
+            <div className="">
                 {this.state.data ? (
                 <div>
                     <Header logout={this.logout} user_name={this.state.data.name} />
@@ -97,7 +98,8 @@ export class Dashboard extends Component {
                 </div>) : ''}
                 <div className="dashboard-container">
                     <div className="action-requests">
-                {this.state.allUsers ? this.getDetails() : 'Loading...'}
+                {/* {this.state.allUsers ? this.getDetails() : 'Loading...'} */}
+                {this.props.children}
                     </div>
                 </div>
             </div>
