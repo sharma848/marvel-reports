@@ -66,7 +66,7 @@ export function updateUserStatus(email, status) {
 	const token = sessionStorage.getItem('SessionToken');
 
 	if (status === 'approved') {
-		const request = axios.post(`${ROOT_URL}/api/super_admin/requests/action/approved?email=${email}`, params, {
+		const request = axios.post(`${ROOT_URL}/marvel/api/super_admin/requests/action/grant?email=${email}`, params, {
 			headers: { jwttoken: token }
 		});
 
