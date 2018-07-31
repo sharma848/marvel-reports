@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 import { createStore, applyMiddleware } from 'redux';
 import promise from 'redux-promise';
 import { Provider } from 'react-redux';
@@ -21,12 +21,14 @@ ReactDOM.render(
     <Provider store={createStoreWithMiddleware(rootReducer)}>
         <BrowserRouter>
             <App>
-                <Switch>
-                    <Route path="/" exact component={Login} />
-                    <Route path="/login" exact component={Login} />
-                    <Route path="/signup" exact component={SignUp} />
-                    <Route path="/dashboard" exact component={Dashboard} />
-                </Switch>
+                <Route path="/" exact component={Login} />
+                <Route path="/login" exact component={Login} />
+                <Route path="/signup" exact component={SignUp} />
+                <Dashboard>
+                    <Route path="/dashboard" exact />
+                    <Route path="/dashboard/userSetting" exact component={() => <h3>Please select a topic.</h3>}/>
+                    <Route path="/dashboard/services1" exact component={() => <h3>Please select a.</h3>}/>
+                </Dashboard>
             </App>
         </BrowserRouter>
     </Provider>
