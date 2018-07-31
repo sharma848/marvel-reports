@@ -7,7 +7,7 @@ import { getDashboard, getUserDetails, updateUserStatus } from '../../Actions/in
 import Header from '../Header/Header';
 import SideBar from '../Sidebar/SideBar';
 import Routes from '../../routes';
-import UserDetail from '../UserDetail/UserDetail';
+import UserDetail from '../UserDetail/userDetail';
 import routes from '../../routes';
 
 export class Dashboard extends Component {
@@ -98,8 +98,7 @@ export class Dashboard extends Component {
                 </div>) : ''}
                 <div className="dashboard-container">
                     <div className="action-requests">
-                {/* {this.state.allUsers ? this.getDetails() : 'Loading...'} */}
-                {this.props.children}
+                {this.state.allUsers ? this.getDetails() : 'Loading...'}
                     </div>
                 </div>
             </div>
