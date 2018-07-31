@@ -7,7 +7,7 @@ import { getDashboard, getUserDetails } from '../../Actions/index';
 import Header from '../Header/Header';
 import SideBar from '../Sidebar/SideBar';
 import Routes from '../../routes';
-import userDetail from '../UserDetail/userDetail';
+import UserDetail from '../UserDetail/UserDetail';
 
 export class Dashboard extends Component {
 
@@ -46,18 +46,24 @@ export class Dashboard extends Component {
 
     getDetails() {
         const displayData = this.state.allUsers.map((user, index) => {
-            return (
-                <userDetail userData={user} index={index} />
-            );
+            if(user.status === "pending") {
+                return (
+                    <UserDetail userData={user} index={index} />
+                );
+            }
+            return '';
+            
         });
         return (
             <Table striped bordered condensed hover>
                 <thead>
                     <tr>
                         <th>S No.</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Username</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>Approve</th>
+                        <th>Decline</th>
                     </tr>
                 </thead>
                 <tbody>
