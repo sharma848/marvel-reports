@@ -2,12 +2,10 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { SignupData } from '../../Constants/appConstants';
 import { signupUser } from '../../Actions/index';
 
-const ROOT_URL = `http://524959da.ngrok.io/marvel`;
 
 export class Signup extends Component {
 	constructor(props) {
@@ -44,7 +42,7 @@ export class Signup extends Component {
 	redirect(data) {
 		if (data.statusCode === 200) {
 			this.setState({ redirect: true });
-		} else if (data.statusCode != 200) {
+		} else if (data.statusCode !== 200) {
 			this.setState({ errorMessage: data.message });
 		}
 	}

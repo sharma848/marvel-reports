@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { Table } from 'react-bootstrap';
 
-import { getDashboard } from '../../Actions/index';
+import { getDashboard, getUserDetails } from '../../Actions/index';
 import Header from '../Header/Header';
 import SideBar from '../Sidebar/SideBar';
 import Routes from '../../routes';
+import userDetail from '../UserDetail/userDetail';
 
 export class Dashboard extends Component {
 
@@ -13,6 +15,7 @@ export class Dashboard extends Component {
         super(props);
         this.state = {
             data: null,
+            allUsers: null,
             redirect: false
         };
         this.getDetails = this.getDetails.bind(this);
@@ -20,6 +23,7 @@ export class Dashboard extends Component {
 
     componentWillMount() {
         this.props.getDashboard();
+        this.props.getUserDetails();
     }
 
     componentDidMount() {
@@ -33,15 +37,34 @@ export class Dashboard extends Component {
             const data = nextProps.dashboardData.data.data;
             this.setState({ data: data });
         }
+
+        if(nextProps.usersData && nextProps.usersData.data) {
+            const data = nextProps.usersData.data.data;
+            this.setState({ allUsers: data });
+        }
     }
 
     getDetails() {
-        const displayData = (<div>
-            {this.state.data.name}<br />
-            {this.state.data.email}<br />
-            {this.state.data.role}
-        </div>);
-        return displayData;
+        const displayData = this.state.allUsers.map((user, index) => {
+            return (
+                <userDetail userData={user} index={index} />
+            );
+        });
+        return (
+            <Table striped bordered condensed hover>
+                <thead>
+                    <tr>
+                        <th>S No.</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Username</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {displayData}
+                </tbody>
+            </Table>
+        );
     }
     logout = () => {
         console.log(sessionStorage.getItem('SessionToken'));
@@ -64,7 +87,7 @@ export class Dashboard extends Component {
                 </div>) : ''}
                 <div className="dashboard-container">
                     <div className="action-requests">
-                {this.state.data ? this.getDetails() : 'Loading...'}
+                {this.state.allUsers ? this.getDetails() : 'Loading...'}
                     </div>
                 </div>
             </div>
@@ -74,8 +97,9 @@ export class Dashboard extends Component {
 
 function mapStateToProps(state) {
     return {
-        dashboardData: state.dashboardData
+        dashboardData: state.dashboardData,
+        usersData: state.usersData
     };
 }
 
-export default connect(mapStateToProps, { getDashboard: getDashboard })(Dashboard);
+export default connect(mapStateToProps, { getDashboard: getDashboard, getUserDetails: getUserDetails })(Dashboard);

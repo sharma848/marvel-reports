@@ -3,9 +3,9 @@ import axios from 'axios';
 export const SIGNUP_USER = 'SIGNUP_USER';
 export const LOGIN_USER = 'LOGIN_USER';
 export const GET_DASHBOARD = 'GET_DASHBOARD';
-export const USER_DETAILS = 'USER_DETAILS';
+export const USER_DATA = 'USER_DATA';
 
-const ROOT_URL = `http://df4f01fc.ngrok.io/marvel`;
+const ROOT_URL = `http://42312efe.ngrok.io/marvel`;
 
 export function signupUser(data) {
     const params = { eid: data.eid, name: data.name, email: data.email, password: data.password,  role: data.role};
@@ -46,7 +46,7 @@ export function getUserDetails() {
     const request = axios.get(`${ROOT_URL}/users`);
 
     return {
-        type: GET_DASHBOARD,
+        type: USER_DATA,
         payload: request
     };
 }
