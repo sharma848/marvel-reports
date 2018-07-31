@@ -12,13 +12,13 @@ export default class UserDetail extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        
+
     }
 
     render() {
         return (
             <tr>
-                <td>{this.props.index + 1}</td>
+                <td>{this.props.SNo}</td>
                 <td>{this.props.userData.name}</td>
                 <td>{this.props.userData.email}</td>
                 <td>{this.props.userData.status}</td>
