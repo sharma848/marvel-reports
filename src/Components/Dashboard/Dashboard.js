@@ -24,6 +24,7 @@ export class Dashboard extends Component {
     componentWillMount() {
         this.props.getDashboard();
         this.props.getUserDetails();
+
     }
 
     componentDidMount() {
@@ -42,20 +43,23 @@ export class Dashboard extends Component {
             const data = nextProps.usersData.data.data;
             this.setState({ allUsers: data });
         }
+
     }
 
     getDetails() {
+        let SNo = 0;        
         const displayData = this.state.allUsers.map((user, index) => {
             if(user.status === "pending") {
+                SNo += 1;
                 return (
-                    <UserDetail userData={user} index={index} />
+                    <UserDetail userData={user} index={index} SNo={SNo} />
                 );
             }
             return '';
             
         });
         return (
-            <Table striped bordered condensed hover>
+            <Table bordered condensed hover>
                 <thead>
                     <tr>
                         <th>S No.</th>
@@ -108,4 +112,9 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, { getDashboard: getDashboard, getUserDetails: getUserDetails })(Dashboard);
+const actions = { 
+    getDashboard: getDashboard,
+    getUserDetails: getUserDetails,
+};
+
+export default connect(mapStateToProps, actions )(Dashboard);
