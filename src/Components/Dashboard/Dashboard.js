@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { Table } from 'react-bootstrap';
 
-import { getDashboard, getUserDetails, updateUserStatus } from '../../Actions/index';
+import { getDashboard, getUserDetails } from '../../Actions/index';
 import Header from '../Header/Header';
 import SideBar from '../Sidebar/SideBar';
 import Routes from '../../routes';
-import UserDetail from '../UserDetail/userDetail';
+import UserDetail from '../UserDetail/UserDetail';
 
 export class Dashboard extends Component {
 

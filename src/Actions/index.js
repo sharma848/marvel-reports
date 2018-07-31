@@ -53,30 +53,35 @@ export function getUserDetails() {
 	};
 }
 
-export function updateUserStatus(data, status) {
-    const params = { projects:[
-        {
-        "name":"newscycle",
-        "host":"newscycle.com"
-        }
-        
-        
-        ]
-         };
-    
-    if(status === 'approve'){
-        const request = axios.post(`${ROOT_URL}/api/super_admin/requests/action/approved?${data.email}`, params, { headers: { 'content-type': 'application/json' } });
-        
-        return {
-            type: USER_ACCEPT,
-            payload: request
-        };
-    }
+export function updateUserStatus(email, status) {
+	const params = {
+		projects: [
+			{
+				name: 'newscycle',
+				host: 'newscycle.com'
+			}
+		]
+	};
 
-	const request = axios.post(`${ROOT_URL}/api/super_admin/requests/action/`, params, { headers: { 'content-type': 'application/json' } });
+	const token = sessionStorage.getItem('SessionToken');
+
+	if (status === 'approved') {
+		const request = axios.post(`${ROOT_URL}/api/super_admin/requests/action/approved?email=${email}`, params, {
+			headers: { jwttoken: token }
+		});
+
+		return {
+			type: USER_ACCEPT,
+			payload: request
+		};
+	}
+
+	const request = axios.post(`${ROOT_URL}/api/super_admin/requests/action/`, params, {
+		headers: { 'content-type': 'application/json' }
+	});
 
 	return {
-		type: LOGIN_USER,
+		type: USER_DECLINE,
 		payload: request
 	};
 }
