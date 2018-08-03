@@ -18,7 +18,7 @@ export class Dashboard extends Component {
 		};
 	}
 
-	componentWillMount() {
+	componentDidMount() {
 		this.props.getDashboard();
 	}
 

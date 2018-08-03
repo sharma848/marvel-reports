@@ -15,7 +15,7 @@ export class UserDetails extends Component {
 		this.getDetails = this.getDetails.bind(this);
 	}
 
-    componentWillMount() {
+    componentDidMount() {
 		this.props.getUserDetails();
 	}
 
