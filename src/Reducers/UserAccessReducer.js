@@ -30,7 +30,6 @@ function declineRequest(apiResponse){
     if(apiResponse.status === 200){
         response = apiResponse.data;
         response.status = 'declined';
-        alert('declined');
     }
 
     return {
