@@ -21,8 +21,7 @@ export class UserDetail extends Component {
 
     componentWillReceiveProps(nextProps) {
 
-        if(nextProps.usersData && nextProps.usersData.data) {
-            const data = nextProps.usersData.data.data;
+        if(nextProps.userAccessData && nextProps.userAccessData.data) {
             alert('request approved');
             this.props.getUserDetails();
 
@@ -45,7 +44,7 @@ export class UserDetail extends Component {
 
 function mapStateToProps(state) {
     return {
-        usersData: state.usersData
+        userAccessData: state.userAccessData
     };
 }
 

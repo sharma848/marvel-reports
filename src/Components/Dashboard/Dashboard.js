@@ -18,10 +18,6 @@ export class Dashboard extends Component {
 		};
 	}
 
-	// componentWillMount() {
-	// 	this.props.getDashboard();
-	// }
-
 	componentDidMount() {
 		if (sessionStorage.getItem('SessionToken') == null) {
 			this.setState({ redirect: true });
