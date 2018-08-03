@@ -16,8 +16,8 @@ export default function (state={}, action) {
 function acceptRequest(apiResponse){
     let response = {};
     if(apiResponse.status === 200){
-        // response = apiResponse.data;
-        // response.status = 'approved';
+        response = apiResponse.data;
+        response.status = 'approved';
     }
 
     return {
@@ -30,6 +30,7 @@ function declineRequest(apiResponse){
     if(apiResponse.status === 200){
         response = apiResponse.data;
         response.status = 'declined';
+        alert('declined');
     }
 
     return {

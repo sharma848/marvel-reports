@@ -36,7 +36,7 @@ export class UserDetail extends Component {
                 <td>{this.props.userData.email}</td>
                 <td>{this.props.userData.status}</td>
                 <td><Button className="btn btn-success" onClick={() => this.onClick('approved')}>Approve</Button></td>
-                <td><Button className="btn btn-danger">Decline</Button></td>
+                <td><Button className="btn btn-danger" onClick={() => this.onClick('declined')}>Decline</Button></td>
             </tr>
         );
     }

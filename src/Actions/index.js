@@ -7,7 +7,7 @@ export const USER_DATA = 'USER_DATA';
 export const USER_ACCEPT = 'USER_ACCEPT';
 export const USER_DECLINE = 'USER_DECLINE';
 
-const ROOT_URL = `http://42312efe.ngrok.io/marvel`;
+const ROOT_URL = `http://6f9b8e0b.ngrok.io/marvel`;
 
 export function signupUser(data) {
 	const params = { eid: data.eid, name: data.name, email: data.email, password: data.password, role: data.role };
@@ -66,7 +66,7 @@ export function updateUserStatus(email, status) {
 	const token = sessionStorage.getItem('SessionToken');
 
 	if (status === 'approved') {
-		const request = axios.post(`${ROOT_URL}/marvel/api/super_admin/requests/action/grant?email=${email}`, params, {
+		const request = axios.post(`${ROOT_URL}/api/super_admin/requests/action/grant?email=${email}`, params, {
 			headers: { jwttoken: token }
 		});
 
@@ -74,14 +74,14 @@ export function updateUserStatus(email, status) {
 			type: USER_ACCEPT,
 			payload: request
 		};
-	}
+	} else if (status === 'declined') {
+        const request = axios.post(`${ROOT_URL}/api/super_admin/requests/action/revoke?email=${email}`, params, {
+            headers: { jwttoken: token }
+        });
 
-	const request = axios.post(`${ROOT_URL}/api/super_admin/requests/action/`, params, {
-		headers: { 'content-type': 'application/json' }
-	});
-
-	return {
-		type: USER_DECLINE,
-		payload: request
-	};
+        return {
+            type: USER_DECLINE,
+            payload: request
+        };
+    }
 }
