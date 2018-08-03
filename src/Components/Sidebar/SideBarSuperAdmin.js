@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 export default class SideBarSuperAdmin extends Component {
     render() {
         return (
             <div className="sidenav">
-                <a href="">SuperAdmin</a>
+                <Link to="/dashboard/userAccess">Access Requests</Link>
             </div>
         );
     }
