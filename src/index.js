@@ -15,6 +15,7 @@ import rootReducer from './Reducers/index';
 import './assets/css/style.css';
 import registerServiceWorker from './registerServiceWorker';
 import UserDetails from './Components/UserDetail/UserDetails';
+import Account from './Components/Account/Account';
 
 const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
 
@@ -27,8 +28,9 @@ ReactDOM.render(
                 <Route path="/signup" exact component={SignUp} />
                 <Dashboard>
                     <Route path="/dashboard" exact component={() => <h3>Please select from SideMenu.</h3>} />
-                    <Route path="/dashboard/userSetting" exact component={UserDetails}/>
-                    <Route path="/dashboard/services1" exact component={() => <h3>Please select a.</h3>}/>
+                    <Route path="/dashboard/userAccess" exact component={UserDetails}/>
+                    <Route path="/dashboard/settings" exact component={() => <h3>Settings page</h3>}/>
+                    <Route path="/dashboard/account" exact component={Account}/>
                 </Dashboard>
             </App>
         </BrowserRouter>

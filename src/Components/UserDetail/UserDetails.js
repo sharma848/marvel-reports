@@ -15,14 +15,11 @@ export class UserDetails extends Component {
 		this.getDetails = this.getDetails.bind(this);
 	}
 
-    componentDidMount() {
-		this.props.getUserDetails();
-	}
-
 	componentDidMount() {
 		if (sessionStorage.getItem('SessionToken') == null) {
 			this.setState({ redirect: true });
 		}
+		this.props.getUserDetails();
 	}
 
 	componentWillReceiveProps(nextProps) {

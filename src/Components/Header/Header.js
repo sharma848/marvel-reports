@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 export default class Header extends Component {
     render() {
@@ -16,10 +17,16 @@ export default class Header extends Component {
                     <ul className="navbar-nav">
                     <li className="nav-item dropdown">
                             <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {this.props.user_name}
+                            {this.props.user_data.name}
                             </a>
                             <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a className="dropdown-item">Account</a>
+                                <Link to={
+                                    {
+                                        pathname: "/dashboard/account",
+                                        userData: this.props.user_data
+                                    }
+                                } className="dropdown-item">Account</Link>
+                                <Link to="/dashboard/settings" className="dropdown-item">Setting</Link>
                                 <div className="dropdown-divider"></div>
                                 <a className="dropdown-item" onClick={this.props.logout}>Logout</a>
                             </div>

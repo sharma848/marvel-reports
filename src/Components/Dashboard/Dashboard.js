@@ -18,14 +18,15 @@ export class Dashboard extends Component {
 		};
 	}
 
-	componentDidMount() {
-		this.props.getDashboard();
-	}
+	// componentWillMount() {
+	// 	this.props.getDashboard();
+	// }
 
 	componentDidMount() {
 		if (sessionStorage.getItem('SessionToken') == null) {
 			this.setState({ redirect: true });
 		}
+		this.props.getDashboard();
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -50,15 +51,18 @@ export class Dashboard extends Component {
 			<div className="">
 				{this.state.data ? (
 					<div>
-						<Header logout={this.logout} user_name={this.state.data.name} />
-						<SideBar role={this.state.data.role} />
+						<div>
+							<Header logout={this.logout} user_data={this.state.data} />
+							<SideBar role={this.state.data.role} />
+						</div>
+							<div className="dashboard-container">
+							{this.props.children}
+						</div>
 					</div>
 				) : (
 					''
 				)}
-				<div className="dashboard-container">
-					{this.props.children}
-				</div>
+				
 			</div>
 		);
 	}
