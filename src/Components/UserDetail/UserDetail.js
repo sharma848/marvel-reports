@@ -16,7 +16,7 @@ export class UserDetail extends Component {
     }
 
     onClick = (status) => {
-        this.props.updateUserStatus(this.props.userData.email, status);
+        this.props.updateUserStatus(this.props.userData.email, status, this.props.userData.role);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -34,6 +34,7 @@ export class UserDetail extends Component {
                 <td>{this.props.SNo}</td>
                 <td>{this.props.userData.name}</td>
                 <td>{this.props.userData.email}</td>
+                <td>{this.props.userData.role}</td>
                 <td>{this.props.userData.status}</td>
                 <td><Button className="btn btn-success" onClick={() => this.onClick('approved')}>Approve</Button></td>
                 <td><Button className="btn btn-danger" onClick={() => this.onClick('declined')}>Decline</Button></td>

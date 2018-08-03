@@ -51,20 +51,22 @@ export function getUserDetails() {
 	};
 }
 
-export function updateUserStatus(email, status) {
+export function updateUserStatus(email, status, role) {
 	const params = {
 		projects: [
 			{
 				name: 'newscycle',
 				host: 'newscycle.com'
 			}
-		]
+		],
+		email,
+		role
 	};
 
 	const token = sessionStorage.getItem('SessionToken');
 
 	if (status === 'approved') {
-		const request = axios.post(`${ROOT_URL}/api/super_admin/requests/action/grant?email=${email}`, params, {
+		const request = axios.post(`${ROOT_URL}/api/super_admin/requests/action/grant`, params, {
 			headers: { jwttoken: token }
 		});
 
@@ -73,7 +75,7 @@ export function updateUserStatus(email, status) {
 			payload: request
 		};
 	} else if (status === 'declined') {
-        const request = axios.post(`${ROOT_URL}/api/super_admin/requests/action/revoke?email=${email}`, params, {
+        const request = axios.post(`${ROOT_URL}/api/super_admin/requests/action/reject`, params, {
             headers: { jwttoken: token }
         });
 
