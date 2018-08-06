@@ -52,6 +52,7 @@
 .dashboard-container {
   margin-left: 250px;
   padding: 20px;
+  padding-top: 75px;
 }
 
 /*# sourceMappingURL=style.css.map */
@@ -92,6 +93,7 @@ body {
   overflow-x: hidden;
   height: 100%;
   width: 250px;
+  padding-top: 60px;
 }
 
 .sidenav a {
@@ -126,4 +128,12 @@ a {
   color: red;
   font-weight: 600;
   font-size: 16px;
+}
+
+.navbar {
+  position: fixed;
+    top: 0;
+    width: 100%;
+    max-width: 1300px;
+    z-index: 999;
 }
