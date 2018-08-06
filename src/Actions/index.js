@@ -6,8 +6,9 @@ export const GET_DASHBOARD = 'GET_DASHBOARD';
 export const USER_DATA = 'USER_DATA';
 export const USER_ACCEPT = 'USER_ACCEPT';
 export const USER_DECLINE = 'USER_DECLINE';
+export const EMPTY_STATE_USERACCESSDATA = 'EMPTY_STATE_USERACCESSDATA';
 
-const ROOT_URL = `http://0ad7d261.ngrok.io/marvel`;
+const ROOT_URL = `http://6d28fb43.ngrok.io/marvel`;
 
 export function signupUser(data) {
 	const params = { eid: data.eid, name: data.name, email: data.email, password: data.password, role: data.role };
@@ -84,4 +85,10 @@ export function updateUserStatus(email, status, role) {
             payload: request
         };
     }
+}
+
+export function emptyuserAccessData() {
+	return {
+		type: EMPTY_STATE_USERACCESSDATA
+	};
 }

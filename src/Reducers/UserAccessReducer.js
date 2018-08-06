@@ -1,4 +1,4 @@
-import { USER_ACCEPT, USER_DECLINE } from '../Actions/index';
+import { USER_ACCEPT, USER_DECLINE, EMPTY_STATE_USERACCESSDATA } from '../Actions/index';
 
 export default function (state={}, action) {
     switch(action.type) {
@@ -8,6 +8,8 @@ export default function (state={}, action) {
         case USER_DECLINE: 
             const successResDecline = declineRequest(action.payload);
             return { ...state, data: successResDecline};
+        case EMPTY_STATE_USERACCESSDATA: 
+            return {};
         default: 
             return state;
     }

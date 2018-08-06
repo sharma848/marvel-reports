@@ -6,6 +6,7 @@ export default class SideBarSuperAdmin extends Component {
         return (
             <div className="sidenav">
                 <Link to="/dashboard/userAccess">Access Requests</Link>
+                <Link to="/dashboard/chart">Bar chart</Link>
             </div>
         );
     }

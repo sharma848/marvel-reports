@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import { withRouter } from 'react-router';
 
-import { getUserDetails, updateUserStatus } from '../../Actions/index';
+import { getUserDetails, updateUserStatus, emptyuserAccessData } from '../../Actions/index';
 
 export class UserDetail extends Component {
 
@@ -22,9 +22,9 @@ export class UserDetail extends Component {
     componentWillReceiveProps(nextProps) {
 
         if(nextProps.userAccessData && nextProps.userAccessData.data) {
-            alert('request approved');
+            alert('Request Successful');
             this.props.getUserDetails();
-
+            this.props.emptyuserAccessData();
         }
     }
 
@@ -51,7 +51,8 @@ function mapStateToProps(state) {
 
 const actions = { 
     getUserDetails: getUserDetails,
-    updateUserStatus: updateUserStatus
+    updateUserStatus: updateUserStatus,
+    emptyuserAccessData: emptyuserAccessData
 };
 
 export default withRouter(connect( mapStateToProps, actions )(UserDetail));
