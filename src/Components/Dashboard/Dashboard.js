@@ -6,8 +6,6 @@ import { withRouter } from 'react-router';
 import { getDashboard } from '../../Actions/index';
 import Header from '../Header/Header';
 import SideBar from '../Sidebar/SideBar';
-import Routes from '../../routes';
-import UserDetail from '../UserDetail/UserDetail';
 
 export class Dashboard extends Component {
 	constructor(props) {

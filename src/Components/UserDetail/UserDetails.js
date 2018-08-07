@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Table } from 'react-bootstrap';
 
-import { getDashboard, getUserDetails } from '../../Actions/index';
+import { getUserDetails } from '../../Actions/index';
 import UserDetail from '../UserDetail/UserDetail';
 
 export class UserDetails extends Component {
