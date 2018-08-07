@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
-
+import { Button, Panel, FormControl, Checkbox } from 'react-bootstrap';
 import { LoginData } from '../../Constants/appConstants';
 import { loginUser } from '../../Actions/index';
 
@@ -50,40 +50,38 @@ export class Login extends Component {
     }
 
     render() {
-
-        if(this.state.redirect) {
-            return (<Redirect to={'/dashboard'} />);  
+        if (this.state.redirect) {
+            return (<Redirect to={'/dashboard'} />);
         }
         return (
-            <div className="form-container">
-                <span className="form-header">{LoginData.loginText}</span>
-                <form onSubmit={this.handleSubmit}>
-                    <div className="form-group">
-                        <input 
-                            type="email"
-                            className="form-control"
-                            name="email"
-                            id="email"
-                            onChange={this.onChange}
-                            placeholder="Enter your email Id" 
-                        />
-                    </div>
-                    <div className="form-group">
-                        <input 
-                            type="password"
-                            className="form-control"
-                            name="password"
-                            onChange={this.onChange}
-                            placeholder="Enter your password" 
-                        />
-                    </div>
-                    <div className="form-control">
-                        <a href="/signup">Not a user yet? Sign Up!</a>
-                    </div>
-                    <div className="form-control">
-                        <input type="submit" value="Login" />
-                    </div>
-                </form>
+            <div className="col-md-4 col-md-offset-4">
+                <div className="text-center">
+                    <h1 className="login-brand-text">{LoginData.loginText}</h1>
+                </div>
+                <Panel header={LoginData.loginText} className="login-panel">
+                    <form role="form" onSubmit={this.handleSubmit}>
+                        <fieldset>
+                            <div className="form-group">
+                                <FormControl
+                                    type="text"
+                                    placeholder="Enter your email Id"
+                                    name="email"
+                                    onChange={this.onChange}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <FormControl
+                                    placeholder="Enter your password"
+                                    type="password"
+                                    name="password"
+                                    onChange={this.onChange}
+                                />
+                            </div>
+                            <Checkbox label="Remember Me" > Remember Me </Checkbox>
+                            <Button type="submit" bsSize="large" bsStyle="success" block>Login</Button>
+                        </fieldset>
+                    </form>
+                </Panel>
                 {this.state.errorMessage ? <div className="error-message">{this.state.errorMessage}</div> : ''}
                 <span>Not registered <Link to={'/signup'}>SignUp</Link></span>
             </div>

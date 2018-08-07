@@ -12,6 +12,7 @@ import Dashboard from './Components/Dashboard/Dashboard';
 // import Home from './Components/Home/Home';
 import rootReducer from './Reducers/index';
 
+import 'bootstrap/dist/css/bootstrap.css';
 import './assets/css/style.css';
 import registerServiceWorker from './registerServiceWorker';
 import UserDetails from './Components/UserDetail/UserDetails';
@@ -22,16 +23,16 @@ import { ConfigPage } from './Components/ConfigPage/ConfigPage';
 const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
 
 ReactDOM.render(
-	<Provider store={createStoreWithMiddleware(rootReducer)}>
+    <Provider store={createStoreWithMiddleware(rootReducer)}>
 		<BrowserRouter>
 			<App>
 				<Route path="/" exact component={Login} />
 				<Route path="/login" exact component={Login} />
 				<Route path="/signup" exact component={SignUp} />
 				<Dashboard>
-					<Route path="/dashboard" exact component={() => <h3>Please select from SideMenu.</h3>} />
+					<Route path="/dashboard" />
 					<Route path="/dashboard/userAccess" exact component={UserDetails} />
-					<Route path="/dashboard/settings" exact component={() => <h3>Settings page</h3>} />
+					<Route path="/dashboard/settings" exact render={() => <h3>Settings page</h3>} />
 					<Route path="/dashboard/account" exact component={Account} />
 					<Route path="/dashboard/chart" exact component={BarChart} />
 					<Route path="/dashboard/configurations" exact component={ConfigPage} />
@@ -39,6 +40,6 @@ ReactDOM.render(
 			</App>
 		</BrowserRouter>
 	</Provider>,
-	document.getElementById('root')
+    document.getElementById('root')
 );
 registerServiceWorker();
