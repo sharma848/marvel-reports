@@ -3,7 +3,69 @@ import React, { Component } from 'react';
 export class ConfigPage extends Component {
 	constructor(props) {
 		super(props);
+
+		this.state = {
+			configData: {
+				configId: '',
+				velocityConfiguration: {
+					hostVelocity: '',
+					projectKeyVelocity: '',
+					boards: [],
+					issuesVelocityes: []
+				},
+				epicConfiguration: {
+					host: '',
+					projectKey: '',
+					epics: [],
+					issues: []
+				},
+				jiraCredentials: {
+					email: '',
+					password: ''
+				},
+				sprintConfiguration: {
+					sprintName: '',
+					lastUpdatedOn: ''
+				}
+			}
+		};
 	}
+
+	onChangeVelocity = (e) => {
+		this.setState({ configData: {
+            velocityConfiguration: {
+                [e.target.name]: e.target.value 
+            }
+        }
+        });
+	};
+
+	onChangeEpic = (e) => {
+		this.setState({ configData: {
+            epicConfiguration: {
+                [e.target.name]: e.target.value 
+            }
+        }
+        });
+	};
+
+	onChangeJira = (e) => {
+		this.setState({ configData: {
+            jiraCredentials: {
+                [e.target.name]: e.target.value 
+            }
+        }
+        });
+	};
+
+	onChangeSprint = (e) => {
+		this.setState({ configData: {
+            sprintConfiguration: {
+                [e.target.name]: e.target.value 
+            }
+        }
+        });
+	};
 
 	componentWillReceiveProps(nextProps) {
 		if (nextProps.userAccessData && nextProps.userAccessData.data) {
@@ -14,7 +76,7 @@ export class ConfigPage extends Component {
 
 	render() {
 		return (
-			<React.Fragment>
+			<div>
 				<div className="form-container">
 					<h4>Jira Credentials</h4>
 					<div className="form-group">
@@ -24,6 +86,7 @@ export class ConfigPage extends Component {
 							id="email"
 							name="email"
 							placeholder="Enter your Email Id"
+							onChange={this.onChangeJira}
 						/>
 					</div>
 					<div className="form-group">
@@ -33,6 +96,7 @@ export class ConfigPage extends Component {
 							id="password"
 							name="password"
 							placeholder="Enter your password"
+							onChange={this.onChangeJira}
 						/>
 					</div>
 				</div>
@@ -47,6 +111,7 @@ export class ConfigPage extends Component {
 									id="host"
 									name="host"
 									placeholder="Enter host"
+									onChange={this.onChangeEpic}
 								/>
 							</div>
 							<div>
@@ -56,29 +121,32 @@ export class ConfigPage extends Component {
 									id="projectKey"
 									name="projectKey"
 									placeholder="Enter project key"
+									onChange={this.onChangeEpic}
 								/>
 							</div>
-                            <div>
+							<div>
 								<input
 									type="text"
 									className="form-control"
 									id="epics"
 									name="epics"
 									placeholder="Enter comma separated epic Ids"
+									onChange={this.onChangeEpic}
 								/>
 							</div>
-                            <div>
+							<div>
 								<input
 									type="text"
 									className="form-control"
 									id="issues"
 									name="issues"
 									placeholder="Enter comma separated type of issues to report"
+									onChange={this.onChangeEpic}
 								/>
 							</div>
 						</div>
-                        <div className="col-lg-6">
-							<h4>Epic Configurations</h4>
+						<div className="col-lg-6">
+							<h4>Velocity Configurations</h4>
 							<div>
 								<input
 									type="email"
@@ -86,6 +154,7 @@ export class ConfigPage extends Component {
 									id="hostVelocity"
 									name="hostVelocity"
 									placeholder="Enter host"
+									onChange={this.onChangeVelocity}
 								/>
 							</div>
 							<div>
@@ -95,30 +164,33 @@ export class ConfigPage extends Component {
 									id="projectKeyVelocity"
 									name="projectKeyVelocity"
 									placeholder="Enter project key"
+									onChange={this.onChangeVelocity}
 								/>
 							</div>
-                            <div>
+							<div>
 								<input
 									type="text"
 									className="form-control"
 									id="boards"
 									name="boards"
 									placeholder="Enter comma separated board Ids"
+									onChange={this.onChangeVelocity}
 								/>
 							</div>
-                            <div>
+							<div>
 								<input
 									type="text"
 									className="form-control"
 									id="issuesVelocity"
 									name="issuesVelocity"
 									placeholder="Enter comma separated type of issues to report"
+									onChange={this.onChangeVelocity}
 								/>
 							</div>
 						</div>
 					</div>
 				</div>
-                <div className="form-control">
+				<div className="form-control">
 					<div className="row">
 						<div className="col-lg-6">
 							<h4>Sprint Configurations</h4>
@@ -129,42 +201,23 @@ export class ConfigPage extends Component {
 									id="sprintName"
 									name="sprintName"
 									placeholder="Enter current sprint name"
+									onChange={this.onChangeSprint}
 								/>
 							</div>
-                            <div>
+							<div>
 								<input
 									type="text"
 									className="form-control"
 									id="lastUpdatedOn"
 									name="lastUpdatedOn"
 									placeholder="Last Updated On(IST)"
-								/>
-							</div>
-						</div>
-                        <div className="col-lg-6">
-							<h4>Time Configurations</h4>
-							<div>
-								<input
-									type="text"
-									className="form-control"
-									id="sec_hours"
-									name="sec_hours"
-									placeholder="Enter Seconds per Hour"
-								/>
-							</div>
-                            <div>
-								<input
-									type="text"
-									className="form-control"
-									id="hour_days"
-									name="hour_days"
-									placeholder="Enter hours per day"
+									onChange={this.onChangeSprint}
 								/>
 							</div>
 						</div>
 					</div>
 				</div>
-			</React.Fragment>
+			</div>
 		);
 	}
 }
