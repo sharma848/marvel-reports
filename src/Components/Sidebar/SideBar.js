@@ -9,7 +9,7 @@ export default class SideBar extends Component {
         switch(this.props.role) {
             case 'super_admin': 
                 return <SideBarSuperAdmin />;
-            case 'project_admin': 
+            case 'manager': 
                 return <SideBarProjectAdmin />;
             case 'reporter':
                 return <SideBarReporter />;
