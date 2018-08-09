@@ -6,7 +6,7 @@ import { updateConfigurations } from '../../Actions/index';
 export class ConfigPage extends Component {
 	constructor(props) {
 		super(props);
-		this.onSubmit = this.onSubmit.bind(this);
+		// this.props.updateConfigurations = this.props.updateConfigurations().bind(this);
 
 		this.state = {
 			configId: 0,
@@ -161,9 +161,7 @@ export class ConfigPage extends Component {
 							</div>
 						</div>
 					</div>
-				</div>
-				<div>
-					<button type="submit" onClick={this.onSubmit.bind(this)}>
+					<button type="submit" onClick={this.onSubmit}>
 						Submit
 					</button>
 				</div>
