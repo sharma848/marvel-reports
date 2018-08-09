@@ -35,7 +35,7 @@ export class UserDetails extends Component {
 			SNo += 1;
 			return <UserDetail userData={user} index={index} SNo={SNo} />;
 		});
-		// if(displayData === )
+		
 		return (
 			<Table bordered condensed hover>
 				<thead>

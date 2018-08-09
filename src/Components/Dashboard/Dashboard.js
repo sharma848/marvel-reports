@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { withRouter } from 'react-router';
+import {PageHeader} from 'react-bootstrap'
 
 import { getDashboard } from '../../Actions/index';
 import Header from '../Header/Header';
@@ -50,6 +51,7 @@ export class Dashboard extends Component {
 							<SideBar role={this.state.data.role} />
 						</div>
 							<div className="dashboard-container">
+							<PageHeader>Dashboard</PageHeader>
 							{this.props.children}
 						</div>
 					</div>
