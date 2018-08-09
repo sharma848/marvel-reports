@@ -8,6 +8,7 @@ export const USER_ACCEPT = 'USER_ACCEPT';
 export const USER_DECLINE = 'USER_DECLINE';
 export const EMPTY_STATE_USERACCESSDATA = 'EMPTY_STATE_USERACCESSDATA';
 export const GET_CONFIGURATIONS = 'GET_CONFIGURATIONS';
+export const GET_ALL_PROJECTS = 'GET_ALL_PROJECTS';
 
 const ROOT_URL = `http://2d8a3c00.ngrok.io/marvel`;
 
@@ -100,4 +101,15 @@ export function updateConfigurations() {
 	return {
 		type: GET_CONFIGURATIONS
 	};
+}
+export function getAllProjectData() {
+	const token = sessionStorage.getItem('SessionToken');
+	const request = axios.get(`${ROOT_URL}/api/super_admin/project`, {
+		headers: { jwttoken: token }
+	});
+
+	return {
+		type: GET_ALL_PROJECTS,
+		payload: request
+	}
 }
