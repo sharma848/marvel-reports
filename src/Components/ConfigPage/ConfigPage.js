@@ -1,78 +1,48 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+import { updateConfigurations } from '../../Actions/index';
 
 export class ConfigPage extends Component {
 	constructor(props) {
 		super(props);
+		this.onSubmit = this.onSubmit.bind(this);
 
 		this.state = {
-			configData: {
-				configId: '',
-				velocityConfiguration: {
-					hostVelocity: '',
-					projectKeyVelocity: '',
-					boards: [],
-					issuesVelocityes: []
-				},
-				epicConfiguration: {
-					host: '',
-					projectKey: '',
-					epics: [],
-					issues: []
-				},
-				jiraCredentials: {
-					email: '',
-					password: ''
-				},
-				sprintConfiguration: {
-					sprintName: '',
-					lastUpdatedOn: ''
-				}
-			}
+			configId: 0,
+			hostVelocity: '',
+			projectKeyVelocity: '',
+			boards: [],
+			issuesVelocity: [],
+			host: '',
+			projectKey: '',
+			epics: [],
+			issues: [],
+			email: '',
+			password: '',
+			sprintName: '',
+			lastUpdatedOn: ''
 		};
 	}
 
-	onChangeVelocity = (e) => {
-		this.setState({ configData: {
-            velocityConfiguration: {
-                [e.target.name]: e.target.value 
-            }
-        }
-        });
-	};
-
-	onChangeEpic = (e) => {
-		this.setState({ configData: {
-            epicConfiguration: {
-                [e.target.name]: e.target.value 
-            }
-        }
-        });
-	};
-
-	onChangeJira = (e) => {
-		this.setState({ configData: {
-            jiraCredentials: {
-                [e.target.name]: e.target.value 
-            }
-        }
-        });
-	};
-
-	onChangeSprint = (e) => {
-		this.setState({ configData: {
-            sprintConfiguration: {
-                [e.target.name]: e.target.value 
-            }
-        }
-        });
-	};
-
-	componentWillReceiveProps(nextProps) {
-		if (nextProps.userAccessData && nextProps.userAccessData.data) {
-			alert('request approved');
-			this.props.getUserDetails();
+	onChangeConfig = (e) => {
+		if (
+			e.target.name === 'epics' ||
+			e.target.name === 'boards' ||
+			e.target.name === 'issuesVelocity' ||
+			e.target.name === 'issues'
+		) {
+			let configArray = e.target.value.split(',');
+			this.setState({ [e.target.name]: configArray });
+			return;
 		}
-	}
+		this.setState({ [e.target.name]: e.target.value });
+	};
+
+	onSubmit = () => {
+		console.log(this.state);
+		this.props.updateConfigurations();
+	};
 
 	render() {
 		return (
@@ -86,8 +56,9 @@ export class ConfigPage extends Component {
 							id="email"
 							name="email"
 							placeholder="Enter your Email Id"
-							onChange={this.onChangeJira}
+							onChange={this.onChangeConfig}
 						/>
+						<input type="hidden" name="email" />
 					</div>
 					<div className="form-group">
 						<input
@@ -96,8 +67,9 @@ export class ConfigPage extends Component {
 							id="password"
 							name="password"
 							placeholder="Enter your password"
-							onChange={this.onChangeJira}
+							onChange={this.onChangeConfig}
 						/>
+						<input type="hidden" name="password" />
 					</div>
 				</div>
 				<div className="form-control">
@@ -111,7 +83,7 @@ export class ConfigPage extends Component {
 									id="host"
 									name="host"
 									placeholder="Enter host"
-									onChange={this.onChangeEpic}
+									onChange={this.onChangeConfig}
 								/>
 							</div>
 							<div>
@@ -121,7 +93,7 @@ export class ConfigPage extends Component {
 									id="projectKey"
 									name="projectKey"
 									placeholder="Enter project key"
-									onChange={this.onChangeEpic}
+									onChange={this.onChangeConfig}
 								/>
 							</div>
 							<div>
@@ -131,7 +103,7 @@ export class ConfigPage extends Component {
 									id="epics"
 									name="epics"
 									placeholder="Enter comma separated epic Ids"
-									onChange={this.onChangeEpic}
+									onChange={this.onChangeConfig}
 								/>
 							</div>
 							<div>
@@ -141,7 +113,7 @@ export class ConfigPage extends Component {
 									id="issues"
 									name="issues"
 									placeholder="Enter comma separated type of issues to report"
-									onChange={this.onChangeEpic}
+									onChange={this.onChangeConfig}
 								/>
 							</div>
 						</div>
@@ -154,7 +126,7 @@ export class ConfigPage extends Component {
 									id="hostVelocity"
 									name="hostVelocity"
 									placeholder="Enter host"
-									onChange={this.onChangeVelocity}
+									onChange={this.onChangeConfig}
 								/>
 							</div>
 							<div>
@@ -164,7 +136,7 @@ export class ConfigPage extends Component {
 									id="projectKeyVelocity"
 									name="projectKeyVelocity"
 									placeholder="Enter project key"
-									onChange={this.onChangeVelocity}
+									onChange={this.onChangeConfig}
 								/>
 							</div>
 							<div>
@@ -174,7 +146,7 @@ export class ConfigPage extends Component {
 									id="boards"
 									name="boards"
 									placeholder="Enter comma separated board Ids"
-									onChange={this.onChangeVelocity}
+									onChange={this.onChangeConfig}
 								/>
 							</div>
 							<div>
@@ -184,42 +156,25 @@ export class ConfigPage extends Component {
 									id="issuesVelocity"
 									name="issuesVelocity"
 									placeholder="Enter comma separated type of issues to report"
-									onChange={this.onChangeVelocity}
+									onChange={this.onChangeConfig}
 								/>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div className="form-control">
-					<div className="row">
-						<div className="col-lg-6">
-							<h4>Sprint Configurations</h4>
-							<div>
-								<input
-									type="text"
-									className="form-control"
-									id="sprintName"
-									name="sprintName"
-									placeholder="Enter current sprint name"
-									onChange={this.onChangeSprint}
-								/>
-							</div>
-							<div>
-								<input
-									type="text"
-									className="form-control"
-									id="lastUpdatedOn"
-									name="lastUpdatedOn"
-									placeholder="Last Updated On(IST)"
-									onChange={this.onChangeSprint}
-								/>
-							</div>
-						</div>
-					</div>
+				<div>
+					<button type="submit" onClick={this.onSubmit.bind(this)}>
+						Submit
+					</button>
 				</div>
 			</div>
 		);
 	}
 }
+function mapStateToProps(state) {
+	return {
+		configData: state.configData
+	};
+}
 
-export default ConfigPage;
+export default connect(mapStateToProps, { updateConfigurations: updateConfigurations })(ConfigPage);

@@ -1,4 +1,4 @@
-	import axios from 'axios';
+import axios from 'axios';
 
 export const SIGNUP_USER = 'SIGNUP_USER';
 export const LOGIN_USER = 'LOGIN_USER';
@@ -7,13 +7,14 @@ export const USER_DATA = 'USER_DATA';
 export const USER_ACCEPT = 'USER_ACCEPT';
 export const USER_DECLINE = 'USER_DECLINE';
 export const EMPTY_STATE_USERACCESSDATA = 'EMPTY_STATE_USERACCESSDATA';
+export const GET_CONFIGURATIONS = 'GET_CONFIGURATIONS';
 
-const ROOT_URL = `http://6d8e026f.ngrok.io/marvel`;
+const ROOT_URL = `http://2d8a3c00.ngrok.io/marvel`;
 
 export function signupUser(data) {
 	const params = { eid: data.eid, name: data.name, email: data.email, password: data.password, role: data.role };
 
-	const request = axios.post(`${ROOT_URL}/registration`, params, { headers: { 'content-type': 'application/json' } }); //axios.get('https://jsonplaceholder.typicode.com/todos')
+	const request = axios.post(`${ROOT_URL}/registration`, params, { headers: { 'content-type': 'application/json' } });
 
 	return {
 		type: SIGNUP_USER,
@@ -76,19 +77,27 @@ export function updateUserStatus(email, status, role) {
 			payload: request
 		};
 	} else if (status === 'declined') {
-        const request = axios.post(`${ROOT_URL}/api/super_admin/requests/action/reject`, params, {
-            headers: { jwttoken: token }
-        });
+		const request = axios.post(`${ROOT_URL}/api/super_admin/requests/action/reject`, params, {
+			headers: { jwttoken: token }
+		});
 
-        return {
-            type: USER_DECLINE,
-            payload: request
-        };
-    }
+		return {
+			type: USER_DECLINE,
+			payload: request
+		};
+	}
 }
 
 export function emptyuserAccessData() {
 	return {
 		type: EMPTY_STATE_USERACCESSDATA
+	};
+}
+
+export function updateConfigurations() {
+	const request = axios.get(`${ROOT_URL}/api/super_admin/configuration/1`);
+
+	return {
+		type: GET_CONFIGURATIONS
 	};
 }
