@@ -17,7 +17,7 @@ import './assets/css/style.css';
 import registerServiceWorker from './registerServiceWorker';
 import UserDetails from './Components/UserDetail/UserDetails';
 import Account from './Components/Account/Account';
-import BarChart from './Components/Charts/BarChart';
+import Charts from './Components/Charts/Charts';
 import { ConfigPage } from './Components/ConfigPage/ConfigPage';
 
 const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
@@ -33,7 +33,7 @@ ReactDOM.render(
 					<Route path="/dashboard/userAccess" exact component={UserDetails} />
 					<Route path="/dashboard/settings" exact render={() => <h3>Settings page</h3>} />
 					<Route path="/dashboard/account" exact component={Account} />
-					<Route path="/dashboard/chart" exact component={BarChart} />
+					<Route path="/dashboard/chart" exact component={Charts} />
 					<Route path="/dashboard/configurations" exact component={ConfigPage} />
 				</Dashboard>
 			</App>

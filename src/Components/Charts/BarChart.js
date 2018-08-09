@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Bar, Line, Pie } from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
 
-export default class BarCharts extends Component {
+export default class BarChart extends Component {
     
     constructor(props) {
         super(props);
@@ -34,8 +34,10 @@ export default class BarCharts extends Component {
     }
     render() {
         return (
-            <div>
+            <div className="chart">
                 <Bar
+                    width={400}
+                    height={455}
                     data={this.state.chartData}
                     options={{
                         title: {
@@ -46,37 +48,9 @@ export default class BarCharts extends Component {
                         legend: {
                             display: true,
                             position: 'right'
-                        }
-                    }}
-                />
-
-<Line
-                    data={this.state.chartData}
-                    options={{
-                        title: {
-                            display: true,
-                            text: 'Largest Cities in India',
-                            fontSize: 25
                         },
-                        legend: {
-                            display: true,
-                            position: 'right'
-                        }
-                    }}
-                />
-
-<Pie
-                    data={this.state.chartData}
-                    options={{
-                        title: {
-                            display: true,
-                            text: 'Largest Cities in India',
-                            fontSize: 25
-                        },
-                        legend: {
-                            display: true,
-                            position: 'right'
-                        }
+                        maintainAspectRatio: false,
+                        responsive: true
                     }}
                 />
             </div>

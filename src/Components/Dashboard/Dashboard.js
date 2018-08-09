@@ -50,7 +50,7 @@ export class Dashboard extends Component {
 							<Header logout={this.logout} user_data={this.state.data} />
 							<SideBar role={this.state.data.role} />
 						</div>
-							<div className="dashboard-container">
+						<div className="dashboard-container">
 							{this.props.children}
 						</div>
 					</div>

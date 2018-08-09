@@ -135,3 +135,20 @@ a {
     width: 100%;
     z-index: 999;
 }
+.charts {
+  display: flex;
+  flex-wrap: wrap;
+  flex: 1 1 0;
+}
+
+.chart {
+  padding: 5px;
+  border: 1px solid #f5f5f5;
+  box-shadow: 0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  margin: 30px;
+}
+
+canvas {
+  width: 700px !important;
+  height: 500px !important;
+}
