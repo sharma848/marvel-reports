@@ -30,7 +30,6 @@ ReactDOM.render(
 				<Route path="/login" exact component={Login} />
 				<Route path="/signup" exact component={SignUp} />
 				<Dashboard>
-					<Route path="/dashboard" />
 					<Route path="/dashboard/userAccess" exact component={UserDetails} />
 					<Route path="/dashboard/settings" exact render={() => <h3>Settings page</h3>} />
 					<Route path="/dashboard/account" exact component={Account} />

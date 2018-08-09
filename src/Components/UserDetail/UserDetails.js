@@ -30,23 +30,20 @@ export class UserDetails extends Component {
 	}
 
 	getDetails() {
-		let SNo = 0;
 		const displayData = this.state.allUsers.map((user, index) => {
-			SNo += 1;
-			return <UserDetail userData={user} index={index} SNo={SNo} />;
+			return <UserDetail userData={user} index={index} key={index} />;
 		});
 		
 		return (
 			<Table bordered condensed hover>
 				<thead>
 					<tr>
-						<th>S No.</th>
 						<th>Name</th>
 						<th>Email</th>
 						<th>Role</th>
 						<th>Status</th>
 						<th>Approve</th>
-						<th>Decline</th>
+						<th>Revoke</th>
 					</tr>
 				</thead>
 				<tbody>{displayData}</tbody>

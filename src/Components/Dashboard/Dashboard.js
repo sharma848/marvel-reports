@@ -51,7 +51,6 @@ export class Dashboard extends Component {
 							<SideBar role={this.state.data.role} />
 						</div>
 							<div className="dashboard-container">
-							<PageHeader>Dashboard</PageHeader>
 							{this.props.children}
 						</div>
 					</div>

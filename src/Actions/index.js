@@ -7,6 +7,7 @@ export const USER_DATA = 'USER_DATA';
 export const USER_ACCEPT = 'USER_ACCEPT';
 export const USER_DECLINE = 'USER_DECLINE';
 export const EMPTY_STATE_USERACCESSDATA = 'EMPTY_STATE_USERACCESSDATA';
+export const GET_ALL_PROJECTS = 'GET_ALL_PROJECTS';
 
 const ROOT_URL = `http://1d70d34b.ngrok.io/marvel`;
 
@@ -91,4 +92,16 @@ export function emptyuserAccessData() {
 	return {
 		type: EMPTY_STATE_USERACCESSDATA
 	};
+}
+
+export function getAllProjectData() {
+	const token = sessionStorage.getItem('SessionToken');
+	const request = axios.get(`${ROOT_URL}/api/super_admin/project`, {
+		headers: { jwttoken: token }
+	});
+
+	return {
+		type: GET_ALL_PROJECTS,
+		payload: request
+	}
 }
