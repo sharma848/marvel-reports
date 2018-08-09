@@ -29,6 +29,7 @@ export class UserDetail extends Component {
     }
 
     render() {
+        const status = this.props.userData.status;
         return (
             <tr>
                 <td>{this.props.SNo}</td>
@@ -36,8 +37,8 @@ export class UserDetail extends Component {
                 <td>{this.props.userData.email}</td>
                 <td>{this.props.userData.role}</td>
                 <td>{this.props.userData.status}</td>
-                <td><Button className="btn btn-success" onClick={() => this.onClick('approved')}>Approve</Button></td>
-                <td><Button className="btn btn-danger" onClick={() => this.onClick('declined')}>Decline</Button></td>
+                { status === 'pending' || status === 'rejected' ? <td><Button className="btn btn-success" onClick={() => this.onClick('approved')}>Approve</Button></td> : <td />}
+                { status === 'pending' || status === 'approved' ? <td><Button className="btn btn-danger" onClick={() => this.onClick('declined')}>Decline</Button></td> : <td />}
             </tr>
         );
     }

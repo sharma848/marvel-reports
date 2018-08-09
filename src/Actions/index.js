@@ -8,7 +8,7 @@ export const USER_ACCEPT = 'USER_ACCEPT';
 export const USER_DECLINE = 'USER_DECLINE';
 export const EMPTY_STATE_USERACCESSDATA = 'EMPTY_STATE_USERACCESSDATA';
 
-const ROOT_URL = `http://6d28fb43.ngrok.io/marvel`;
+const ROOT_URL = `http://1d70d34b.ngrok.io/marvel`;
 
 export function signupUser(data) {
 	const params = { eid: data.eid, name: data.name, email: data.email, password: data.password, role: data.role };

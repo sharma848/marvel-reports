@@ -32,10 +32,8 @@ export class UserDetails extends Component {
 	getDetails() {
 		let SNo = 0;
 		const displayData = this.state.allUsers.map((user, index) => {
-			if (user.status === 'pending') {
-				SNo += 1;
-				return <UserDetail userData={user} index={index} SNo={SNo} />;
-			}
+			SNo += 1;
+			return <UserDetail userData={user} index={index} SNo={SNo} />;
 		});
 		// if(displayData === )
 		return (

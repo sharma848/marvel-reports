@@ -20,7 +20,7 @@ export default class BarCharts extends Component {
                             474747
                         ],
                         backgroundColor: [
-                            'rgba(255, 99, 132, 0.6)',
+                            '#76A7FA',
                             'rgba(54,162, 235, 0.6)',
                             'rgba(75, 206, 86, 0.6)',
                             'rgba(153, 102, 255, 0.6)',
