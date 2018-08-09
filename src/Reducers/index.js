@@ -6,6 +6,7 @@ import SignUpReducer from './SignUpReducer';
 import UserDataReducer from './UserDataReducer';
 import UserAccessReducer from './UserAccessReducer';
 import AllProjectsReducer from './AllProjectsReducer';
+import ConfigurationReducer from './ConfigurationReducer';
 
 const rootReducer = combineReducers({
     loginData: loginReducer,
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
     signupData: SignUpReducer,
     usersData: UserDataReducer,
     userAccessData: UserAccessReducer,
-    allProjectData: AllProjectsReducer
+    allProjectData: AllProjectsReducer,
+    configData: ConfigurationReducer
 });
 
 export default rootReducer;
