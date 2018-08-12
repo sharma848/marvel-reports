@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect, Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
-import { Button, Panel, FormControl, Checkbox } from 'react-bootstrap';
+import { Panel, FormControl, Checkbox } from 'react-bootstrap';
 import { LoginData } from '../../Constants/appConstants';
 import { loginUser } from '../../Actions/index';
 
@@ -77,8 +77,7 @@ export class Login extends Component {
                                     onChange={this.onChange}
                                 />
                             </div>
-                            <Checkbox label="Remember Me" > Remember Me </Checkbox>
-                            <Button type="submit" bsSize="large" bsStyle="success" block>Login</Button>
+                            <button type="submit" className="btn btn-success login-button">Login</button>
                         </fieldset>
                     </form>
                 </Panel>

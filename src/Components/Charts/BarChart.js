@@ -7,7 +7,7 @@ export default class BarChart extends Component {
         super(props);
         this.state = {
             chartData: {
-                labels: ['Delhi', 'Mumbai', 'Banglore', 'Chennai', 'Nagpur', 'Gurgoan'],
+                labels: ['Delhi', 'Mumbai', 'Banglore', 'Chennai', 'Nagpur', 'Gurgoan', 'Gurgoan', 'Gurgoan', 'Gurgoan', 'Gurgoan', 'Gurgoan', 'Gurgoan', 'Gurgoan'],
                 datasets: [
                     {
                         label: 'Population',
@@ -17,6 +17,16 @@ export default class BarChart extends Component {
                             838374,
                             595959,
                             404040,
+                            474747,
+                            474747,
+                            474747,
+                            474747,
+                            474747,
+                            474747,
+                            474747,
+                            474747,
+                            474747,
+                            474747,
                             474747
                         ],
                         backgroundColor: [
@@ -24,6 +34,12 @@ export default class BarChart extends Component {
                             'rgba(54,162, 235, 0.6)',
                             'rgba(75, 206, 86, 0.6)',
                             'rgba(153, 102, 255, 0.6)',
+                            'rgba(255, 159, 164, 0.6)',
+                            'rgba(255, 159, 164, 0.6)',
+                            'rgba(255, 159, 164, 0.6)',
+                            'rgba(255, 159, 164, 0.6)',
+                            'rgba(255, 159, 164, 0.6)',
+                            'rgba(255, 159, 164, 0.6)',
                             'rgba(255, 159, 164, 0.6)',
                             'rgba(255, 99, 132, 0.6)',
                         ]
@@ -42,7 +58,7 @@ export default class BarChart extends Component {
                     options={{
                         title: {
                             display: true,
-                            text: 'Largest Cities in India',
+                            text: this.props.name,
                             fontSize: 25
                         },
                         legend: {
