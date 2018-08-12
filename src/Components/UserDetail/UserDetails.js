@@ -4,6 +4,7 @@ import { Table } from 'react-bootstrap';
 
 import { getUserDetails } from '../../Actions/index';
 import UserDetail from '../UserDetail/UserDetail';
+import Loader from '../Loader/Loader';
 
 export class UserDetails extends Component {
 
@@ -53,7 +54,7 @@ export class UserDetails extends Component {
 
     render() {
         return (
-            <div className="action-requests">{this.state.allUsers ? this.getDetails() : 'Loading...'}</div>
+            <div className="action-requests">{this.state.allUsers ? this.getDetails() : <Loader />}</div>
         );
     }
 }
