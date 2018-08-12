@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getAllProjectData } from '../../Actions/index';
+import { headerConst } from '../../Constants/appConstants';
 
 export class Header extends Component {
 
@@ -46,7 +47,7 @@ export class Header extends Component {
     render() {
         return (
             <nav className="navbar navbar-expand-lg navbar-light">
-                <a className="navbar-brand" href="/dashboard">Marvel Reports</a>
+                <a className="navbar-brand" href="/dashboard">{headerConst.heading}</a>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
@@ -66,10 +67,10 @@ export class Header extends Component {
                                         pathname: "/dashboard/account",
                                         userData: this.props.user_data
                                     }
-                                } className="dropdown-item">Account</Link>
-                                <Link to="/dashboard/settings" className="dropdown-item">Setting</Link>
+                                } className="dropdown-item">{headerConst.account}</Link>
+                                <Link to="/dashboard/settings" className="dropdown-item">{headerConst.setting}</Link>
                                 <div className="dropdown-divider"></div>
-                                <a className="dropdown-item" onClick={this.props.logout}>Logout</a>
+                                <a className="dropdown-item" onClick={this.props.logout}>{headerConst.logout}</a>
                             </div>
                         </li>
                     </ul>
