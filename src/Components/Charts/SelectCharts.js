@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Checkbox, CheckboxGroup} from 'react-checkbox-group';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, FormControl } from 'react-bootstrap';
 import BarChart from './BarChart';
 import { chartTexts } from '../../Constants/appConstants';
 
@@ -10,7 +10,8 @@ export default class SelectCharts extends React.Component {
     this.state = {
       projects: [],
       allProjects: ['Pearson', 'NewsCycle', 'Kohls', 'DataCard', 'ReqTest'],
-      show: true
+      show: true,
+      search: ''
     };
   }
   
@@ -38,12 +39,21 @@ export default class SelectCharts extends React.Component {
   }
 
   renderCheckBoxes =() => {
-    const checkBoxes = this.state.allProjects.map(val => {
+    let fillteredProjects = this.state.allProjects.filter((project) => {
+      return project.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
+    });
+    const checkBoxes = fillteredProjects.map(val => {
       return (
         <label className="container">{val}<Checkbox value={val}/><span className="checkmark" /></label>
       );
     });
     return checkBoxes;
+  }
+
+  updateSearch = (e) => {
+    this.setState({
+      search: e.target.value
+    });
   }
   
   render() {
@@ -56,13 +66,22 @@ export default class SelectCharts extends React.Component {
           <Modal.Header closeButton>
           </Modal.Header>
           <Modal.Body>
+            <div className="form-group">
+              <FormControl
+                type="text"
+                placeholder="Search For Projects"
+                name="search"
+                value={this.state.search}
+                onChange={this.updateSearch}
+              />
+            </div>
             <CheckboxGroup
               checkboxDepth={2} // This is needed to optimize the checkbox group
               name="projects"
               value={this.state.projects}
               onChange={this.projectsChanged}
             >
-                {this.renderCheckBoxes()}        
+                {this.renderCheckBoxes()}
             </CheckboxGroup>
           </Modal.Body>
           <Modal.Footer>
