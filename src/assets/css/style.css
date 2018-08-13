@@ -334,3 +334,11 @@ canvas {
   justify-content: center;
   align-items: center;
 }
+
+select.form-control:not([size]):not([multiple]) {
+  height: 100%;
+}
+
+.table-responsive>.table-bordered {
+  border: 1px solid #ddd;
+}
