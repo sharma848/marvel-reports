@@ -11,7 +11,7 @@ export const GET_CONFIGURATIONS = 'GET_CONFIGURATIONS';
 export const SET_CONFIGURATIONS = 'SET_CONFIGURATIONS';
 export const GET_ALL_PROJECTS = 'GET_ALL_PROJECTS';
 
-const ROOT_URL = `http://e5d6b378.ngrok.io/marvel`;
+const ROOT_URL = `http://7b60af36.ngrok.io/marvel`;
 
 const token = sessionStorage.getItem('SessionToken');
 

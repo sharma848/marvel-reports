@@ -64,6 +64,7 @@ export default class SelectCharts extends React.Component {
         <div className="charts">
           {this.renderProjects()}
         </div>
+        <hr />
         <TableFilter />
       </div>
     );

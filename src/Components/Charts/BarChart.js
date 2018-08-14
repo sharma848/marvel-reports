@@ -45,30 +45,46 @@ export default class BarChart extends Component {
                         ]
                     }
                 ]
-            }
+            },
+            showGraph: false
         };
     }
+
+    showGraph = () => {
+        return (
+            <Bar
+                width={400}
+                height={455}
+                data={this.state.chartData}
+                options={{
+                    title: {
+                        display: true,
+                        text: this.props.name,
+                        fontSize: 25
+                    },
+                    legend: {
+                        display: true,
+                        position: 'right'
+                    },
+                    maintainAspectRatio: false,
+                    responsive: true
+                }}
+            />
+        );
+    }
+
+    showForm = () => {
+        return (
+            <div>
+                
+            </div>
+        );
+    }
+
     render() {
         return (
             <div className="chart">
-                <Bar
-                    width={400}
-                    height={455}
-                    data={this.state.chartData}
-                    options={{
-                        title: {
-                            display: true,
-                            text: this.props.name,
-                            fontSize: 25
-                        },
-                        legend: {
-                            display: true,
-                            position: 'right'
-                        },
-                        maintainAspectRatio: false,
-                        responsive: true
-                    }}
-                />
+                {this.state.showGraph ? this.showGraph() : this.showForm()}
             </div>
         );
     }
