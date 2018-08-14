@@ -16,7 +16,7 @@ export default class RenderCheckBoxes extends Component {
         });
         const checkBoxes = fillteredProjects.map(val => {
           return (
-            <label className="container">{val}<Checkbox value={val}/><span className="checkmark" /></label>
+            <div className="project-add-section">{val}<Button className="add-to-dashboard-btn" onClick={() => this.props.projectsChanged(val)}>Add to Dashboard</Button></div>
           );
         });
         return checkBoxes;
@@ -41,14 +41,7 @@ export default class RenderCheckBoxes extends Component {
                     autoFocus
                     />
                 </div>
-                <CheckboxGroup
-                    checkboxDepth={2}
-                    name="projects"
-                    value={this.props.projects}
-                    onChange={this.props.projectsChanged}
-                >
-                    {this.renderCheckBoxes()}
-                </CheckboxGroup>
+                {this.renderCheckBoxes()}
             </div>
         );
     }

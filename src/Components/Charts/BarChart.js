@@ -46,30 +46,35 @@ export default class BarChart extends Component {
                     }
                 ]
             },
-            showGraph: false
+            showGraph: true
         };
     }
 
     showGraph = () => {
         return (
-            <Bar
-                width={400}
-                height={455}
-                data={this.state.chartData}
-                options={{
-                    title: {
-                        display: true,
-                        text: this.props.name,
-                        fontSize: 25
-                    },
-                    legend: {
-                        display: true,
-                        position: 'right'
-                    },
-                    maintainAspectRatio: false,
-                    responsive: true
-                }}
-            />
+            <div>
+                <button type="button" class="close" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <Bar
+                    width={400}
+                    height={455}
+                    data={this.state.chartData}
+                    options={{
+                        title: {
+                            display: true,
+                            text: this.props.name,
+                            fontSize: 25
+                        },
+                        legend: {
+                            display: true,
+                            position: 'right'
+                        },
+                        maintainAspectRatio: false,
+                        responsive: true
+                    }}
+                />
+            </div>
         );
     }
 

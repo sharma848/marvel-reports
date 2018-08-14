@@ -15,10 +15,6 @@ export default class SelectCharts extends React.Component {
       search: ''
     };
   }
-  
-  componentDidMount() {
-    
-  }
 
   handleClose= () => {
     this.setState({ show: false });
@@ -30,7 +26,7 @@ export default class SelectCharts extends React.Component {
 
   projectsChanged = (newProject) => {
     this.setState({
-      projects: newProject
+      projects: this.state.projects.concat(newProject)
     });
   }
 
