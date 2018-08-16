@@ -10,8 +10,9 @@ export const EMPTY_STATE_USERACCESSDATA = 'EMPTY_STATE_USERACCESSDATA';
 export const GET_CONFIGURATIONS = 'GET_CONFIGURATIONS';
 export const SET_CONFIGURATIONS = 'SET_CONFIGURATIONS';
 export const GET_ALL_PROJECTS = 'GET_ALL_PROJECTS';
+export const GET_VELOCITY_CHART_DATA = 'GET_VELOCITY_CHART_DATA'
 
-const ROOT_URL = `http://7b60af36.ngrok.io/marvel`;
+const ROOT_URL = `http://11ee4338.ngrok.io/marvel`;
 
 const token = sessionStorage.getItem('SessionToken');
 
@@ -129,4 +130,14 @@ export function getAllProjectData() {
 		type: GET_ALL_PROJECTS,
 		payload: request
 	}
+}
+
+export function getVelocityChartData() {
+	const ProjectID = sessionStorage.getItem('PId');
+	const request = axios.get(`${ROOT_URL}/api/super_admin/reports/${ProjectID}/velocity`, { headers: { jwttoken: token } });
+
+	return {
+		type: GET_VELOCITY_CHART_DATA,
+		payload: request
+	};
 }

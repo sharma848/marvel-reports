@@ -10,14 +10,10 @@ export default class SelectCharts extends React.Component {
     super(props);
     this.state = {
       projects: [],
-      allProjects: ['Pearson', 'NewsCycle', 'Kohls', 'DataCard', 'ReqTest'],
+      allProjects: ['Release Burndown Chart', 'Team Velocity Chart', 'Plan Vs Actual Chart', 'Fix Version Chart', 'PI Burndown Chart'],
       show: true,
       search: ''
     };
-  }
-  
-  componentDidMount() {
-    
   }
 
   handleClose= () => {
@@ -30,7 +26,7 @@ export default class SelectCharts extends React.Component {
 
   projectsChanged = (newProject) => {
     this.setState({
-      projects: newProject
+      projects: this.state.projects.concat(newProject)
     });
   }
 
