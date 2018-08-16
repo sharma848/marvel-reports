@@ -7,6 +7,7 @@ import UserDataReducer from './UserDataReducer';
 import UserAccessReducer from './UserAccessReducer';
 import AllProjectsReducer from './AllProjectsReducer';
 import ConfigurationReducer from './ConfigurationReducer';
+import VelocityChartReducer from './VelocityChartReducer';
 
 const rootReducer = combineReducers({
     loginData: loginReducer,
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
     usersData: UserDataReducer,
     userAccessData: UserAccessReducer,
     allProjectData: AllProjectsReducer,
-    configData: ConfigurationReducer
+    configData: ConfigurationReducer,
+    velocityChartData: VelocityChartReducer
 });
 
 export default rootReducer;
