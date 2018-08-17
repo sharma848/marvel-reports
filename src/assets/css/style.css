@@ -156,6 +156,10 @@ a {
 }
 
 .chart {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 530px;
   width: 720px;
   padding: 5px;
@@ -364,4 +368,15 @@ select.form-control:not([size]):not([multiple]) {
 .add-to-dashboard-btn:hover {
   color: white;
   background-color: #286090;
+}
+
+.chart-content-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.close-button {
+  position: absolute;
+  top: 2px;
+  right: 5px;
 }

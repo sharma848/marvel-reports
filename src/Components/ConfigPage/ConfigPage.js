@@ -12,12 +12,12 @@ export class ConfigPage extends Component {
 			configId: 0,
 			hostVelocity: '',
 			projectKeyVelocity: '',
-			boards: [],
-			issuesVelocity: [],
+			boards: null,
+			issuesVelocity: null,
 			host: '',
 			projectKey: '',
-			epics: [],
-			issues: [],
+			epics: null,
+			issues: null,
 			jid: '',
 			password: '',
 			sprintName: '',
@@ -55,26 +55,27 @@ export class ConfigPage extends Component {
 	};
 
 	onSubmit = () => {
+		const props = this.props.configData.data.data;
 		const params = {
-			configId: this.state.configId,
+			configId: props.configId ? props.configId : this.state.configId,
 			sprint_name: 34,
 			last_updated:this.state.lastUpdatedOn,
         	velocityConfiguration: {
 				velocity_configuration_id: 0,
-				host: this.state.hostVelocity,
-				projectKey: this.state.projectKeyVelocity,
-				boards: this.state.boards,
-				issues: this.state.issuesVelocity
+				host: this.state.hostVelocity ? this.state.hostVelocity : props.velocityConfiguration.host,
+				projectKey: this.state.projectKeyVelocity ? this.state.projectKeyVelocity : props.velocityConfiguration.projectKey,
+				boards: this.state.boards ? this.state.boards : props.velocityConfiguration.boards,
+				issues: this.state.issuesVelocity ? this.state.issuesVelocity : props.velocityConfiguration.issues
 			},
 			epicConfiguration: {
-				epics_configuration_id: 0,
-				host: this.state.host,
-				projectKey:this.state.projectKey,
-				epics: this.state.epics,
-				issues: this.state.issues
+				epics_configuration_id: props.epicConfiguration.epics_configuration_id ? props.epicConfiguration.epics_configuration_id : 0,
+				host: this.state.host ? this.state.host : props.epicConfiguration.host,
+				projectKey: this.state.projectKey ? this.state.projectKey : props.epicConfiguration.projectKey,
+				epics: this.state.epics ? this.state.epics : props.epicConfiguration.epics,
+				issues: this.state.issues ? this.state.issues : props.epicConfiguration.issues
 			},
-			jid: this.state.jid,
-			password: this.state.password,
+			jid: this.state.jid ? this.state.jid : props.jid,
+			password: this.state.password ? this.state.password : props.password,
 			secs_hour:"3600",
 			hour_day:"8"
 		}

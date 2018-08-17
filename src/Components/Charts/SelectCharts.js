@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import BarChart from './BarChart';
+import RenderChart from './RenderChart';
 import { chartTexts } from '../../Constants/appConstants';
-import RenderCheckBoxes from './RenderCheckBoxes';
+import RenderProjects from './RenderProjects';
 import TableFilter from './TableFilter';
 
 export default class SelectCharts extends React.Component {
@@ -30,8 +30,17 @@ export default class SelectCharts extends React.Component {
     });
   }
 
+  removeChart = (chart) => {
+    const projects = this.state.projects;
+    const index = projects.indexOf(chart);    
+    if(index > -1) {
+      projects.splice(index, 1);
+    }
+    this.setState({ projects: projects });
+  }
+
   renderProjects = () => {
-      let value = this.state.projects.map(val => <div><BarChart name={val}/></div>);
+      let value = this.state.projects.map((val,index) => <RenderChart name={val} removeChart={this.removeChart} key={index} />);
       return value;
   }
 
@@ -41,7 +50,7 @@ export default class SelectCharts extends React.Component {
         <Modal.Header closeButton>
         </Modal.Header>
         <Modal.Body>
-          <RenderCheckBoxes projects={this.state.projects} allProjects={this.state.allProjects} projectsChanged={this.projectsChanged} />
+          <RenderProjects projects={this.state.projects} allProjects={this.state.allProjects} projectsChanged={this.projectsChanged} />
         </Modal.Body>
         <Modal.Footer>
           <button className="btn btn-primary" onClick={this.handleClose}>{chartTexts.closeText}</button>

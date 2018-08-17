@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {Checkbox, CheckboxGroup} from 'react-checkbox-group';
 import { Modal, Button, FormControl } from 'react-bootstrap';
 
-export default class RenderCheckBoxes extends Component {
+export default class RenderProjects extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -10,13 +10,13 @@ export default class RenderCheckBoxes extends Component {
         };
     }
 
-    renderCheckBoxes =() => {
+    RenderProjects =() => {
         let fillteredProjects = this.props.allProjects.filter((project) => {
           return project.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
         });
-        const checkBoxes = fillteredProjects.map(val => {
+        const checkBoxes = fillteredProjects.map((val, i) => {
           return (
-            <div className="project-add-section">{val}<Button className="add-to-dashboard-btn" onClick={() => this.props.projectsChanged(val)}>Add to Dashboard</Button></div>
+            <div className="project-add-section" key={i}>{val}<Button className="add-to-dashboard-btn" onClick={() => this.props.projectsChanged(val)}>Add to Dashboard</Button></div>
           );
         });
         return checkBoxes;
@@ -41,7 +41,7 @@ export default class RenderCheckBoxes extends Component {
                     autoFocus
                     />
                 </div>
-                {this.renderCheckBoxes()}
+                {this.RenderProjects()}
             </div>
         );
     }

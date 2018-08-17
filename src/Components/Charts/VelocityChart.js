@@ -6,12 +6,12 @@ import { getVelocityChartData } from '../../Actions/index';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import { FormGroup, Col, ControlLabel } from 'react-bootstrap';
 
-export class BarChart extends Component {
+export class VelocityChart extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			chartData: null,
-			showGraph: true,
+			showGraph: false,
 			velocityData: null
 		};
 	}
@@ -27,12 +27,12 @@ export class BarChart extends Component {
 	}
 
 	setVelocityChartData() {
-		const data = this.state.velocityData.velocity_data[0].sprints.map((value) => {
+		const data = this.state.velocityData.velocity_data[0] ? this.state.velocityData.velocity_data[0].sprints.map((value) => {
 			return value.actual;
-		});
-		const labels = this.state.velocityData.velocity_data[0].sprints.map((value) => {
+		}) : '';
+		const labels = this.state.velocityData.velocity_data[0] ? this.state.velocityData.velocity_data[0].sprints.map((value) => {
 			return value.name;
-		});
+		}) : '';
 
 		const chartData = {
 			labels: labels,
@@ -95,7 +95,7 @@ export class BarChart extends Component {
 			<div>
 				{this.state.velocityData ? (
 					<div>
-						<button type="button" class="close" aria-label="Close">
+						<button type="button" class="close" aria-label="Close" onClick={() => this.props.removeChart(this.props.name)}>
 							<span aria-hidden="true">&times;</span>
 						</button>
 						<Bar
@@ -198,4 +198,4 @@ const actions = {
 	getVelocityChartData: getVelocityChartData
 };
 
-export default connect(mapStateToProps, actions)(BarChart);
+export default connect(mapStateToProps, actions)(VelocityChart);

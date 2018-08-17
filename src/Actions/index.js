@@ -10,9 +10,11 @@ export const EMPTY_STATE_USERACCESSDATA = 'EMPTY_STATE_USERACCESSDATA';
 export const GET_CONFIGURATIONS = 'GET_CONFIGURATIONS';
 export const SET_CONFIGURATIONS = 'SET_CONFIGURATIONS';
 export const GET_ALL_PROJECTS = 'GET_ALL_PROJECTS';
-export const GET_VELOCITY_CHART_DATA = 'GET_VELOCITY_CHART_DATA'
+export const GET_VELOCITY_CHART_DATA = 'GET_VELOCITY_CHART_DATA';
+export const GET_ALL_FIX_VERSION = 'GET_ALL_FIX_VERSION';
+export const GET_FIX_VERSION_CHART_DATA = 'GET_FIX_VERSION_CHART_DATA';
 
-const ROOT_URL = `http://11ee4338.ngrok.io/marvel`;
+const ROOT_URL = `http://6973ac66.ngrok.io/marvel`;
 
 const token = sessionStorage.getItem('SessionToken');
 
@@ -138,6 +140,26 @@ export function getVelocityChartData() {
 
 	return {
 		type: GET_VELOCITY_CHART_DATA,
+		payload: request
+	};
+}
+
+export function getAllFixVersions() {
+	const ProjectID = sessionStorage.getItem('PId');
+	const request = axios.get(`${ROOT_URL}/api/super_admin/graph/${ProjectID}/fixversions`, { headers: { jwttoken: token } });
+
+	return {
+		type: GET_ALL_FIX_VERSION,
+		payload: request
+	};
+}
+
+export function getFixVersioChartData(params) {
+	const ProjectID = sessionStorage.getItem('PId');
+	const request = axios.post(`${ROOT_URL}/api/super_admin/graph/${ProjectID}/fixversions`, params, { headers: { jwttoken: token } });
+
+	return {
+		type: GET_FIX_VERSION_CHART_DATA,
 		payload: request
 	};
 }
