@@ -27,65 +27,52 @@ export class VelocityChart extends Component {
 	}
 
 	setVelocityChartData() {
-		const data = this.state.velocityData.velocity_data[0] ? this.state.velocityData.velocity_data[0].sprints.map((value) => {
-			return value.actual;
-		}) : '';
+		// const data = this.state.velocityData.velocity_data[0] ? this.state.velocityData.velocity_data[0].sprints.map((value) => {
+		// 	return value.actual;
+		// }) : '';
 		const labels = this.state.velocityData.velocity_data[0] ? this.state.velocityData.velocity_data[0].sprints.map((value) => {
 			return value.name;
 		}) : '';
+
+		let data ={ 
+			datasets:[
+				{
+				  label: 'Low',
+				  data: [67.8],
+				  backgroundColor: '#D6E9C6' // green
+				},
+				{
+				  label: 'Moderate',
+				  data: [20.7],
+				  backgroundColor: '#FAEBCC' // yellow
+				},
+				{
+				  label: 'High',
+				  data: [11.4],
+				  backgroundColor: '#EBCCD1' // red
+				}
+			  ]
+		  };
 
 		const chartData = {
 			labels: labels,
 			datasets: [
 				{
-					label: 'Actual Points',
-					data: data,
-					backgroundColor: [
-						'#76A7FA',
-						'rgba(54,162, 235, 0.6)',
-						'rgba(75, 206, 86, 0.6)',
-						'rgba(153, 102, 255, 0.6)',
-						'rgba(255, 159, 164, 0.6)',
-						'rgba(255, 159, 164, 0.6)',
-						'rgba(255, 159, 164, 0.6)',
-						'rgba(255, 159, 164, 0.6)',
-						'rgba(255, 159, 164, 0.6)',
-						'rgba(255, 159, 164, 0.6)',
-						'rgba(255, 159, 164, 0.6)',
-						'rgba(255, 99, 132, 0.6)',
-						'rgba(75, 206, 86, 0.6)',
-						'rgba(153, 102, 255, 0.6)',
-						'rgba(255, 159, 164, 0.6)',
-						'rgba(255, 159, 164, 0.6)',
-						'rgba(255, 159, 164, 0.6)',
-						'rgba(255, 159, 164, 0.6)',
-						'rgba(255, 159, 164, 0.6)',
-						'rgba(255, 159, 164, 0.6)',
-						'rgba(255, 159, 164, 0.6)',
-						'rgba(255, 99, 132, 0.6)',
-						'rgba(75, 206, 86, 0.6)',
-						'rgba(153, 102, 255, 0.6)',
-						'rgba(255, 159, 164, 0.6)',
-						'rgba(255, 159, 164, 0.6)',
-						'rgba(255, 159, 164, 0.6)',
-						'rgba(255, 159, 164, 0.6)',
-						'rgba(255, 159, 164, 0.6)',
-						'rgba(255, 159, 164, 0.6)',
-						'rgba(255, 159, 164, 0.6)',
-						'rgba(255, 99, 132, 0.6)',
-						'rgba(75, 206, 86, 0.6)',
-						'rgba(153, 102, 255, 0.6)',
-						'rgba(255, 159, 164, 0.6)',
-						'rgba(255, 159, 164, 0.6)',
-						'rgba(255, 159, 164, 0.6)',
-						'rgba(255, 159, 164, 0.6)',
-						'rgba(255, 159, 164, 0.6)',
-						'rgba(255, 159, 164, 0.6)',
-						'rgba(255, 159, 164, 0.6)',
-						'rgba(255, 99, 132, 0.6)'
-					]
+				  label: 'Low',
+				  data: [67.8],
+				  backgroundColor: '#D6E9C6' // green
+				},
+				{
+				  label: 'Moderate',
+				  data: [20.7],
+				  backgroundColor: '#FAEBCC' // yellow
+				},
+				{
+				  label: 'High',
+				  data: [11.4],
+				  backgroundColor: '#EBCCD1' // red
 				}
-			]
+			  ]
 		};
 		this.setState({ chartData });
 	}
@@ -102,6 +89,7 @@ export class VelocityChart extends Component {
 							width={400}
 							height={455}
 							data={this.state.chartData}
+							type='bar'
 							options={{
 								title: {
 									display: true,
@@ -113,7 +101,15 @@ export class VelocityChart extends Component {
 									position: 'right'
 								},
 								maintainAspectRatio: false,
-								responsive: true
+								responsive: true,
+								scales: {
+									xAxes: [{
+										stacked: true
+									}],
+									yAxes: [{
+										stacked: true
+									}]
+								}
 							}}
 						/>
 					</div>

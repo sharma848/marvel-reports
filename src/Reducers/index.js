@@ -10,6 +10,8 @@ import ConfigurationReducer from './ConfigurationReducer';
 import VelocityChartReducer from './VelocityChartReducer';
 import allFIxVersionReducer from './AllFixVersionReducer';
 import fixVersionChartReducer from './fixVersionChartReducer';
+import AllComponentReducer from './AllComponentReducer';
+import componentChartReducer from './componentChartReducer';
  
 const rootReducer = combineReducers({
     loginData: loginReducer,
@@ -21,8 +23,9 @@ const rootReducer = combineReducers({
     configData: ConfigurationReducer,
     velocityChartData: VelocityChartReducer,
     allFIxVersionData: allFIxVersionReducer,
-    fixVersionChartData: fixVersionChartReducer
-
+    fixVersionChartData: fixVersionChartReducer,
+    allComponentData: AllComponentReducer,
+    componentChartData: componentChartReducer
 });
 
 export default rootReducer;

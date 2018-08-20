@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Bar } from 'react-chartjs-2';
-import Highcharts from 'highcharts';
 import Loader from '../Loader/Loader';
-import { getAllFixVersions, getFixVersioChartData } from '../../Actions/index';
+import { getAllComponents, getComponentChartData } from '../../Actions/index';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import { FormGroup, Col, ControlLabel } from 'react-bootstrap';
 
@@ -13,25 +12,25 @@ export class FIxVersionChart extends Component {
 		this.state = {
 			chartData: null,
 			showGraph: false,
-			chartName: this.props.name,
-			fixVersionChartData: null,
-			fixVersionData: null,
-			fixVersions: ''
+			chartName: '',
+			componentChartData: null,
+			componentData: null,
+			component: ''
 		};
 		this.chartContainer = React.createRef();
-		}
+	}
 
 	componentDidMount() {
-		this.props.getAllFixVersions();
+		this.props.getAllComponents();
 	}
 
 	componentWillReceiveProps(nextProps) {
-		const fixversion = this.state.fixVersions;
-		if (nextProps.allFIxVersionData && nextProps.allFIxVersionData.data) {
-			this.setState({ fixVersionData: nextProps.allFIxVersionData.data.fixversions });
+		const component = this.state.component;
+		if (nextProps.allComponentData && nextProps.allComponentData.data) {
+			this.setState({ componentData: nextProps.allComponentData.data.components });
 		}
-		if (nextProps.fixVersionChartData && nextProps.fixVersionChartData[fixversion] && nextProps.fixVersionChartData[fixversion].data) {
-			this.setState({ fixVersionChartData: nextProps.fixVersionChartData[fixversion].data.epics }, this.setChartData);
+		if (nextProps.componentChartData && nextProps.componentChartData[component] && nextProps.componentChartData[component].data) {
+			this.setState({ componentChartData: nextProps.componentChartData[component].data.epics }, this.setChartData);
 		}
 	}
 
@@ -41,9 +40,9 @@ export class FIxVersionChart extends Component {
 		var closedEpicData = [];
 		var labels = [];
 		var bgColorClosed = '#994499';
-		var data = this.state.fixVersionChartData ? this.state.fixVersionChartData.map((value) => {
-			const completedPercentage = (value.closedSP / value.totalSP) * 100;
-			const remainingPercentage = (value.remainingSP / value.totalSP) * 100;
+		var data = this.state.componentChartData ? this.state.componentChartData.map((value) => {
+			const completedPercentage = Math.round((value.closedSP / value.totalSP) * 100);
+			const remainingPercentage = Math.round((value.remainingSP / value.totalSP) * 100);
 			if(value.remainingSP == 0 && value.status === 'Accepted') {
 				bgColorClosed = 'blue';
 				closedEpicData.push(100);
@@ -77,7 +76,7 @@ export class FIxVersionChart extends Component {
 	showGraph = () => {
 		return (
 			<div className="chart-content-container">
-				{this.state.fixVersionChartData ? (
+				{this.state.componentChartData ? (
 					<div>
 						<button type="button" className="close close-button" aria-label="Close" onClick={() => this.props.removeChart(this.props.name)}>
 							<span aria-hidden="true">&times;</span>
@@ -89,7 +88,7 @@ export class FIxVersionChart extends Component {
 							options={{
 								title: {
 									display: true,
-									text: this.state.chartName,
+									text: this.state.chartName || this.props.name + ' - ' + this.state.component,
 									fontSize: 25
 								},
 								legend: {
@@ -121,8 +120,8 @@ export class FIxVersionChart extends Component {
 
 	onClick = () => {
 		this.setState({ showGraph: true });
-		console.log('fv:' + this.state.fixVersions + ' rec:' + this.state.numberOfRecords);
-		this.props.getFixVersioChartData([this.state.fixVersions]);
+		console.log('fv:' + this.state.component + ' rec:' + this.state.numberOfRecords);
+		this.props.getComponentChartData([this.state.component]);
 	};
 
 	onChange = (e) => {
@@ -132,8 +131,8 @@ export class FIxVersionChart extends Component {
 		this.setState({ [e.target.name]: e.target.value });
 	};
 
-	getFixVersionOptions = () => {
-		const options = this.state.fixVersionData.map(value => {
+	getComponentOptions = () => {
+		const options = this.state.componentData.map(value => {
 			return (
 				<option value={value}>{value}</option>
 			)
@@ -142,7 +141,7 @@ export class FIxVersionChart extends Component {
 	}
 
 	showForm = () => {
-		if(this.state.fixVersionData) {
+		if(this.state.componentData) {
 			return (
 				<div className="chart-content-container">
 					<button type="button" className="close close-button" aria-label="Close" onClick={() => this.props.removeChart(this.props.name)}>
@@ -150,18 +149,18 @@ export class FIxVersionChart extends Component {
 					</button>
 					<FormGroup>
 						<Col componentClass={ControlLabel} sm={3}>
-							Fix Versions:
+							Components:
 						</Col>
 						<Col sm={7}>
 							<FormControl
 								componentClass="select"
 								placeholder="select"
 								onChange={this.onChange}
-								name="fixVersions"
-								id="fixVersions"
+								name="component"
+								id="component"
 							>
 								<option value="">Select</option>
-								{this.getFixVersionOptions()}
+								{this.getComponentOptions()}
 							</FormControl>
 						</Col>
 					</FormGroup>
@@ -209,20 +208,20 @@ export class FIxVersionChart extends Component {
 	};
 
 	render() {
-		return <div>{this.state.showGraph && this.state.fixVersionData ? this.showGraph() : this.showForm()}</div>;
+		return <div>{this.state.showGraph ? this.showGraph() : this.showForm()}</div>;
 	}
 }
 
 function mapStateToProps(state) {
 	return {
-		allFIxVersionData: state.allFIxVersionData,
-		fixVersionChartData: state.fixVersionChartData
+		allComponentData: state.allComponentData,
+		componentChartData: state.componentChartData
 	};
 }
 
 const actions = {
-	getAllFixVersions: getAllFixVersions,
-	getFixVersioChartData: getFixVersioChartData
+	getAllComponents: getAllComponents,
+	getComponentChartData: getComponentChartData
 };
 
 export default connect(mapStateToProps, actions)(FIxVersionChart);

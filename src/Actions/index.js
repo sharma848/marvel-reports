@@ -12,9 +12,11 @@ export const SET_CONFIGURATIONS = 'SET_CONFIGURATIONS';
 export const GET_ALL_PROJECTS = 'GET_ALL_PROJECTS';
 export const GET_VELOCITY_CHART_DATA = 'GET_VELOCITY_CHART_DATA';
 export const GET_ALL_FIX_VERSION = 'GET_ALL_FIX_VERSION';
+export const GET_ALL_COMPONENT = 'GET_ALL_COMPONENT';
 export const GET_FIX_VERSION_CHART_DATA = 'GET_FIX_VERSION_CHART_DATA';
+export const GET_COMPONENT_CHART_DATA = 'GET_COMPONENT_CHART_DATA';
 
-const ROOT_URL = `http://6973ac66.ngrok.io/marvel`;
+const ROOT_URL = `http://8cf87b62.ngrok.io/marvel`;
 
 const token = sessionStorage.getItem('SessionToken');
 
@@ -157,9 +159,33 @@ export function getAllFixVersions() {
 export function getFixVersioChartData(params) {
 	const ProjectID = sessionStorage.getItem('PId');
 	const request = axios.post(`${ROOT_URL}/api/super_admin/graph/${ProjectID}/fixversions`, params, { headers: { jwttoken: token } });
+	return request.then(response => {
+		return {
+			type: GET_FIX_VERSION_CHART_DATA,
+			payload: response,
+			id: params
+		};
+	});
+}
+
+export function getAllComponents() {
+	const ProjectID = sessionStorage.getItem('PId');
+	const request = axios.get(`${ROOT_URL}/api/super_admin/graph/${ProjectID}/components`, { headers: { jwttoken: token } });
 
 	return {
-		type: GET_FIX_VERSION_CHART_DATA,
+		type: GET_ALL_COMPONENT,
 		payload: request
 	};
+}
+
+export function getComponentChartData(params) {
+	const ProjectID = sessionStorage.getItem('PId');
+	const request = axios.post(`${ROOT_URL}/api/super_admin/graph/${ProjectID}/components`, params, { headers: { jwttoken: token } });
+	return request.then(response => {
+		return {
+			type: GET_COMPONENT_CHART_DATA,
+			payload: response,
+			id: params
+		};
+	});
 }

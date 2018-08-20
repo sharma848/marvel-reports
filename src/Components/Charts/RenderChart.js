@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Loader from '../Loader/Loader';
 import FixVersionChart from './FIxVersionChart';
+import ComponentChart from './ComponentChart';
 
 export default class RenderChart extends Component {
 
@@ -22,7 +23,10 @@ export default class RenderChart extends Component {
 				return this.underConstruction();
 				break;
 			case 'Fix Version Chart':
-				return  <FixVersionChart name={this.props.name} removeChart={this.props.removeChart} key={this.props.key} />		
+				return <FixVersionChart name={this.props.name} removeChart={this.props.removeChart} />		
+				break;
+			case 'Component Chart':
+				return <ComponentChart name={this.props.name} removeChart={this.props.removeChart} />
 				break;
 			default: 
 				return this.underConstruction();
