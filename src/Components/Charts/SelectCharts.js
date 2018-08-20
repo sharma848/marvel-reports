@@ -12,7 +12,9 @@ export default class SelectCharts extends React.Component {
       projects: [],
       allProjects: ['Release Burndown Chart', 'Team Velocity Chart', 'Plan Vs Actual Chart', 'Fix Version Chart','Component Chart', 'PI Burndown Chart'],
       show: true,
-      search: ''
+      search: '',
+      viewButtonText: 'Expanded View',
+      collapseView: false
     };
   }
 
@@ -30,6 +32,12 @@ export default class SelectCharts extends React.Component {
     });
   }
 
+  changeView = () => {
+    this.setState({
+      collapseView: !this.state.collapseView
+    });
+  }
+
   removeChart = (chart) => {
     const projects = this.state.projects;
     const index = projects.indexOf(chart);    
@@ -40,7 +48,7 @@ export default class SelectCharts extends React.Component {
   }
 
   renderProjects = () => {
-      let value = this.state.projects.map((val,index) => <RenderChart name={val} removeChart={this.removeChart} key={index} />);
+      let value = this.state.projects.map((val,index) => <RenderChart name={val} removeChart={this.removeChart} key={index} collapseView={this.state.collapseView} />);
       return value;
   }
 
@@ -62,11 +70,16 @@ export default class SelectCharts extends React.Component {
   render() {
     return (
       <div className="chart-container">
+        {this.state.collapseView ? <button className="btn btn-success" onClick={this.changeView}>
+          Expand View
+        </button> : <button className="btn btn-success" onClick={this.changeView}>
+          Collapse View
+        </button>}
         <button className="btn btn-success" onClick={this.handleShow}>
           {chartTexts.btnText}
         </button>
         {this.renderModal()}
-        <div className="charts">
+        <div className={this.state.collapseView ? "charts" : ''}>
           {this.renderProjects()}
         </div>
         <hr />

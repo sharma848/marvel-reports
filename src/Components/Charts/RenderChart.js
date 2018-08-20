@@ -35,7 +35,7 @@ export default class RenderChart extends Component {
 
 	render() {
 		return (
-			<div className="chart">
+			<div className={this.props.collapseView ? "chart distributed-view" : "chart"}>
 				{this.renderChart()}
 			</div>
 		);

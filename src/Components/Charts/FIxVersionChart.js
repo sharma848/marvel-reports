@@ -83,8 +83,8 @@ export class FIxVersionChart extends Component {
 							<span aria-hidden="true">&times;</span>
 						</button>
 						<Bar
-							width={400}
-							height={455}
+							width={700}
+							height={500}
 							data={this.state.chartData}
 							options={{
 								title: {
@@ -94,7 +94,7 @@ export class FIxVersionChart extends Component {
 								},
 								legend: {
 									display: true,
-									position: 'right'
+									position: 'bottom'
 								},
 								maintainAspectRatio: false,
 								responsive: true,

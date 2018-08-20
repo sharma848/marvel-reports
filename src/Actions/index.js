@@ -16,7 +16,7 @@ export const GET_ALL_COMPONENT = 'GET_ALL_COMPONENT';
 export const GET_FIX_VERSION_CHART_DATA = 'GET_FIX_VERSION_CHART_DATA';
 export const GET_COMPONENT_CHART_DATA = 'GET_COMPONENT_CHART_DATA';
 
-const ROOT_URL = `http://8cf87b62.ngrok.io/marvel`;
+const ROOT_URL = `http://1abac0b7.ngrok.io/marvel`;
 
 const token = sessionStorage.getItem('SessionToken');
 
