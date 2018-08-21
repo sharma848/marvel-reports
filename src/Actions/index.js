@@ -17,7 +17,9 @@ export const GET_FIX_VERSION_CHART_DATA = 'GET_FIX_VERSION_CHART_DATA';
 export const GET_COMPONENT_CHART_DATA = 'GET_COMPONENT_CHART_DATA';
 export const GET_TEAM_VELOCITY_CHART_DATA = 'GET_TEAM_VELOCITY_CHART_DATA';
 export const GET_RELEASE_BURNDOWN_CHART_DATA = 'GET_RELEASE_BURNDOWN_CHART_DATA';
-
+export const GET_PLAN_VS_ACTUAL_CHART_DATA = 'GET_PLAN_VS_ACTUAL_CHART_DATA';
+export const GENERATE_VELOCITY_DATA = 'GENERATE_VELOCITY_DATA';
+export const GENERATE_EPIC_DATA = 'GENERATE_EPIC_DATA';
 
 const ROOT_URL = `http://749be2ce.ngrok.io/marvel`;
 
@@ -200,6 +202,39 @@ export function getTeamVelocityChartData() {
 	return request.then(response => {
 		return {
 			type: GET_TEAM_VELOCITY_CHART_DATA,
+			payload: response
+		};
+	});
+}
+
+export function getPlanVsActualChartData() {
+	const ProjectID = sessionStorage.getItem('PId');
+	const request = axios.get(`${ROOT_URL}/api/super_admin/reports/${ProjectID}/sprint_report`, { headers: { jwttoken: token } });
+	return request.then(response => {
+		return {
+			type: GET_PLAN_VS_ACTUAL_CHART_DATA,
+			payload: response
+		};
+	});
+}
+
+export function generateEpicData() {
+	const ProjectID = sessionStorage.getItem('PId');
+	const request = axios.get(`${ROOT_URL}/api/super_admin/reports/${ProjectID}/epic/generate`, { headers: { jwttoken: token } });
+	return request.then(response => {
+		return {
+			type: GENERATE_EPIC_DATA,
+			payload: response
+		};
+	});
+}
+
+export function generateVelocityData() {
+	const ProjectID = sessionStorage.getItem('PId');
+	const request = axios.get(`${ROOT_URL}/api/super_admin/reports/${ProjectID}/velocity/generate`, { headers: { jwttoken: token } });
+	return request.then(response => {
+		return {
+			type: GENERATE_VELOCITY_DATA,
 			payload: response
 		};
 	});

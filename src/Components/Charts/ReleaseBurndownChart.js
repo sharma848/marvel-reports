@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Line } from 'react-chartjs-2';
-import Highcharts from 'highcharts';
 import Loader from '../Loader/Loader';
 import { getReleaseBurndownChartData } from '../../Actions/index';
-import FormControl from 'react-bootstrap/lib/FormControl';
-import { FormGroup, Col, ControlLabel } from 'react-bootstrap';
 
 export class ReleaseBurndownChart extends Component {
 	constructor(props) {

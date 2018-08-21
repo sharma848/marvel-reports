@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { getConfigurations, setConfigurations } from '../../Actions/index';
+import { getConfigurations, setConfigurations, generateEpicData, generateVelocityData } from '../../Actions/index';
 
 export class ConfigPage extends Component {
 	constructor(props) {
@@ -40,6 +40,14 @@ export class ConfigPage extends Component {
 					lastConfigurationData: nextProps.configData.data.data
 				})
 			}
+		}
+
+		if(nextProps.GenerateEpicData && nextProps.GenerateEpicData.isSuccess) {
+			alert("Epic Data Generated SUccessfully");
+		}
+
+		if(nextProps.GenerateVelocityData && nextProps.GenerateVelocityData.isSuccess) {
+			alert("Velocity Data Generated SUccessfully");
 		}
 	}
 
@@ -84,7 +92,8 @@ export class ConfigPage extends Component {
 			jid: this.state.jid ? this.state.jid : props.jid,
 			password: this.state.password ? this.state.password : props.password,
 			secs_hour:"3600",
-			hour_day:"8"
+			hour_day:"8",
+			sprint_number: '3'
 		}
 		this.props.setConfigurations(params);
 	};
@@ -250,6 +259,12 @@ export class ConfigPage extends Component {
 					<button type="button" onClick={this.onSubmit.bind(this)} class="btn btn-primary">
 						Submit
 					</button>
+					<button type="button" onClick={() => this.props.generateEpicData()} class="btn btn-danger left-margin-10">
+						Generate Epic Data
+					</button>
+					<button type="button" onClick={() => this.props.generateVelocityData()} class="btn btn-danger left-margin-10">
+						Generate Velocity Data
+					</button>
 				</div>
 			</div>
 		);
@@ -257,13 +272,17 @@ export class ConfigPage extends Component {
 }
 function mapStateToProps(state) {
 	return {
-		configData: state.configData
+		configData: state.configData,
+		GenerateEpicData: state.GenerateEpicData,
+		GenerateVelocityData: state.GenerateVelocityData
 	};
 }
 
 const actions = {
 	setConfigurations: setConfigurations,
-	getConfigurations: getConfigurations
+	getConfigurations: getConfigurations,
+	generateEpicData: generateEpicData,
+	generateVelocityData: generateVelocityData
 }
 
 export default connect(mapStateToProps, actions)(ConfigPage);

@@ -13,6 +13,9 @@ import fixVersionChartReducer from './fixVersionChartReducer';
 import AllComponentReducer from './AllComponentReducer';
 import componentChartReducer from './componentChartReducer';
 import ReleaseBurndownChartReducer from './ReleaseBurndownChartReducer';
+import PlanVsActualChartReducer from './PlanVsActualChartReducer';
+import GenerateEpicDataReducer from './GenerateEpicDataReducer';
+import GenerateVelocityDataReducer from './GenerateVelocityDataReducer';
  
 const rootReducer = combineReducers({
     loginData: loginReducer,
@@ -27,7 +30,10 @@ const rootReducer = combineReducers({
     fixVersionChartData: fixVersionChartReducer,
     allComponentData: AllComponentReducer,
     componentChartData: componentChartReducer,
-    ReleaseBurndownChartData: ReleaseBurndownChartReducer
+    ReleaseBurndownChartData: ReleaseBurndownChartReducer,
+    PlanVsActualChartData: PlanVsActualChartReducer,
+    GenerateEpicData: GenerateEpicDataReducer,
+    GenerateVelocityData: GenerateVelocityDataReducer
 });
 
 export default rootReducer;

@@ -1,29 +1,26 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Bar } from 'react-chartjs-2';
-import Highcharts from 'highcharts';
+import { Line } from 'react-chartjs-2';
 import Loader from '../Loader/Loader';
-import { getTeamVelocityChartData } from '../../Actions/index';
-import FormControl from 'react-bootstrap/lib/FormControl';
-import { FormGroup, Col, ControlLabel } from 'react-bootstrap';
+import { getPlanVsActualChartData } from '../../Actions/index';
 
-export class TeamVelocityChart extends Component {
+export class PlanVsActualChart extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			chartData: null,
-			teamVelocityChartData: null,
+			PlanVsActualChartData: null,
 			fixVersionData: null
 		};
 	}
 
 	componentDidMount() {
-		// this.props.getTeamVelocityChartData();
+		this.props.getPlanVsActualChartData();
 	}
 
 	componentWillReceiveProps(nextProps) {
-		if (nextProps.teamVelocityChartData && nextProps.teamVelocityChartData && nextProps.teamVelocityChartData.data) {
-			this.setState({ teamVelocityChartData: nextProps.teamVelocityChartData.data.epics }, this.setChartData);
+		if (nextProps.PlanVsActualChartData && nextProps.PlanVsActualChartData && nextProps.PlanVsActualChartData.data) {
+			this.setState({ PlanVsActualChartData: nextProps.PlanVsActualChartData.data.epics }, this.setChartData);
 		}
 	}
 
@@ -33,7 +30,7 @@ export class TeamVelocityChart extends Component {
 		var closedEpicData = [];
 		var labels = [];
 		var bgColor = []; // green: #228b22 blue: #4765d5 yellow: #ffbf00
-		var data = this.state.teamVelocityChartData ? this.state.teamVelocityChartData.map((value) => {
+		var data = this.state.PlanVsActualChartData ? this.state.PlanVsActualChartData.map((value) => {
 			const completedPercentage = Math.round((value.closedSP / value.totalSP) * 100);
 			const remainingPercentage = Math.round((value.remainingSP / value.totalSP) * 100);
 			if(value.remainingSP == 0 && value.status === 'Accepted') {
@@ -63,7 +60,7 @@ export class TeamVelocityChart extends Component {
 				},
 				{
 				  label: 'Completed %',
-				  data: [23, 43, 45],
+				  data: [34, 45, 45],
 				  backgroundColor: 'green'
 				}
 			]
@@ -73,21 +70,21 @@ export class TeamVelocityChart extends Component {
 
 	showGraph = () => {
         const data = {
-            labels: ['labels', 'new', 'two', 'three', 'four'],
-			datasets: [
-				{
-				  label: 'Remaining %',
-				  data: [23, 43, 45, 50, 60],
-				  backgroundColor: '#ffbf00'
-				},
-				{
-				  label: 'Completed %',
-				  type: 'line',
-				  data: [23, 43, 45, 50, 60],
-				  backgroundColor: 'transparent',
-				  borderColor: 'rgb(255, 99, 2)',
-				}
-			]
+            labels: ["January", "February", "March", "April", "May", "June", "July"],
+            datasets: [{
+                    label: "My First dataset",
+                    backgroundColor: 'transparent',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: [0, 10, 5, 2, 20, 30, 45],
+                },
+                {
+                    label: "My First dataset",
+                    backgroundColor: 'transparent',
+                    borderColor: 'rgb(255, 99, 2)',
+                    data: [3, 40, 55, 92, 40, 70, 5],
+                }
+
+            ]
         };
 		return (
 			<div className="chart-content-container">
@@ -96,24 +93,18 @@ export class TeamVelocityChart extends Component {
 						<button type="button" className="close close-button" aria-label="Close" onClick={() => this.props.removeChart(this.props.name)}>
 							<span aria-hidden="true">&times;</span>
 						</button>
-                        <Bar
-							width={700}
-							height={500}
-							data={data}
-							options={{
-								title: {
-									display: true,
-									text: this.props.name,
-									fontSize: 25
-								},
-								legend: {
-									display: true,
-									position: 'bottom'
-								},
-								maintainAspectRatio: false,
-								responsive: true,
-							}}
-						/>
+                        <Line
+                            data={data}
+                            options={{
+                                scales: {
+                                    yAxes: [{
+                                        stacked: true
+                                    }]
+                                }
+                            }}
+                            height={500}
+                            width={700}
+                        />
 					</div>
 				) : (
 					<Loader />
@@ -129,12 +120,12 @@ export class TeamVelocityChart extends Component {
 
 function mapStateToProps(state) {
 	return {
-		teamVelocityChartData: state.teamVelocityChartData
+		PlanVsActualChartData: state.PlanVsActualChartData
 	};
 }
 
 const actions = {
-	getTeamVelocityChartData: getTeamVelocityChartData
+	getPlanVsActualChartData: getPlanVsActualChartData
 };
 
-export default connect(mapStateToProps, actions)(TeamVelocityChart);
+export default connect(mapStateToProps, actions)(PlanVsActualChart);
