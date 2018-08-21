@@ -12,6 +12,7 @@ import allFIxVersionReducer from './AllFixVersionReducer';
 import fixVersionChartReducer from './fixVersionChartReducer';
 import AllComponentReducer from './AllComponentReducer';
 import componentChartReducer from './componentChartReducer';
+import ReleaseBurndownChartReducer from './ReleaseBurndownChartReducer';
  
 const rootReducer = combineReducers({
     loginData: loginReducer,
@@ -25,7 +26,8 @@ const rootReducer = combineReducers({
     allFIxVersionData: allFIxVersionReducer,
     fixVersionChartData: fixVersionChartReducer,
     allComponentData: AllComponentReducer,
-    componentChartData: componentChartReducer
+    componentChartData: componentChartReducer,
+    ReleaseBurndownChartData: ReleaseBurndownChartReducer
 });
 
 export default rootReducer;

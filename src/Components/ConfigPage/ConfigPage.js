@@ -22,6 +22,9 @@ export class ConfigPage extends Component {
 			password: '',
 			sprintName: '',
 			lastUpdatedOn: '',
+			sprintLookBack: null,
+			totalStoryPoints: null,
+			totalSprintInRelease: null,
 			lastConfigurationData: null
 		};
 	}
@@ -158,6 +161,28 @@ export class ConfigPage extends Component {
 									onChange={this.onChangeConfig}
 								/>
 							</div>
+							<div>
+								<input
+									type="text"
+									className="form-control"
+									id="totalStoryPoints"
+									name="totalStoryPoints"
+									placeholder="Enter Major Release total story points for burndown"
+									defaultValue={this.state.lastConfigurationData ? this.state.lastConfigurationData.epicConfiguration.issues : ''}																	
+									onChange={this.onChangeConfig}
+								/>
+							</div>
+							<div>
+								<input
+									type="text"
+									className="form-control"
+									id="totalSprintInRelease"
+									name="totalSprintInRelease"
+									placeholder="Enter total number of sprint in release"
+									defaultValue={this.state.lastConfigurationData ? this.state.lastConfigurationData.epicConfiguration.issues : ''}																	
+									onChange={this.onChangeConfig}
+								/>
+							</div>
 						</div>
 						<div className="col-lg-6">
 							<h4>Velocity Configurations</h4>
@@ -201,6 +226,17 @@ export class ConfigPage extends Component {
 									id="issuesVelocity"
 									name="issuesVelocity"
 									placeholder="Enter comma separated type of issues to report"
+									defaultValue={this.state.lastConfigurationData ? this.state.lastConfigurationData.velocityConfiguration.issues : ''}																		
+									onChange={this.onChangeConfig}
+								/>
+							</div>
+							<div>
+								<input
+									type="text"
+									className="form-control"
+									id="sprintLookBack"
+									name="sprintLookBack"
+									placeholder="Enter the number of sprint velocity to be extracted"
 									defaultValue={this.state.lastConfigurationData ? this.state.lastConfigurationData.velocityConfiguration.issues : ''}																		
 									onChange={this.onChangeConfig}
 								/>

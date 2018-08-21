@@ -18,7 +18,6 @@ export class FIxVersionChart extends Component {
 			fixVersionData: null,
 			fixVersions: ''
 		};
-		this.chartContainer = React.createRef();
 		}
 
 	componentDidMount() {

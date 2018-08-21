@@ -15,6 +15,8 @@ export const GET_ALL_FIX_VERSION = 'GET_ALL_FIX_VERSION';
 export const GET_ALL_COMPONENT = 'GET_ALL_COMPONENT';
 export const GET_FIX_VERSION_CHART_DATA = 'GET_FIX_VERSION_CHART_DATA';
 export const GET_COMPONENT_CHART_DATA = 'GET_COMPONENT_CHART_DATA';
+export const GET_RELEASE_BURNDOWN_CHART_DATA = 'GET_RELEASE_BURNDOWN_CHART_DATA';
+
 
 const ROOT_URL = `http://4c8a713d.ngrok.io/marvel`;
 
@@ -184,6 +186,18 @@ export function getComponentChartData(params) {
 	return request.then(response => {
 		return {
 			type: GET_COMPONENT_CHART_DATA,
+			payload: response,
+			id: params
+		};
+	});
+}
+
+export function getReleaseBurndownChartData(params) {
+	const ProjectID = sessionStorage.getItem('PId');
+	const request = axios.post(`${ROOT_URL}/api/super_admin/graph/${ProjectID}/components`, params, { headers: { jwttoken: token } });
+	return request.then(response => {
+		return {
+			type: GET_RELEASE_BURNDOWN_CHART_DATA,
 			payload: response,
 			id: params
 		};

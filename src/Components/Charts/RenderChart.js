@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Loader from '../Loader/Loader';
 import FixVersionChart from './FIxVersionChart';
 import ComponentChart from './ComponentChart';
+import ReleaseBurndownChart from './ReleaseBurndownChart';
 
 export default class RenderChart extends Component {
 
@@ -16,7 +17,6 @@ export default class RenderChart extends Component {
 
 	renderChart = () => {
 		switch(this.props.name) {
-			case 'Release Burndown Chart':
 			case 'Team Velocity Chart':
 			case 'Plan Vs Actual Chart':
 			case 'PI Burndown Chart':
@@ -27,6 +27,9 @@ export default class RenderChart extends Component {
 				break;
 			case 'Component Chart':
 				return <ComponentChart name={this.props.name} removeChart={this.props.removeChart} />
+				break;
+			case 'Release Burndown Chart':
+				return <ReleaseBurndownChart name={this.props.name} removeChart={this.props.removeChart} />
 				break;
 			default: 
 				return this.underConstruction();
