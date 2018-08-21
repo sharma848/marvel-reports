@@ -19,7 +19,6 @@ export default class RenderChart extends Component {
 		switch(this.props.name) {
 			case 'Team Velocity Chart':
 			case 'Plan Vs Actual Chart':
-			case 'PI Burndown Chart':
 				return this.underConstruction();
 				break;
 			case 'Fix Version Chart':

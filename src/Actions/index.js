@@ -15,6 +15,7 @@ export const GET_ALL_FIX_VERSION = 'GET_ALL_FIX_VERSION';
 export const GET_ALL_COMPONENT = 'GET_ALL_COMPONENT';
 export const GET_FIX_VERSION_CHART_DATA = 'GET_FIX_VERSION_CHART_DATA';
 export const GET_COMPONENT_CHART_DATA = 'GET_COMPONENT_CHART_DATA';
+export const GET_TEAM_VELOCITY_CHART_DATA = 'GET_TEAM_VELOCITY_CHART_DATA';
 export const GET_RELEASE_BURNDOWN_CHART_DATA = 'GET_RELEASE_BURNDOWN_CHART_DATA';
 
 
@@ -138,16 +139,6 @@ export function getAllProjectData() {
 	}
 }
 
-export function getVelocityChartData() {
-	const ProjectID = sessionStorage.getItem('PId');
-	const request = axios.get(`${ROOT_URL}/api/super_admin/reports/${ProjectID}/velocity`, { headers: { jwttoken: token } });
-
-	return {
-		type: GET_VELOCITY_CHART_DATA,
-		payload: request
-	};
-}
-
 export function getAllFixVersions() {
 	const ProjectID = sessionStorage.getItem('PId');
 	const request = axios.get(`${ROOT_URL}/api/super_admin/graph/${ProjectID}/fixversions`, { headers: { jwttoken: token } });
@@ -198,6 +189,17 @@ export function getReleaseBurndownChartData() {
 	return request.then(response => {
 		return {
 			type: GET_RELEASE_BURNDOWN_CHART_DATA,
+			payload: response
+		};
+	});
+}
+
+export function getTeamVelocityChartData() {
+	const ProjectID = sessionStorage.getItem('PId');
+	const request = axios.get(`${ROOT_URL}/api/super_admin/reports/${ProjectID}/sprint_report`, { headers: { jwttoken: token } });
+	return request.then(response => {
+		return {
+			type: GET_TEAM_VELOCITY_CHART_DATA,
 			payload: response
 		};
 	});

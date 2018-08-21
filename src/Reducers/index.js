@@ -7,7 +7,7 @@ import UserDataReducer from './UserDataReducer';
 import UserAccessReducer from './UserAccessReducer';
 import AllProjectsReducer from './AllProjectsReducer';
 import ConfigurationReducer from './ConfigurationReducer';
-import VelocityChartReducer from './VelocityChartReducer';
+import TeamVelocityChartReducer from './TeamVelocityReducer';
 import allFIxVersionReducer from './AllFixVersionReducer';
 import fixVersionChartReducer from './fixVersionChartReducer';
 import AllComponentReducer from './AllComponentReducer';
@@ -22,7 +22,7 @@ const rootReducer = combineReducers({
     userAccessData: UserAccessReducer,
     allProjectData: AllProjectsReducer,
     configData: ConfigurationReducer,
-    velocityChartData: VelocityChartReducer,
+    teamVelocityChartData: TeamVelocityChartReducer,
     allFIxVersionData: allFIxVersionReducer,
     fixVersionChartData: fixVersionChartReducer,
     allComponentData: AllComponentReducer,
