@@ -92,6 +92,23 @@ export class FIxVersionChart extends Component {
 							height={500}
 							data={this.state.chartData}
 							options={{
+								animation: {
+									onComplete: function (data) {
+									  var chartInstance = data.chart;
+									  var Chart = data.chart;;
+									  var ctx = chartInstance.ctx;
+									  ctx.textAlign = "center";
+									  ctx.font = '12px "Helvetica Neue", Helvetica, Arial, sans-serif';
+									  ctx.fillStyle = '#fff';
+									  var height = chartInstance.controller.boxes[0].bottom;
+									  this.data.datasets.forEach(function (dataset, i) {
+										var meta = chartInstance.controller.getDatasetMeta(i);
+										meta.data.forEach(function (bar, index) {
+											ctx.fillText(dataset.data[index], bar._model.x, height - ((height - bar._model.y) / 2));
+										});
+									  });
+									}
+								},
 								title: {
 									display: true,
 									text: this.state.chartName,
