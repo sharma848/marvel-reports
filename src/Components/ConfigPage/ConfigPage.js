@@ -84,7 +84,8 @@ export class ConfigPage extends Component {
 			jid: this.state.jid ? this.state.jid : props.jid,
 			password: this.state.password ? this.state.password : props.password,
 			secs_hour:"3600",
-			hour_day:"8"
+			hour_day:"8",
+			sprint_number: "3"
 		}
 		this.props.setConfigurations(params);
 	};
