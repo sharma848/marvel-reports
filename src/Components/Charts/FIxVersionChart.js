@@ -40,19 +40,24 @@ export class FIxVersionChart extends Component {
 		var remainingEpicData = [];
 		var closedEpicData = [];
 		var labels = [];
-		var bgColorClosed = '#994499';
+		var bgColor = []; // green: #228b22 blue: #4765d5 yellow: #ffbf00
 		var data = this.state.fixVersionChartData ? this.state.fixVersionChartData.map((value) => {
-			const completedPercentage = (value.closedSP / value.totalSP) * 100;
-			const remainingPercentage = (value.remainingSP / value.totalSP) * 100;
+			const completedPercentage = Math.round((value.closedSP / value.totalSP) * 100);
+			const remainingPercentage = Math.round((value.remainingSP / value.totalSP) * 100);
 			if(value.remainingSP == 0 && value.status === 'Accepted') {
-				bgColorClosed = 'blue';
+				bgColor.push('#228b22');
 				closedEpicData.push(100);
+			} else if(value.remainingSP == 0 && value.status === 'Closed'){
+				bgColor.push('#4765d5');
+				closedEpicData.push(100);				
+			} else if(value.status === 'In Progress'){
+				bgColor.push('#228b22');
 			} else {
-				closedEpicData.push(0);				
+				closedEpicData.push(0);
 			}
 			completedEpicData.push(completedPercentage);
 			remainingEpicData.push(remainingPercentage);
-			labels.push(value.id);
+			labels.push(value.id + ' ' + value.name);
 
 		}) : '';
 
@@ -62,14 +67,14 @@ export class FIxVersionChart extends Component {
 				{
 				  label: 'Remaining %',
 				  data: remainingEpicData,
-				  backgroundColor: '#D6E9C6'// green
+				  backgroundColor: '#ffbf00'
 				},
 				{
 				  label: 'Completed %',
 				  data: completedEpicData,
-				  backgroundColor: '#FAEBCC'// yellow
+				  backgroundColor: bgColor
 				}
-			  ]
+			]
 		};
 		this.setState({ chartData });
 	}
@@ -102,12 +107,23 @@ export class FIxVersionChart extends Component {
 									xAxes: [{
 										stacked: true,
 										ticks: {
-											autoSkip: false
+											autoSkip: false,
+											userCallback: function(value, index, values) {
+												return value.split(" ")[0];
+											}
 										}
 									}],
 									yAxes: [{
 										stacked: true
 									}]
+								},
+								tooltips: {
+									callbacks: {
+										title: function(tooltipItem, data) {
+											var label = data.labels[tooltipItem[0].index];
+											return label;
+										}
+									}
 								}
 							}}
 						/>
@@ -149,7 +165,7 @@ export class FIxVersionChart extends Component {
 						<span aria-hidden="true">&times;</span>
 					</button>
 					<FormGroup>
-						<Col componentClass={ControlLabel} sm={3}>
+						<Col componentClass={ControlLabel} sm={5}>
 							Fix Versions:
 						</Col>
 						<Col sm={7}>
@@ -166,7 +182,7 @@ export class FIxVersionChart extends Component {
 						</Col>
 					</FormGroup>
 					<FormGroup>
-						<Col componentClass={ControlLabel} sm={3}>
+						<Col componentClass={ControlLabel} sm={5}>
 							Enter Chart Name:
 						</Col>
 						<Col sm={7}>
@@ -180,7 +196,7 @@ export class FIxVersionChart extends Component {
 						</Col>
 					</FormGroup>
 					<FormGroup>
-						<Col componentClass={ControlLabel} sm={3}>
+						<Col componentClass={ControlLabel} sm={5}>
 							Number of Records:
 						</Col>
 						<Col sm={7}>

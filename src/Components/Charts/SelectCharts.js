@@ -4,6 +4,9 @@ import RenderChart from './RenderChart';
 import { chartTexts } from '../../Constants/appConstants';
 import RenderProjects from './RenderProjects';
 import TableFilter from './TableFilter';
+import expanded_image from '../../assets/img/expanded_view.png';
+import collapsed_image from '../../assets/img/collapse_view.png';
+
 
 export default class SelectCharts extends React.Component {
   constructor(props) {
@@ -14,7 +17,7 @@ export default class SelectCharts extends React.Component {
       show: true,
       search: '',
       viewButtonText: 'Expanded View',
-      collapseView: false
+      collapseView: true
     };
   }
 
@@ -70,12 +73,9 @@ export default class SelectCharts extends React.Component {
   render() {
     return (
       <div className="chart-container">
-        {this.state.collapseView ? <button className="btn btn-success" onClick={this.changeView}>
-          Expand View
-        </button> : <button className="btn btn-success" onClick={this.changeView}>
-          Collapse View
-        </button>}
-        <button className="btn btn-success" onClick={this.handleShow}>
+        {this.state.collapseView ? <span className="toggle-view-image"><img src={expanded_image} alt="Expanded View" onClick={this.changeView} /></span>
+        : <span className="toggle-view-image"><img src={collapsed_image} alt="Collapsed View" onClick={this.changeView} /></span>}
+        <button className="btn btn-success select-charts-btn" onClick={this.handleShow}>
           {chartTexts.btnText}
         </button>
         {this.renderModal()}
@@ -83,7 +83,7 @@ export default class SelectCharts extends React.Component {
           {this.renderProjects()}
         </div>
         <hr />
-        <TableFilter />
+        {/* <TableFilter /> */}
       </div>
     );
   }    

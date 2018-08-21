@@ -19,7 +19,7 @@ const SERVICES_URL = {
 }
 
 const chartTexts = {
-    btnText: 'Click to Select charts',
+    btnText: 'Select charts',
     closeText: 'Close'
 }
 

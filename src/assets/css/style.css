@@ -171,7 +171,7 @@ a {
 
 .chart {
   position: relative;
-  padding: 5px;
+  padding: 30px;
   border: 1px solid #f5f5f5;
   box-shadow: 0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
   margin: 30px;
@@ -383,4 +383,12 @@ select.form-control:not([size]):not([multiple]) {
   position: absolute;
   top: 2px;
   right: 5px;
+}
+
+.select-charts-btn {
+  width: 120px;
+}
+
+.toggle-view-image {
+  text-align: right;
 }
