@@ -58,7 +58,7 @@ export class ConfigPage extends Component {
 	};
 
 	onSubmit = () => {
-		const props = this.props.configData.data.data;
+		const props = this.props.configData ? this.props.configData.data.data : '';
 		const params = {
 			configId: props.configId ? props.configId : this.state.configId,
 			sprint_name: 34,
@@ -68,7 +68,7 @@ export class ConfigPage extends Component {
 				host: this.state.hostVelocity ? this.state.hostVelocity : props.velocityConfiguration.host,
 				projectKey: this.state.projectKeyVelocity ? this.state.projectKeyVelocity : props.velocityConfiguration.projectKey,
 				boards: this.state.boards ? this.state.boards : props.velocityConfiguration.boards,
-				issues: this.state.issuesVelocity ? this.state.issuesVelocity : props.velocityConfiguration.issues
+				issues: this.state.issuesVelocity ? this.state.issuesVelocity : props.velocityConfiguration.issues				
 			},
 			epicConfiguration: {
 				epics_configuration_id: props.epicConfiguration.epics_configuration_id ? props.epicConfiguration.epics_configuration_id : 0,
@@ -76,7 +76,11 @@ export class ConfigPage extends Component {
 				projectKey: this.state.projectKey ? this.state.projectKey : props.epicConfiguration.projectKey,
 				epics: this.state.epics ? this.state.epics : props.epicConfiguration.epics,
 				issues: this.state.issues ? this.state.issues : props.epicConfiguration.issues
+
 			},
+			lookback_sprint_number: this.state.sprintLookBack ? this.state.sprintLookBack : props.lookback_sprint_number,
+			total_story_points: this.state.totalStoryPoints ? this.state.totalStoryPoints : props.total_story_points,
+			number_of_sprints: this.state.totalSprintInRelease ? this.state.totalSprintInRelease : props.number_of_sprints,
 			jid: this.state.jid ? this.state.jid : props.jid,
 			password: this.state.password ? this.state.password : props.password,
 			secs_hour:"3600",
@@ -168,7 +172,7 @@ export class ConfigPage extends Component {
 									id="totalStoryPoints"
 									name="totalStoryPoints"
 									placeholder="Enter Major Release total story points for burndown"
-									defaultValue={this.state.lastConfigurationData ? this.state.lastConfigurationData.epicConfiguration.issues : ''}																	
+									defaultValue={this.state.lastConfigurationData ? this.state.lastConfigurationData.total_story_points : ''}																	
 									onChange={this.onChangeConfig}
 								/>
 							</div>
@@ -179,7 +183,7 @@ export class ConfigPage extends Component {
 									id="totalSprintInRelease"
 									name="totalSprintInRelease"
 									placeholder="Enter total number of sprint in release"
-									defaultValue={this.state.lastConfigurationData ? this.state.lastConfigurationData.epicConfiguration.issues : ''}																	
+									defaultValue={this.state.lastConfigurationData ? this.state.lastConfigurationData.number_of_sprints : ''}																	
 									onChange={this.onChangeConfig}
 								/>
 							</div>
@@ -237,7 +241,7 @@ export class ConfigPage extends Component {
 									id="sprintLookBack"
 									name="sprintLookBack"
 									placeholder="Enter the number of sprint velocity to be extracted"
-									defaultValue={this.state.lastConfigurationData ? this.state.lastConfigurationData.velocityConfiguration.issues : ''}																		
+									defaultValue={this.state.lastConfigurationData ? this.state.lastConfigurationData.lookback_sprint_number : ''}																		
 									onChange={this.onChangeConfig}
 								/>
 							</div>

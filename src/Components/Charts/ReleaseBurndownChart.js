@@ -74,7 +74,7 @@ export class ReleaseBurndownChart extends Component {
 	showGraph = () => {
 		return (
 			<div className="chart-content-container">
-				{this.state.ReleaseBurndownChartData ? (
+				{true ? (
 					<div>
 						<button type="button" className="close close-button" aria-label="Close" onClick={() => this.props.removeChart(this.props.name)}>
 							<span aria-hidden="true">&times;</span>

@@ -18,7 +18,7 @@ export const GET_COMPONENT_CHART_DATA = 'GET_COMPONENT_CHART_DATA';
 export const GET_RELEASE_BURNDOWN_CHART_DATA = 'GET_RELEASE_BURNDOWN_CHART_DATA';
 
 
-const ROOT_URL = `http://4c8a713d.ngrok.io/marvel`;
+const ROOT_URL = `http://749be2ce.ngrok.io/marvel`;
 
 const token = sessionStorage.getItem('SessionToken');
 
