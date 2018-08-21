@@ -18,7 +18,7 @@ export const GET_COMPONENT_CHART_DATA = 'GET_COMPONENT_CHART_DATA';
 export const GET_RELEASE_BURNDOWN_CHART_DATA = 'GET_RELEASE_BURNDOWN_CHART_DATA';
 
 
-const ROOT_URL = `http://4c8a713d.ngrok.io/marvel`;
+const ROOT_URL = `http://749be2ce.ngrok.io/marvel`;
 
 const token = sessionStorage.getItem('SessionToken');
 
@@ -192,14 +192,13 @@ export function getComponentChartData(params) {
 	});
 }
 
-export function getReleaseBurndownChartData(params) {
+export function getReleaseBurndownChartData() {
 	const ProjectID = sessionStorage.getItem('PId');
-	const request = axios.post(`${ROOT_URL}/api/super_admin/graph/${ProjectID}/components`, params, { headers: { jwttoken: token } });
+	const request = axios.get(`${ROOT_URL}/api/super_admin/reports/${ProjectID}/sprint_report`, { headers: { jwttoken: token } });
 	return request.then(response => {
 		return {
 			type: GET_RELEASE_BURNDOWN_CHART_DATA,
-			payload: response,
-			id: params
+			payload: response
 		};
 	});
 }

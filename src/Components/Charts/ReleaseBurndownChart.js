@@ -18,7 +18,7 @@ export class ReleaseBurndownChart extends Component {
 	}
 
 	componentDidMount() {
-		// this.props.getReleaseBurndownChartData();
+		this.props.getReleaseBurndownChartData();
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -54,7 +54,7 @@ export class ReleaseBurndownChart extends Component {
 		}) : '';
 
 		const chartData = {
-			labels: labels,
+			labels: ['labels', 'new'],
 			datasets: [
 				{
 				  label: 'Remaining %',
@@ -72,70 +72,42 @@ export class ReleaseBurndownChart extends Component {
 	}
 
 	showGraph = () => {
+        const data = {
+            labels: ["January", "February", "March", "April", "May", "June", "July"],
+            datasets: [{
+                    label: "My First dataset",
+                    backgroundColor: 'transparent',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: [0, 10, 5, 2, 20, 30, 45],
+                },
+                {
+                    label: "My First dataset",
+                    backgroundColor: 'transparent',
+                    borderColor: 'rgb(255, 99, 2)',
+                    data: [3, 40, 55, 92, 40, 70, 5],
+                }
+
+            ]
+        };
 		return (
 			<div className="chart-content-container">
-				{this.state.ReleaseBurndownChartData ? (
+				{true ? (
 					<div>
 						<button type="button" className="close close-button" aria-label="Close" onClick={() => this.props.removeChart(this.props.name)}>
 							<span aria-hidden="true">&times;</span>
 						</button>
-						<Line
-							width={700}
-							height={500}
-							data={this.state.chartData}
-							options={{
-								animation: {
-									onComplete: function (data) {
-									  var chartInstance = data.chart;
-									  var Chart = data.chart;;
-									  var ctx = chartInstance.ctx;
-									  ctx.textAlign = "center";
-									  ctx.font = '12px "Helvetica Neue", Helvetica, Arial, sans-serif';
-									  ctx.fillStyle = '#fff';
-									  var height = chartInstance.controller.boxes[0].bottom;
-									  this.data.datasets.forEach(function (dataset, i) {
-										var meta = chartInstance.controller.getDatasetMeta(i);
-										meta.data.forEach(function (bar, index) {
-											ctx.fillText(dataset.data[index], bar._model.x, height - ((height - bar._model.y) / 2));
-										});
-									  });
-									}
-								},
-								title: {
-									display: true,
-									text: this.state.chartName,
-									fontSize: 25
-								},
-								legend: {
-									display: true,
-									position: 'bottom'
-								},
-								maintainAspectRatio: false,
-								responsive: true,
-								scales: {
-									xAxes: [{
-										stacked: true,
-										ticks: {
-											autoSkip: false,
-											userCallback: function(value, index, values) {
-												return value.split(" ")[0];
-											}
-										}
-									}],
-									yAxes: [{
-										stacked: true
-									}]
-								},
-								tooltips: {
-									callbacks: {
-										title: function(tooltipItem, data) {
-											var label = data.labels[tooltipItem[0].index];
-											return label;
-										}
-									}
-								}
-							}}
-						/>
+                        <Line
+                            data={data}
+                            options={{
+                                scales: {
+                                    yAxes: [{
+                                        stacked: true
+                                    }]
+                                }
+                            }}
+                            height={500}
+                            width={700}
+                        />
 					</div>
 				) : (
 					<Loader />
