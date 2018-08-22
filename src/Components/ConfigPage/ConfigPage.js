@@ -27,6 +27,7 @@ export class ConfigPage extends Component {
 			totalSprintInRelease: null,
 			lastConfigurationData: null
 		};
+		this.dataSavingInprogress = false;
 	}
 
 	componentDidMount() {
@@ -38,16 +39,14 @@ export class ConfigPage extends Component {
 			if(nextProps.configData.data.isSuccess) {
 				this.setState({
 					lastConfigurationData: nextProps.configData.data.data
-				})
+				});
 			}
-		}
-
-		if(nextProps.GenerateEpicData && nextProps.GenerateEpicData.isSuccess) {
-			alert("Epic Data Generated SUccessfully");
-		}
-
-		if(nextProps.GenerateVelocityData && nextProps.GenerateVelocityData.isSuccess) {
-			alert("Velocity Data Generated SUccessfully");
+			if(nextProps.configData.key === 'Received') {
+				if(this.dataSavingInprogress) {
+					alert("Configuration saved successfully!!!");
+					this.dataSavingInprogress = false;
+				}
+			}
 		}
 	}
 
@@ -66,20 +65,20 @@ export class ConfigPage extends Component {
 	};
 
 	onSubmit = () => {
-		const props = this.props.configData ? this.props.configData.data.data : '';
+		const props = this.props.configData && this.props.configData.data ? this.props.configData.data.data : '';
 		const params = {
 			configId: props.configId ? props.configId : this.state.configId,
 			sprint_name: 34,
 			last_updated:this.state.lastUpdatedOn,
         	velocityConfiguration: {
-				velocity_configuration_id: 0,
+				velocity_configuration_id: props ? props.velocityConfiguration.velocity_configuration_id : 0,
 				host: this.state.hostVelocity ? this.state.hostVelocity : props.velocityConfiguration.host,
 				projectKey: this.state.projectKeyVelocity ? this.state.projectKeyVelocity : props.velocityConfiguration.projectKey,
 				boards: this.state.boards ? this.state.boards : props.velocityConfiguration.boards,
 				issues: this.state.issuesVelocity ? this.state.issuesVelocity : props.velocityConfiguration.issues				
 			},
 			epicConfiguration: {
-				epics_configuration_id: props.epicConfiguration.epics_configuration_id ? props.epicConfiguration.epics_configuration_id : 0,
+				epics_configuration_id: props ? props.epicConfiguration.epics_configuration_id : 0,
 				host: this.state.host ? this.state.host : props.epicConfiguration.host,
 				projectKey: this.state.projectKey ? this.state.projectKey : props.epicConfiguration.projectKey,
 				epics: this.state.epics ? this.state.epics : props.epicConfiguration.epics,
@@ -96,6 +95,7 @@ export class ConfigPage extends Component {
 			sprint_number: '3'
 		}
 		this.props.setConfigurations(params);
+		this.dataSavingInprogress = true;
 	};
 
 	render() {

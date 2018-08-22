@@ -13,85 +13,58 @@ export class TeamVelocityChart extends Component {
 		this.state = {
 			chartData: null,
 			teamVelocityChartData: null,
-			fixVersionData: null
+			fixVersionData: null,
+			showGraph: false
 		};
 	}
 
 	componentDidMount() {
-		// this.props.getTeamVelocityChartData();
+		this.props.getTeamVelocityChartData();
 	}
 
 	componentWillReceiveProps(nextProps) {
 		if (nextProps.teamVelocityChartData && nextProps.teamVelocityChartData && nextProps.teamVelocityChartData.data) {
-			this.setState({ teamVelocityChartData: nextProps.teamVelocityChartData.data.epics }, this.setChartData);
+			this.setState({ teamVelocityChartData: nextProps.teamVelocityChartData.data.data }, this.setChartData);
 		}
 	}
 
 	setChartData() {
-		var completedEpicData = [];
-		var remainingEpicData = [];
-		var closedEpicData = [];
+		var actual_story_point = [];
 		var labels = [];
-		var bgColor = []; // green: #228b22 blue: #4765d5 yellow: #ffbf00
-		var data = this.state.teamVelocityChartData ? this.state.teamVelocityChartData.map((value) => {
-			const completedPercentage = Math.round((value.closedSP / value.totalSP) * 100);
-			const remainingPercentage = Math.round((value.remainingSP / value.totalSP) * 100);
-			if(value.remainingSP == 0 && value.status === 'Accepted') {
-				bgColor.push('#228b22');
-				closedEpicData.push(100);
-			} else if(value.remainingSP == 0 && value.status === 'Closed'){
-				bgColor.push('#4765d5');
-				closedEpicData.push(100);				
-			} else if(value.status === 'In Progress'){
-				bgColor.push('#228b22');
-			} else {
-				closedEpicData.push(0);
-			}
-			completedEpicData.push(completedPercentage);
-			remainingEpicData.push(remainingPercentage);
-			labels.push(value.id + ' ' + value.name);
-
+		var data = this.state.teamVelocityChartData ? this.state.teamVelocityChartData.sprint_data.map((value) => {
+			actual_story_point.push(value.actual);
+			labels.push(value.sprint_name);
 		}) : '';
 
 		const chartData = {
-			labels: ['labels', 'new'],
+			labels: labels,
 			datasets: [
 				{
-				  label: 'Remaining %',
-				  data: [23, 43, 45],
+				  label: 'Velocity',
+				  data: actual_story_point,
 				  backgroundColor: '#ffbf00'
 				},
 				{
-				  label: 'Completed %',
-				  data: [23, 43, 45],
-				  backgroundColor: 'green'
-				}
-			]
-		};
-		this.setState({ chartData });
-	}
-
-	showGraph = () => {
-        const data = {
-            labels: ['labels', 'new', 'two', 'three', 'four'],
-			datasets: [
-				{
-				  label: 'Remaining %',
-				  data: [23, 43, 45, 50, 60],
-				  backgroundColor: '#ffbf00'
-				},
-				{
-				  label: 'Completed %',
+				  label: 'Velocity Trend Line',
 				  type: 'line',
-				  data: [23, 43, 45, 50, 60],
+				  data: actual_story_point,
+				  borderWidth: 1,
+				  borderDash: [5,3],
 				  backgroundColor: 'transparent',
 				  borderColor: 'rgb(255, 99, 2)',
 				}
 			]
-        };
+		};
+		this.setState({
+			chartData,
+			showGraph: true
+		});
+	}
+
+	showGraph = () => {
 		return (
 			<div className="chart-content-container">
-				{true ? (
+				{this.state.teamVelocityChartData ? (
 					<div>
 						<button type="button" className="close close-button" aria-label="Close" onClick={() => this.props.removeChart(this.props.name)}>
 							<span aria-hidden="true">&times;</span>
@@ -99,8 +72,25 @@ export class TeamVelocityChart extends Component {
                         <Bar
 							width={700}
 							height={500}
-							data={data}
+							data={this.state.chartData}
 							options={{
+								animation: {
+									onProgress: function (data) {
+									  var chartInstance = data.chart;
+									  var Chart = data.chart;;
+									  var ctx = chartInstance.ctx;
+									  ctx.textAlign = "center";
+									  ctx.font = '12px "Helvetica Neue", Helvetica, Arial, sans-serif';
+									  ctx.fillStyle = '#000';
+									  var height = chartInstance.controller.boxes[0].bottom;
+									  this.data.datasets.forEach(function (dataset, i) {
+										var meta = chartInstance.controller.getDatasetMeta(i);
+										meta.data.forEach(function (bar, index) {
+											ctx.fillText(dataset.data[index], bar._model.x, height - ((height - bar._model.y) / 1.2));
+										});
+									  });
+									}
+								},
 								title: {
 									display: true,
 									text: this.props.name,
@@ -123,7 +113,7 @@ export class TeamVelocityChart extends Component {
 	};
 
 	render() {
-		return <div>{this.showGraph()}</div>;
+		return <div>{this.state.showGraph ? this.showGraph() : <Loader />}</div>;
 	}
 }
 

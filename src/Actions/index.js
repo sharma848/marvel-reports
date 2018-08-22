@@ -21,7 +21,7 @@ export const GET_PLAN_VS_ACTUAL_CHART_DATA = 'GET_PLAN_VS_ACTUAL_CHART_DATA';
 export const GENERATE_VELOCITY_DATA = 'GENERATE_VELOCITY_DATA';
 export const GENERATE_EPIC_DATA = 'GENERATE_EPIC_DATA';
 
-const ROOT_URL = `http://749be2ce.ngrok.io/marvel`;
+const ROOT_URL = `http://ab5c3e87.ngrok.io/marvel`;
 
 const token = sessionStorage.getItem('SessionToken');
 
