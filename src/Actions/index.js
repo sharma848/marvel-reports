@@ -20,6 +20,7 @@ export const GET_RELEASE_BURNDOWN_CHART_DATA = 'GET_RELEASE_BURNDOWN_CHART_DATA'
 export const GET_PLAN_VS_ACTUAL_CHART_DATA = 'GET_PLAN_VS_ACTUAL_CHART_DATA';
 export const GENERATE_VELOCITY_DATA = 'GENERATE_VELOCITY_DATA';
 export const GENERATE_EPIC_DATA = 'GENERATE_EPIC_DATA';
+export const EPIC_PERCENTAGE_COMPLETETION = 'EPIC_PERCENTAGE_COMPLETETION';
 
 const ROOT_URL = `http://ab5c3e87.ngrok.io/marvel`;
 
@@ -236,6 +237,18 @@ export function generateVelocityData() {
 		return {
 			type: GENERATE_VELOCITY_DATA,
 			payload: response
+		};
+	});
+}
+
+export function getEpicSumByTeamEpic(params) {
+	const ProjectID = sessionStorage.getItem('PId');
+	const request = axios.post(`${ROOT_URL}/api/super_admin/graph/${ProjectID}/level`, params, { headers: { jwttoken: token } });
+	return request.then(response => {
+		return {
+			type: EPIC_PERCENTAGE_COMPLETETION,
+			payload: response,
+			id: params
 		};
 	});
 }

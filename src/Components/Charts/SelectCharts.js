@@ -13,7 +13,7 @@ export default class SelectCharts extends React.Component {
     super(props);
     this.state = {
       projects: [],
-      allProjects: ['Release Burndown Chart', 'Team Velocity Chart', 'Plan Vs Actual Chart', 'Fix Version Chart','Component Chart'],
+      allProjects: ['Release Burndown Chart', 'Team Velocity Chart', 'Plan Vs Actual Chart', 'Fix Version Chart', 'Component Chart', 'Epic Completetion Chart'],
       show: true,
       search: '',
       viewButtonText: 'Expanded View',

@@ -130,7 +130,7 @@ export class ConfigPage extends Component {
 					<div className="row">
 						<div className="col-lg-6">
 							<h4>Epic Configurations</h4>
-							<div>
+							<div className="form-group">
 								<input
 									type="text"
 									className="form-control"
@@ -141,7 +141,7 @@ export class ConfigPage extends Component {
 									onChange={this.onChangeConfig}
 								/>
 							</div>
-							<div>
+							<div className="form-group">
 								<input
 									type="text"
 									className="form-control"
@@ -152,7 +152,7 @@ export class ConfigPage extends Component {
 									onChange={this.onChangeConfig}
 								/>
 							</div>
-							<div>
+							<div className="form-group">
 								<input
 									type="text"
 									className="form-control"
@@ -163,7 +163,7 @@ export class ConfigPage extends Component {
 									onChange={this.onChangeConfig}
 								/>
 							</div>
-							<div>
+							<div className="form-group">
 								<input
 									type="text"
 									className="form-control"
@@ -174,7 +174,7 @@ export class ConfigPage extends Component {
 									onChange={this.onChangeConfig}
 								/>
 							</div>
-							<div>
+							<div className="form-group">
 								<input
 									type="text"
 									className="form-control"
@@ -185,7 +185,7 @@ export class ConfigPage extends Component {
 									onChange={this.onChangeConfig}
 								/>
 							</div>
-							<div>
+							<div className="form-group">
 								<input
 									type="text"
 									className="form-control"
@@ -199,7 +199,7 @@ export class ConfigPage extends Component {
 						</div>
 						<div className="col-lg-6">
 							<h4>Velocity Configurations</h4>
-							<div>
+							<div className="form-group">
 								<input
 									type="text"
 									className="form-control"
@@ -210,7 +210,7 @@ export class ConfigPage extends Component {
 									onChange={this.onChangeConfig}
 								/>
 							</div>
-							<div>
+							<div className="form-group">
 								<input
 									type="text"
 									className="form-control"
@@ -221,7 +221,7 @@ export class ConfigPage extends Component {
 									onChange={this.onChangeConfig}
 								/>
 							</div>
-							<div>
+							<div className="form-group">
 								<input
 									type="text"
 									className="form-control"
@@ -232,7 +232,7 @@ export class ConfigPage extends Component {
 									onChange={this.onChangeConfig}
 								/>
 							</div>
-							<div>
+							<div className="form-group">
 								<input
 									type="text"
 									className="form-control"
@@ -243,7 +243,7 @@ export class ConfigPage extends Component {
 									onChange={this.onChangeConfig}
 								/>
 							</div>
-							<div>
+							<div className="form-group">
 								<input
 									type="text"
 									className="form-control"
