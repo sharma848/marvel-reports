@@ -91,7 +91,7 @@ export class FIxVersionChart extends Component {
 							data={this.state.chartData}
 							options={{
 								animation: {
-									onComplete: function (data) {
+									onProgress: function (data) {
 									  var chartInstance = data.chart;
 									  var Chart = data.chart;;
 									  var ctx = chartInstance.ctx;

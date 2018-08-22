@@ -3,6 +3,9 @@ import Loader from '../Loader/Loader';
 import FixVersionChart from './FIxVersionChart';
 import ComponentChart from './ComponentChart';
 import ReleaseBurndownChart from './ReleaseBurndownChart';
+import PlanVsActualChart from './PlanVsActualChart';
+import TeamVelocityChart from './TeamVelocityChart';
+import EpicCompletetionChart from './EpicCompletetionChart';
 
 export default class RenderChart extends Component {
 
@@ -18,19 +21,23 @@ export default class RenderChart extends Component {
 	renderChart = () => {
 		switch(this.props.name) {
 			case 'Team Velocity Chart':
-			case 'Plan Vs Actual Chart':
-			case 'PI Burndown Chart':
-				return this.underConstruction();
+				return <TeamVelocityChart name={this.props.name} removeChart={this.props.removeChart} />;
 				break;
 			case 'Fix Version Chart':
-				return <FixVersionChart name={this.props.name} removeChart={this.props.removeChart} />		
+				return <FixVersionChart name={this.props.name} removeChart={this.props.removeChart} />;	
 				break;
 			case 'Component Chart':
-				return <ComponentChart name={this.props.name} removeChart={this.props.removeChart} />
+				return <ComponentChart name={this.props.name} removeChart={this.props.removeChart} />;
 				break;
 			case 'Release Burndown Chart':
-				return <ReleaseBurndownChart name={this.props.name} removeChart={this.props.removeChart} />
+				return <ReleaseBurndownChart name={this.props.name} removeChart={this.props.removeChart} />;
 				break;
+			case 'Plan Vs Actual Chart':
+				return <PlanVsActualChart name={this.props.name} removeChart={this.props.removeChart} />;
+				break;
+			case 'Epic Completetion Chart':
+				return <EpicCompletetionChart name={this.props.name} removeChart={this.props.removeChart} />;
+				break;	
 			default: 
 				return this.underConstruction();
 		}

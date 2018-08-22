@@ -7,12 +7,16 @@ import UserDataReducer from './UserDataReducer';
 import UserAccessReducer from './UserAccessReducer';
 import AllProjectsReducer from './AllProjectsReducer';
 import ConfigurationReducer from './ConfigurationReducer';
-import VelocityChartReducer from './VelocityChartReducer';
+import TeamVelocityChartReducer from './TeamVelocityReducer';
 import allFIxVersionReducer from './AllFixVersionReducer';
 import fixVersionChartReducer from './fixVersionChartReducer';
 import AllComponentReducer from './AllComponentReducer';
 import componentChartReducer from './componentChartReducer';
 import ReleaseBurndownChartReducer from './ReleaseBurndownChartReducer';
+import PlanVsActualChartReducer from './PlanVsActualChartReducer';
+import GenerateEpicDataReducer from './GenerateEpicDataReducer';
+import GenerateVelocityDataReducer from './GenerateVelocityDataReducer';
+import EpicPercentageCompletetionReducer from './EpicPercentageCompletetionReducer';
  
 const rootReducer = combineReducers({
     loginData: loginReducer,
@@ -22,12 +26,16 @@ const rootReducer = combineReducers({
     userAccessData: UserAccessReducer,
     allProjectData: AllProjectsReducer,
     configData: ConfigurationReducer,
-    velocityChartData: VelocityChartReducer,
+    teamVelocityChartData: TeamVelocityChartReducer,
     allFIxVersionData: allFIxVersionReducer,
     fixVersionChartData: fixVersionChartReducer,
     allComponentData: AllComponentReducer,
     componentChartData: componentChartReducer,
-    ReleaseBurndownChartData: ReleaseBurndownChartReducer
+    ReleaseBurndownChartData: ReleaseBurndownChartReducer,
+    PlanVsActualChartData: PlanVsActualChartReducer,
+    GenerateEpicData: GenerateEpicDataReducer,
+    GenerateVelocityData: GenerateVelocityDataReducer,
+    EpicPercentageCompletetionData: EpicPercentageCompletetionReducer
 });
 
 export default rootReducer;

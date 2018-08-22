@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Line } from 'react-chartjs-2';
-import Highcharts from 'highcharts';
 import Loader from '../Loader/Loader';
 import { getReleaseBurndownChartData } from '../../Actions/index';
-import FormControl from 'react-bootstrap/lib/FormControl';
-import { FormGroup, Col, ControlLabel } from 'react-bootstrap';
 
 export class ReleaseBurndownChart extends Component {
 	constructor(props) {
@@ -13,7 +10,8 @@ export class ReleaseBurndownChart extends Component {
 		this.state = {
 			chartData: null,
 			ReleaseBurndownChartData: null,
-			fixVersionData: null
+			fixVersionData: null,
+			showGraph: false
 		};
 	}
 
@@ -23,85 +21,84 @@ export class ReleaseBurndownChart extends Component {
 
 	componentWillReceiveProps(nextProps) {
 		if (nextProps.ReleaseBurndownChartData && nextProps.ReleaseBurndownChartData && nextProps.ReleaseBurndownChartData.data) {
-			this.setState({ ReleaseBurndownChartData: nextProps.ReleaseBurndownChartData.data.epics }, this.setChartData);
+			this.setState({ ReleaseBurndownChartData: nextProps.ReleaseBurndownChartData.data.data }, this.setChartData);
 		}
 	}
 
 	setChartData() {
-		var completedEpicData = [];
-		var remainingEpicData = [];
-		var closedEpicData = [];
+		var burndownStoryPoint = [];
 		var labels = [];
-		var bgColor = []; // green: #228b22 blue: #4765d5 yellow: #ffbf00
-		var data = this.state.ReleaseBurndownChartData ? this.state.ReleaseBurndownChartData.map((value) => {
-			const completedPercentage = Math.round((value.closedSP / value.totalSP) * 100);
-			const remainingPercentage = Math.round((value.remainingSP / value.totalSP) * 100);
-			if(value.remainingSP == 0 && value.status === 'Accepted') {
-				bgColor.push('#228b22');
-				closedEpicData.push(100);
-			} else if(value.remainingSP == 0 && value.status === 'Closed'){
-				bgColor.push('#4765d5');
-				closedEpicData.push(100);				
-			} else if(value.status === 'In Progress'){
-				bgColor.push('#228b22');
+		var total_number_of_sprint = this.state.ReleaseBurndownChartData.number_of_sprints;
+		var total_story_point = this.state.ReleaseBurndownChartData.total_story_point;
+		var ideal_story_point_burned = Math.round(total_story_point - (total_story_point / total_number_of_sprint));
+		var ideal_story_point_burned_data = [];
+		for(let i = 0; i<total_number_of_sprint; i++) {
+			if(i === 0) {
+				ideal_story_point_burned_data.push(ideal_story_point_burned);
 			} else {
-				closedEpicData.push(0);
+				ideal_story_point_burned = Math.round(ideal_story_point_burned - (total_story_point / total_number_of_sprint));
+				ideal_story_point_burned_data.push(ideal_story_point_burned);
 			}
-			completedEpicData.push(completedPercentage);
-			remainingEpicData.push(remainingPercentage);
-			labels.push(value.id + ' ' + value.name);
-
+			labels.push(`Sprint ${i+1}`);
+		}
+		var data = this.state.ReleaseBurndownChartData ? this.state.ReleaseBurndownChartData.sprint_data.map((value) => {
+			total_story_point -= value.actual;
+			burndownStoryPoint.push(total_story_point);
 		}) : '';
 
 		const chartData = {
-			labels: ['labels', 'new'],
-			datasets: [
-				{
-				  label: 'Remaining %',
-				  data: [23, 43, 45],
-				  backgroundColor: '#ffbf00'
+            labels: labels,
+            datasets: [{
+                    label: "Remaining Story Points",
+                    backgroundColor: 'transparent',
+                    borderColor: '#d95700',
+					borderDash: [5,3],
+					borderWidth: 1,
+                    data: burndownStoryPoint
 				},
-				{
-				  label: 'Completed %',
-				  data: [34, 45, 45],
-				  backgroundColor: 'green'
-				}
-			]
-		};
-		this.setState({ chartData });
+                {
+                    label: "Ideal BurnDown",
+                    backgroundColor: 'transparent',
+					borderColor: '#434348',	
+					borderWidth: 1,				
+                    data: ideal_story_point_burned_data
+                }
+            ]
+        };
+		this.setState({
+			chartData,
+			showGraph: true
+		});
 	}
 
 	showGraph = () => {
-        const data = {
-            labels: ["January", "February", "March", "April", "May", "June", "July"],
-            datasets: [{
-                    label: "My First dataset",
-                    backgroundColor: 'transparent',
-                    borderColor: 'rgb(255, 99, 132)',
-                    data: [0, 10, 5, 2, 20, 30, 45],
-                },
-                {
-                    label: "My First dataset",
-                    backgroundColor: 'transparent',
-                    borderColor: 'rgb(255, 99, 2)',
-                    data: [3, 40, 55, 92, 40, 70, 5],
-                }
-
-            ]
-        };
+		const total_story_point = this.state.ReleaseBurndownChartData.total_story_point;
 		return (
 			<div className="chart-content-container">
-				{true ? (
+				{this.state.ReleaseBurndownChartData ? (
 					<div>
 						<button type="button" className="close close-button" aria-label="Close" onClick={() => this.props.removeChart(this.props.name)}>
 							<span aria-hidden="true">&times;</span>
 						</button>
                         <Line
-                            data={data}
+                            data={this.state.chartData}
                             options={{
+								title: {
+									display: true,
+									text: this.props.name,
+									fontSize: 25
+								},
+								legend: {
+									display: true,
+									position: 'bottom'
+								},
                                 scales: {
                                     yAxes: [{
-                                        stacked: true
+										stacked: false,
+										scaleLabel: {
+											display: true,
+											labelString: 'Remaining Story Points'
+										}
                                     }]
                                 }
                             }}
@@ -117,7 +114,7 @@ export class ReleaseBurndownChart extends Component {
 	};
 
 	render() {
-		return <div>{this.showGraph()}</div>;
+		return <div>{this.state.showGraph ? this.showGraph() : <Loader />}</div>;
 	}
 }
 

@@ -7,7 +7,7 @@ export default function (state={}, action) {
             return { ...state, data: successResGet};
         case SET_CONFIGURATIONS: 
             const successResSet = action.payload.data;
-            return { ...state, data: successResSet};
+            return { ...state, data: successResSet, key: 'Received'};
         default: 
             return state;
     }
