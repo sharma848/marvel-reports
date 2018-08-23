@@ -7,13 +7,12 @@ import TableFilter from './TableFilter';
 import expanded_image from '../../assets/img/expanded_view.png';
 import collapsed_image from '../../assets/img/collapse_view.png';
 
-
 export default class SelectCharts extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       projects: [],
-      allProjects: ['Release Burndown Chart', 'Team Velocity Chart', 'Plan Vs Actual Chart', 'Fix Version Chart', 'Component Chart', 'Epic Completetion Chart'],
+      allProjects: ['Release Burndown Chart', 'Team Velocity Chart', 'Plan Vs Actual Chart', 'Fix Version Chart', 'Component Chart', 'Epic Completetion Chart', 'Current Sprint Report'],
       show: true,
       search: '',
       viewButtonText: 'Expanded View',
@@ -51,7 +50,7 @@ export default class SelectCharts extends React.Component {
   }
 
   renderProjects = () => {
-      let value = this.state.projects.map((val,index) => <RenderChart name={val} removeChart={this.removeChart} key={index} collapseView={this.state.collapseView} />);
+      let value = this.state.projects.map((val,index) => <RenderChart name={val} removeChart={this.removeChart} key={index} collapseView={this.state.collapseView} viewToggled={this.state.collapseView} />);
       return value;
   }
 

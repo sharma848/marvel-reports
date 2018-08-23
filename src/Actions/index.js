@@ -21,6 +21,7 @@ export const GET_PLAN_VS_ACTUAL_CHART_DATA = 'GET_PLAN_VS_ACTUAL_CHART_DATA';
 export const GENERATE_VELOCITY_DATA = 'GENERATE_VELOCITY_DATA';
 export const GENERATE_EPIC_DATA = 'GENERATE_EPIC_DATA';
 export const EPIC_PERCENTAGE_COMPLETETION = 'EPIC_PERCENTAGE_COMPLETETION';
+export const CURRENT_SPRINT_REPORT_DATA = 'CURRENT_SPRINT_REPORT_DATA';
 
 const ROOT_URL = `http://ebadd971.ngrok.io/marvel`;
 
@@ -249,6 +250,17 @@ export function getEpicSumByTeamEpic(params) {
 			type: EPIC_PERCENTAGE_COMPLETETION,
 			payload: response,
 			id: params
+		};
+	});
+}
+
+export function getCurrentSprintReportData() {
+	const ProjectID = sessionStorage.getItem('PId');
+	const request = axios.get(`${ROOT_URL}/api/super_admin/graph/${ProjectID}/sprint-status`, { headers: { jwttoken: token } });
+	return request.then(response => {
+		return {
+			type: CURRENT_SPRINT_REPORT_DATA,
+			payload: response
 		};
 	});
 }

@@ -33,6 +33,9 @@ export class FIxVersionChart extends Component {
 		if (nextProps.fixVersionChartData && nextProps.fixVersionChartData[fixversion] && nextProps.fixVersionChartData[fixversion].data) {
 			this.setState({ fixVersionChartData: nextProps.fixVersionChartData[fixversion].data.epics }, this.setChartData);
 		}
+		if(this.chart) {
+			this.chart.reflow();
+		}
 	}
 
 	setChartData() {
@@ -84,16 +87,12 @@ export class FIxVersionChart extends Component {
 				shadow: false
 			},
 			tooltip: {
-				headerFormat: '<b>{point.x}</b><br/>',
-				pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+				pointFormat: '<span style="color:{series.color}">{series.name}</span>: ({point.percentage:.0f}%)<br/>',
+				shared: true
 			},
 			plotOptions: {
 				column: {
-					stacking: 'normal',
-					dataLabels: {
-						enabled: true,
-						color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
-					}
+					stacking: 'percent'
 				}
 			},
 			exporting: true,
@@ -108,7 +107,8 @@ export class FIxVersionChart extends Component {
 					style: {
 					   fontSize: '8px',
 					   fontWeight: 'normal'
-					}
+					},
+					format: '{point.percentage:.0f}%'
 				},
 				color: '#ffbf00'
 			}, {
@@ -120,12 +120,13 @@ export class FIxVersionChart extends Component {
 					style: {
 					   fontSize: '8px',
 					   fontWeight: 'normal'
-					}
+					},
+					format: '{point.percentage:.0f}%'
 				},
 				color: '#228b22'
 			},
 			{
-				name: 'Accepted',
+				name: 'Accepted %',
 				data: closedEpicData,
 				dataLabels: {
 					enabled: true,
@@ -133,7 +134,8 @@ export class FIxVersionChart extends Component {
 					style: {
 					   fontSize: '8px',
 					   fontWeight: 'normal'
-					}
+					},
+					format: '{point.percentage:.0f}%'
 				},
 				color: '#4765d5'
 			}]
