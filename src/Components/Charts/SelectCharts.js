@@ -14,6 +14,7 @@ class SelectCharts extends React.Component {
     super(props);
     this.state = {
       projects: [],
+      projectsSavedData: null,
       allProjects: ['Release Burndown Chart', 'Team Velocity Chart', 'Plan Vs Actual Chart', 'Fix Version Chart', 'Component Chart', 'Epic Completetion Chart', 'Current Sprint Report'],
       show: true,
       search: '',
@@ -30,7 +31,10 @@ class SelectCharts extends React.Component {
 
   componentWillReceiveProps(nextProps) {
 		if (nextProps.dashboardData && nextProps.dashboardData.userData && this.props.dashboardData.userData !== nextProps.dashboardData.userData) {
-			this.setState({_projects: nextProps.dashboardData.userData.configuration });
+      const projectsSavedData = nextProps.dashboardData.userData.configuration;
+      const projects = [];
+      projectsSavedData.forEach(project => projects.push(project.graphId));
+			this.setState({ projectsSavedData: nextProps.dashboardData.userData.configuration, projects });
 		}
 	}
 
@@ -64,7 +68,7 @@ class SelectCharts extends React.Component {
     this.setState({ projects: projects });    
   }
 
-  renderProjects = () => {
+  renderProjects = () => {      
       let value = this.state.projects.map((val,index) => <RenderChart name={val} removeChart={this.removeChart} key={index} collapseView={this.state.collapseView} viewToggled={this.state.collapseView} />);
       return value;
   }

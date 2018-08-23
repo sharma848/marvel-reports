@@ -26,7 +26,7 @@ export const GENERATE_EPIC_DATA = 'GENERATE_EPIC_DATA';
 export const EPIC_PERCENTAGE_COMPLETETION = 'EPIC_PERCENTAGE_COMPLETETION';
 export const CURRENT_SPRINT_REPORT_DATA = 'CURRENT_SPRINT_REPORT_DATA';
 
-const ROOT_URL = `http://ebadd971.ngrok.io/marvel`;
+const ROOT_URL = `http://93f0f853.ngrok.io/marvel`;
 
 const graphSettingsBaseUrl = '/api/super_admin/graph/';
 const token = sessionStorage.getItem('SessionToken');
