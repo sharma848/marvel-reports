@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 import RenderChart from './RenderChart';
 import { chartTexts } from '../../Constants/appConstants';
@@ -6,9 +7,9 @@ import RenderProjects from './RenderProjects';
 import TableFilter from './TableFilter';
 import expanded_image from '../../assets/img/expanded_view.png';
 import collapsed_image from '../../assets/img/collapse_view.png';
+import { removeUserDashboard, getUserDashboard } from '../../Actions/index';
 
-
-export default class SelectCharts extends React.Component {
+class SelectCharts extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,6 +21,18 @@ export default class SelectCharts extends React.Component {
       collapseView: true
     };
   }
+
+  componentWillMount() {
+    if(!(this.props.dashboardData && this.props.dashboardData.userData)) {
+      this.props.getUserDashboard();
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+		if (nextProps.dashboardData && nextProps.dashboardData.userData && this.props.dashboardData.userData !== nextProps.dashboardData.userData) {
+			this.setState({_projects: nextProps.dashboardData.userData.configuration });
+		}
+	}
 
   handleClose= () => {
     this.setState({ show: false });
@@ -43,11 +56,12 @@ export default class SelectCharts extends React.Component {
 
   removeChart = (chart) => {
     const projects = this.state.projects;
-    const index = projects.indexOf(chart);    
+    const index = projects.indexOf(chart);
     if(index > -1) {
-      projects.splice(index, 1);
+      projects.splice(index, 1);      
+      this.props.removeUserDashboard({ graphId: chart });
     }
-    this.setState({ projects: projects });
+    this.setState({ projects: projects });    
   }
 
   renderProjects = () => {
@@ -88,3 +102,16 @@ export default class SelectCharts extends React.Component {
     );
   }    
 };
+
+function mapStateToProps(state) {
+	return {
+		dashboardData: state.dashboardData
+	};
+}
+
+const actions = {
+  removeUserDashboard: removeUserDashboard,
+  getUserDashboard: getUserDashboard
+};
+
+export default connect(mapStateToProps, actions)(SelectCharts);

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Bar } from 'react-chartjs-2';
 import Loader from '../Loader/Loader';
-import { getAllComponents, getComponentChartData } from '../../Actions/index';
+import { getAllComponents, getComponentChartData, postUserDashboard } from '../../Actions/index';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import { FormGroup, Col, ControlLabel } from 'react-bootstrap';
 
@@ -21,6 +21,7 @@ export class FIxVersionChart extends Component {
 
 	componentDidMount() {
 		this.props.getAllComponents();
+		this.props.postUserDashboard({ graphId: this.props.name });
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -242,7 +243,8 @@ function mapStateToProps(state) {
 
 const actions = {
 	getAllComponents: getAllComponents,
-	getComponentChartData: getComponentChartData
+	getComponentChartData: getComponentChartData,
+	postUserDashboard:postUserDashboard
 };
 
 export default connect(mapStateToProps, actions)(FIxVersionChart);

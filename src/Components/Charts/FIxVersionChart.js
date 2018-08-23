@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Bar } from 'react-chartjs-2';
 import Highcharts from 'highcharts';
 import Loader from '../Loader/Loader';
-import { getAllFixVersions, getFixVersioChartData } from '../../Actions/index';
+import { getAllFixVersions, getFixVersioChartData, postUserDashboard } from '../../Actions/index';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import { FormGroup, Col, ControlLabel } from 'react-bootstrap';
 
@@ -157,12 +157,16 @@ export class FIxVersionChart extends Component {
 
 	onClick = () => {
 		this.setState({ showGraph: true });
+		this.props.postUserDashboard({ graphId: this.props.name, graphSubId: this.state.fixVersions, settings: JSON.stringify({fv: this.state.fixVersions,
+			rec: this.state.numberOfRecords })
+		});
 		console.log('fv:' + this.state.fixVersions + ' rec:' + this.state.numberOfRecords);
 		this.props.getFixVersioChartData([this.state.fixVersions]);
 	};
 
 	onChange = (e) => {
 		this.setState({ [e.target.name]: e.target.value });
+		
 	};
 	onSelect = (e) => {
 		this.setState({ [e.target.name]: e.target.value });
@@ -258,7 +262,8 @@ function mapStateToProps(state) {
 
 const actions = {
 	getAllFixVersions: getAllFixVersions,
-	getFixVersioChartData: getFixVersioChartData
+	getFixVersioChartData: getFixVersioChartData,
+	postUserDashboard: postUserDashboard
 };
 
 export default connect(mapStateToProps, actions)(FIxVersionChart);
