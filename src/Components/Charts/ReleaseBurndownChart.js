@@ -4,7 +4,7 @@ import Highcharts from 'highcharts';
 import { Line } from 'react-chartjs-2';
 import HighchartsExporting from 'highcharts-exporting';
 import Loader from '../Loader/Loader';
-import { getReleaseBurndownChartData } from '../../Actions/index';
+import { getReleaseBurndownChartData, postUserDashboard } from '../../Actions/index';
 
 export class ReleaseBurndownChart extends Component {
 	constructor(props) {
@@ -21,6 +21,7 @@ export class ReleaseBurndownChart extends Component {
 
 	componentDidMount() {
 		this.props.getReleaseBurndownChartData();
+		this.props.postUserDashboard({ graphId: this.props.name });
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -157,7 +158,8 @@ function mapStateToProps(state) {
 }
 
 const actions = {
-	getReleaseBurndownChartData: getReleaseBurndownChartData
+	getReleaseBurndownChartData: getReleaseBurndownChartData,
+	postUserDashboard: postUserDashboard
 };
 
 export default connect(mapStateToProps, actions)(ReleaseBurndownChart);

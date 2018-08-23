@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Highcharts from 'highcharts';
 import { Line } from 'react-chartjs-2';
 import Loader from '../Loader/Loader';
-import { getPlanVsActualChartData } from '../../Actions/index';
+import { getPlanVsActualChartData, postUserDashboard } from '../../Actions/index';
 
 export class PlanVsActualChart extends Component {
 	constructor(props) {
@@ -19,6 +19,7 @@ export class PlanVsActualChart extends Component {
 
 	componentDidMount() {
 		this.props.getPlanVsActualChartData();
+		this.props.postUserDashboard({ graphId: this.props.name });
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -143,7 +144,8 @@ function mapStateToProps(state) {
 }
 
 const actions = {
-	getPlanVsActualChartData: getPlanVsActualChartData
+	getPlanVsActualChartData: getPlanVsActualChartData,
+	postUserDashboard: postUserDashboard
 };
 
 export default connect(mapStateToProps, actions)(PlanVsActualChart);
