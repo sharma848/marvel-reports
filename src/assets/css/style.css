@@ -399,3 +399,7 @@ select.form-control:not([size]):not([multiple]) {
   font-size: 20px;
   margin-bottom: 10px;
 }
+
+table tbody td {
+  text-align: center;
+}

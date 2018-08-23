@@ -38,11 +38,11 @@ export class CurrentSprintReportChart extends Component {
                 <td>{data.teamName}</td>
                 <td>{data.numberOfStoryPoints}</td>
                 <td>{data.numberOfIssues}</td>
-                <td>{data.statusMap.Defined ? `${data.statusMap.Defined.story}(${data.statusMap.Defined.storyPoints})` : 0}</td>
-                <td>{data.statusMap['In Progress'] ? `${data.statusMap['In Progress'].story}(${data.statusMap['In Progress'].storyPoints})` : 0}</td>
-                <td>{data.statusMap.Resolved ? `${data.statusMap.Resolved.story}(${data.statusMap.Resolved.storyPoints})` : 0}</td>
-                <td>{data.statusMap.Backlog ? `${data.statusMap.Backlog.story}(${data.statusMap.Backlog.storyPoints})` : 0}</td>
-                <td>{data.statusMap.Accepted ? `${data.statusMap.Accepted.story}(${data.statusMap.Accepted.storyPoints})` : 0}</td>
+                <td>{data.statusMap.Defined ? `${data.statusMap.Defined.story} (${data.statusMap.Defined.storyPoints})` : 0}</td>
+                <td>{data.statusMap['In Progress'] ? `${data.statusMap['In Progress'].story} (${data.statusMap['In Progress'].storyPoints})` : 0}</td>
+                <td>{data.statusMap.Resolved ? `${data.statusMap.Resolved.story} (${data.statusMap.Resolved.storyPoints})` : 0}</td>
+                <td>{data.statusMap.Backlog ? `${data.statusMap.Backlog.story} (${data.statusMap.Backlog.storyPoints})` : 0}</td>
+                <td>{data.statusMap.Accepted ? `${data.statusMap.Accepted.story} (${data.statusMap.Accepted.storyPoints})` : 0}</td>
             </tr>)
         });
 
@@ -58,7 +58,7 @@ export class CurrentSprintReportChart extends Component {
                             <span aria-hidden="true">&times;</span>
                         </button>
                         <div className="current-sprint-heading">{this.props.name}</div>
-                        <Table id="current_sprint_table" responsive bordered condensed hover>
+                        <Table id="current_sprint_table" responsive striped bordered condensed hover>
                             <thead>
                                 <tr>
                                 {this.renderTableHeading()}
