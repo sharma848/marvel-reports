@@ -18,6 +18,7 @@ export class FIxVersionChart extends Component {
 			fixVersionData: null,
 			fixVersions: ''
 		};
+		this.chartContainer = React.createRef();
 		}
 
 	componentDidMount() {
@@ -60,23 +61,87 @@ export class FIxVersionChart extends Component {
 
 		}) : '';
 
+		
 		const chartData = {
-			labels: labels,
-			datasets: [
-				{
-				  label: 'Remaining %',
-				  data: remainingEpicData,
-				  backgroundColor: '#ffbf00'
-				},
-				{
-				  label: 'Completed %',
-				  data: completedEpicData,
-				  backgroundColor: bgColor
+			chart: {
+				type: 'column'
+			},
+			title: {
+				text: 'Stacked column chart'
+			},
+			xAxis: {
+				categories: labels
+			},
+			credits: {
+				enabled: false
+			},
+			yAxis: {
+				min: 0,
+				max: 100,
+				title: {
+					text: 'Percentage'
 				}
-			]
+			},
+			legend: {
+				align: 'center',
+				x: 0,
+				verticalAlign: 'bottom',
+				y: 0,
+				backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+				borderColor: '#CCC',
+				borderWidth: 1,
+				shadow: false
+			},
+			tooltip: {
+				headerFormat: '<b>{point.x}</b><br/>',
+				pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+			},
+			plotOptions: {
+				column: {
+					stacking: 'normal',
+					dataLabels: {
+						enabled: true,
+						rotation:270,
+						color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+					}
+				}
+			},
+			exporting: true,
+			series: [{
+				name: 'Remaining %',
+				data: remainingEpicData
+			}, {
+				name: 'Completed %',
+				data: completedEpicData
+			}]
 		};
-		this.setState({ chartData });
+		this.setState({ chartData }, this.renderHighChart);
 	}
+
+	renderHighChart =() => {
+		this.chart = new Highcharts[this.props.type || "Chart"](
+            this.chartContainer.current, 
+            this.state.chartData
+        );
+	}
+
+	showGraph1 = () => {
+		const element = React.createElement('div', { ref: this.chartContainer, id: Math.random(), key: this.props.key });
+		return (
+			<div className="chart-content-container">
+				{this.state.fixVersionChartData ? (
+					<div>
+						<button type="button" class="close close-button" aria-label="Close" onClick={() => this.props.removeChart(this.props.name)}>
+							<span aria-hidden="true">&times;</span>
+						</button>
+						{element}
+					</div>
+				) : (
+					<Loader />
+				)}
+			</div>
+		);
+	};
 
 	showGraph = () => {
 		return (
@@ -103,9 +168,14 @@ export class FIxVersionChart extends Component {
 									  this.data.datasets.forEach(function (dataset, i) {
 										var meta = chartInstance.controller.getDatasetMeta(i);
 										meta.data.forEach(function (bar, index) {
-											ctx.fillText(dataset.data[index], bar._model.x, height - ((height - bar._model.y) / 2));
+											ctx.save();
+											ctx.translate(bar._model.x-400, bar._model.y+500);
+											ctx.rotate(-0.5*Math.PI);
+											ctx.fillText(dataset.data[index], bar._model.x, ((height) ));
+											ctx.restore();
 										});
 									  });
+
 									}
 								},
 								title: {
@@ -247,7 +317,7 @@ export class FIxVersionChart extends Component {
 	};
 
 	render() {
-		return <div>{this.state.showGraph && this.state.fixVersionData ? this.showGraph() : this.showForm()}</div>;
+		return <div>{this.state.showGraph && this.state.fixVersionData ? this.showGraph1() : this.showForm()}</div>;
 	}
 }
 
