@@ -13,9 +13,11 @@ export class TeamVelocityChart extends Component {
 		this.state = {
 			chartData: null,
 			teamVelocityChartData: null,
+			chartName: this.props.name,
 			fixVersionData: null,
 			showGraph: false
 		};
+		this.chartContainer = React.createRef();
 	}
 
 	componentDidMount() {
@@ -35,33 +37,88 @@ export class TeamVelocityChart extends Component {
 			actual_story_point.push(value.actual);
 			labels.push(value.sprint_name);
 		}) : '';
-
 		const chartData = {
-			labels: labels,
-			datasets: [
-				{
-				  label: 'Velocity',
-				  data: actual_story_point,
-				  backgroundColor: '#ffbf00'
-				},
-				{
-				  label: 'Velocity Trend Line',
-				  type: 'line',
-				  data: actual_story_point,
-				  borderWidth: 1,
-				  borderDash: [5,3],
-				  backgroundColor: 'transparent',
-				  borderColor: 'rgb(255, 99, 2)',
+			chart: {
+				type: 'column'
+			},
+			title: {
+				text: this.state.chartName
+			},
+			xAxis: {
+				categories: labels,
+			},
+			credits: {
+				enabled: false
+			},
+			yAxis: {
+				min: 0,
+				max: 100,
+				title: {
+					text: 'Percentage'
 				}
-			]
+			},
+			legend: {
+				align: 'center',
+				x: 0,
+				verticalAlign: 'bottom',
+				y: 0,
+				backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+				borderColor: '#CCC',
+				borderWidth: 1,
+				shadow: false
+			},
+			tooltip: {
+				headerFormat: '<b>{point.x}</b><br/>',
+				pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+			},
+			plotOptions: {
+				column: {
+					stacking: 'normal',
+					dataLabels: {
+						enabled: true,
+						color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+					}
+				}
+			},
+			exporting: true,
+			series: [{
+				name: 'Velocity',
+				data: actual_story_point,
+				dataLabels: {
+					enabled: true,
+					rotation: -90,
+					color: '#FFFFFF',
+					align: 'right',
+					style: {
+					   fontSize: '8px',
+					   fontWeight: 'normal'
+					}
+				},
+				color: '#ffbf00'
+			}, {
+				name: 'Velocity Trend Line',
+				type: 'line',
+				dashStyle: 'dash',
+				data: actual_story_point,
+				color: '#228b22'
+			}]
 		};
 		this.setState({
 			chartData,
 			showGraph: true
-		});
+		}, this.renderHighChart);
 	}
 
+	renderHighChart =() => {
+		this.chart = new Highcharts[this.props.type || "Chart"](
+            this.chartContainer.current, 
+            this.state.chartData
+        );
+	}
+
+
 	showGraph = () => {
+		const element = React.createElement('div', { ref: this.chartContainer, id: Math.random(), key: this.props.key });
 		return (
 			<div className="chart-content-container">
 				{this.state.teamVelocityChartData ? (
@@ -69,41 +126,7 @@ export class TeamVelocityChart extends Component {
 						<button type="button" className="close close-button" aria-label="Close" onClick={() => this.props.removeChart(this.props.name)}>
 							<span aria-hidden="true">&times;</span>
 						</button>
-                        <Bar
-							width={700}
-							height={500}
-							data={this.state.chartData}
-							options={{
-								animation: {
-									onProgress: function (data) {
-									  var chartInstance = data.chart;
-									  var Chart = data.chart;;
-									  var ctx = chartInstance.ctx;
-									  ctx.textAlign = "center";
-									  ctx.font = '12px "Helvetica Neue", Helvetica, Arial, sans-serif';
-									  ctx.fillStyle = '#000';
-									  var height = chartInstance.controller.boxes[0].bottom;
-									  this.data.datasets.forEach(function (dataset, i) {
-										var meta = chartInstance.controller.getDatasetMeta(i);
-										meta.data.forEach(function (bar, index) {
-											ctx.fillText(dataset.data[index], bar._model.x, height - ((height - bar._model.y) / 1.2));
-										});
-									  });
-									}
-								},
-								title: {
-									display: true,
-									text: this.props.name,
-									fontSize: 25
-								},
-								legend: {
-									display: true,
-									position: 'bottom'
-								},
-								maintainAspectRatio: false,
-								responsive: true,
-							}}
-						/>
+						{element}
 					</div>
 				) : (
 					<Loader />

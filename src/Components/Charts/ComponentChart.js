@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Bar } from 'react-chartjs-2';
+import Highcharts from 'highcharts';
 import Loader from '../Loader/Loader';
 import { getAllComponents, getComponentChartData } from '../../Actions/index';
 import FormControl from 'react-bootstrap/lib/FormControl';
@@ -12,11 +13,12 @@ export class FIxVersionChart extends Component {
 		this.state = {
 			chartData: null,
 			showGraph: false,
-			chartName: '',
+			chartName: this.props.name,
 			componentChartData: null,
 			componentData: null,
 			component: ''
 		};
+		this.chartContainer = React.createRef();
 	}
 
 	componentDidMount() {
@@ -51,31 +53,107 @@ export class FIxVersionChart extends Component {
 			labels.push(value.id + ' ' + value.name);
 
 		}) : '';
-
 		const chartData = {
-			labels: labels,
-			datasets: [
-				{
-					label: 'Remaining %',
-					data: remainingEpicData,
-					backgroundColor: '#ffbf00'
-				  },
-				  {
-					label: 'Completed %',
-					data: completedEpicData,
-					backgroundColor: '#228b22'
-				  },
-				  {
-					label: 'Accepted',
-					data: closedEpicData,
-					backgroundColor: '#4765d5'
-				  }
-			  ]
+			chart: {
+				type: 'column'
+			},
+			title: {
+				text: this.state.chartName
+			},
+			xAxis: {
+				categories: labels
+			},
+			credits: {
+				enabled: false
+			},
+			yAxis: {
+				min: 0,
+				max: 100,
+				title: {
+					text: 'Percentage'
+				}
+			},
+			legend: {
+				align: 'center',
+				x: 0,
+				verticalAlign: 'bottom',
+				y: 0,
+				backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+				borderColor: '#CCC',
+				borderWidth: 1,
+				shadow: false
+			},
+			tooltip: {
+				headerFormat: '<b>{point.x}</b><br/>',
+				pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+			},
+			plotOptions: {
+				column: {
+					stacking: 'normal',
+					dataLabels: {
+						enabled: true,
+						color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+					}
+				}
+			},
+			exporting: true,
+			series: [{
+				name: 'Remaining %',
+				data: remainingEpicData,
+				dataLabels: {
+					enabled: true,
+					rotation: -90,
+					color: '#FFFFFF',
+					align: 'right',
+					style: {
+					   fontSize: '8px',
+					   fontWeight: 'normal'
+					}
+				},
+				color: '#ffbf00'
+			}, {
+				name: 'Completed %',
+				data: completedEpicData,
+				dataLabels: {
+					enabled: true,
+					rotation: -90,
+					color: '#FFFFFF',
+					align: 'right',
+					style: {
+					   fontSize: '8px',
+					   fontWeight: 'normal'
+					}
+				},
+				color: '#228b22'
+			},
+			{
+				name: 'Accepted',
+				data: closedEpicData,
+				dataLabels: {
+					enabled: true,
+					rotation: -90,
+					color: '#FFFFFF',
+					align: 'right',
+					style: {
+					   fontSize: '8px',
+					   fontWeight: 'normal'
+					}
+				},
+				color: '#4765d5'
+			}]
 		};
-		this.setState({ chartData });
+		this.setState({ chartData }, this.renderHighChart);
+	}
+
+	renderHighChart =() => {
+		this.chart = new Highcharts[this.props.type || "Chart"](
+            this.chartContainer.current, 
+            this.state.chartData
+        );
 	}
 
 	showGraph = () => {
+		const element = React.createElement('div', { ref: this.chartContainer, id: Math.random(), key: this.props.key });
 		return (
 			<div className="chart-content-container">
 				{this.state.componentChartData ? (
@@ -83,65 +161,7 @@ export class FIxVersionChart extends Component {
 						<button type="button" className="close close-button" aria-label="Close" onClick={() => this.props.removeChart(this.props.name)}>
 							<span aria-hidden="true">&times;</span>
 						</button>
-						<Bar
-							width={700}
-							height={500}
-							data={this.state.chartData}
-							options={{
-								title: {
-									display: true,
-									text: this.state.chartName || this.props.name + ' - ' + this.state.component,
-									fontSize: 25
-								},
-								legend: {
-									display: true,
-									position: 'bottom'
-								},
-								maintainAspectRatio: false,
-								responsive: true,
-								scales: {
-									xAxes: [{
-										stacked: true,
-										ticks: {
-											autoSkip: false,
-											userCallback: function(value, index, values) {
-												return value.split(" ")[0];
-											}
-										}
-									}],
-									yAxes: [{
-										stacked: true
-									}]
-								}
-							}}
-							plugins= {{
-								afterDatasetsDraw: function(data) {
-									// To only draw at the end of animation, check for easing === 1
-									var ctx = data.ctx;
-									var Chart = data.chart;
-									Chart.data.datasets.forEach(function (dataset, i) {
-										var meta = data.controller.getDatasetMeta(i);
-										if (!meta.hidden) {
-											meta.data.forEach(function(element, index) {
-												// Draw the text in black, with the specified font
-												ctx.fillStyle = 'rgb(0, 0, 0)';
-												var fontSize = 10;
-												var fontStyle = 'normal';
-												var fontFamily = 'Helvetica Neue';
-												// Just naively convert to string for now
-												var dataString = dataset.data[index].toString();
-												// Make sure alignment settings are correct
-												ctx.textAlign = 'center';
-												ctx.textBaseline = 'middle';
-												var padding = 5;
-												var position = element.tooltipPosition();
-												ctx.fillText(dataString, position.x, position.y - (fontSize / 2) + (padding * 4));
-											});
-										}
-									});
-								}}
-							}
-						/>
+						{element}
 					</div>
 				) : (
 					<Loader />

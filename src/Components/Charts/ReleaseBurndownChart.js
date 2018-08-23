@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Highcharts from 'highcharts';
 import { Line } from 'react-chartjs-2';
 import Loader from '../Loader/Loader';
 import { getReleaseBurndownChartData } from '../../Actions/index';
@@ -11,8 +12,10 @@ export class ReleaseBurndownChart extends Component {
 			chartData: null,
 			ReleaseBurndownChartData: null,
 			fixVersionData: null,
+			chartName: this.props.name,
 			showGraph: false
 		};
+		this.chartContainer = React.createRef();
 	}
 
 	componentDidMount() {
@@ -47,32 +50,75 @@ export class ReleaseBurndownChart extends Component {
 		}) : '';
 
 		const chartData = {
-            labels: labels,
-            datasets: [{
-                    label: "Remaining Story Points",
-                    backgroundColor: 'transparent',
-                    borderColor: '#d95700',
-					borderDash: [5,3],
-					borderWidth: 1,
-                    data: burndownStoryPoint
-				},
-                {
-                    label: "Ideal BurnDown",
-                    backgroundColor: 'transparent',
-					borderColor: '#434348',	
-					borderWidth: 1,				
-                    data: ideal_story_point_burned_data
-                }
-            ]
-        };
+			chart: {
+				type: 'line'
+			},
+			title: {
+				text: this.state.chartName
+			},
+			xAxis: {
+				categories: labels
+			},
+			credits: {
+				enabled: false
+			},
+			yAxis: {
+				min: 0,
+				title: {
+					text: 'Story Points'
+				}
+			},
+			legend: {
+				align: 'center',
+				x: 0,
+				verticalAlign: 'bottom',
+				y: 0,
+				backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+				borderColor: '#CCC',
+				borderWidth: 1,
+				shadow: false
+			},
+			tooltip: {
+				headerFormat: '<b>{point.x}</b><br/>',
+				pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+			},
+			plotOptions: {
+				column: {
+					stacking: 'normal',
+					dataLabels: {
+						enabled: true,
+						color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+					}
+				}
+			},
+			exporting: true,
+			series: [{
+				name: 'Remaining Story Points',
+				data: burndownStoryPoint,
+				dashStyle: 'dash',
+				color: '#d95700'
+			}, {
+				name: 'Ideal BurnDown',
+				data: ideal_story_point_burned_data,
+				color: '#434348'
+			}]
+		};
 		this.setState({
 			chartData,
 			showGraph: true
-		});
+		}, this.renderHighChart);
+	}
+
+	renderHighChart =() => {
+		this.chart = new Highcharts[this.props.type || "Chart"](
+            this.chartContainer.current, 
+            this.state.chartData
+        );
 	}
 
 	showGraph = () => {
 		const total_story_point = this.state.ReleaseBurndownChartData.total_story_point;
+		const element = React.createElement('div', { ref: this.chartContainer, id: Math.random(), className: 'highchart', key: this.props.key });
 		return (
 			<div className="chart-content-container">
 				{this.state.ReleaseBurndownChartData ? (
@@ -80,31 +126,7 @@ export class ReleaseBurndownChart extends Component {
 						<button type="button" className="close close-button" aria-label="Close" onClick={() => this.props.removeChart(this.props.name)}>
 							<span aria-hidden="true">&times;</span>
 						</button>
-                        <Line
-                            data={this.state.chartData}
-                            options={{
-								title: {
-									display: true,
-									text: this.props.name,
-									fontSize: 25
-								},
-								legend: {
-									display: true,
-									position: 'bottom'
-								},
-                                scales: {
-                                    yAxes: [{
-										stacked: false,
-										scaleLabel: {
-											display: true,
-											labelString: 'Remaining Story Points'
-										}
-                                    }]
-                                }
-                            }}
-                            height={500}
-                            width={700}
-                        />
+						{element}
 					</div>
 				) : (
 					<Loader />

@@ -188,7 +188,7 @@ export function getComponentChartData(params) {
 
 export function getReleaseBurndownChartData() {
 	const ProjectID = sessionStorage.getItem('PId');
-	const request = axios.get(`${ROOT_URL}/api/super_admin/reports/${ProjectID}/sprint_report`, { headers: { jwttoken: token } });
+	const request = axios.get(`${ROOT_URL}/api/super_admin/graph/${ProjectID}/sprint_report`, { headers: { jwttoken: token } });
 	return request.then(response => {
 		return {
 			type: GET_RELEASE_BURNDOWN_CHART_DATA,
@@ -199,7 +199,7 @@ export function getReleaseBurndownChartData() {
 
 export function getTeamVelocityChartData() {
 	const ProjectID = sessionStorage.getItem('PId');
-	const request = axios.get(`${ROOT_URL}/api/super_admin/reports/${ProjectID}/sprint_report`, { headers: { jwttoken: token } });
+	const request = axios.get(`${ROOT_URL}/api/super_admin/graph/${ProjectID}/sprint_report`, { headers: { jwttoken: token } });
 	return request.then(response => {
 		return {
 			type: GET_TEAM_VELOCITY_CHART_DATA,
@@ -210,7 +210,7 @@ export function getTeamVelocityChartData() {
 
 export function getPlanVsActualChartData() {
 	const ProjectID = sessionStorage.getItem('PId');
-	const request = axios.get(`${ROOT_URL}/api/super_admin/reports/${ProjectID}/sprint_report`, { headers: { jwttoken: token } });
+	const request = axios.get(`${ROOT_URL}/api/super_admin/graph/${ProjectID}/sprint_report`, { headers: { jwttoken: token } });
 	return request.then(response => {
 		return {
 			type: GET_PLAN_VS_ACTUAL_CHART_DATA,
