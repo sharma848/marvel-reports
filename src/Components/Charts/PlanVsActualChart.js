@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Highcharts from 'highcharts';
 import { Line } from 'react-chartjs-2';
 import Loader from '../Loader/Loader';
 import { getPlanVsActualChartData, postUserDashboard } from '../../Actions/index';
@@ -9,9 +10,11 @@ export class PlanVsActualChart extends Component {
 		super(props);
 		this.state = {
 			chartData: null,
+			chartName: this.props.name,
 			PlanVsActualChartData: null,
 			fixVersionData: null
 		};
+		this.chartContainer = React.createRef();
 	}
 
 	componentDidMount() {
@@ -22,6 +25,9 @@ export class PlanVsActualChart extends Component {
 	componentWillReceiveProps(nextProps) {
 		if (nextProps.PlanVsActualChartData && nextProps.PlanVsActualChartData && nextProps.PlanVsActualChartData.data) {
 			this.setState({ PlanVsActualChartData: nextProps.PlanVsActualChartData.data.data }, this.setChartData);
+		}
+		if(this.chart) {
+			this.chart.reflow();
 		}
 	}
 
@@ -40,28 +46,76 @@ export class PlanVsActualChart extends Component {
 		}) : '';
 
 		const chartData = {
-            labels: labels,
-            datasets: [{
-                    label: "Planned Story Points",
-                    backgroundColor: 'transparent',
-					borderColor: '#434348',
-					borderWidth: 1,
-                    data: commited_story_points,
-                },
-                {
-                    label: "Actual Story Points",
-                    backgroundColor: 'transparent',
-					borderColor: '#228B22',
-					borderWidth: 1,
-                    data: actual_story_points,
-                }
+			chart: {
+				type: 'line'
+			},
+			title: {
+				text: this.state.chartName
+			},
+			xAxis: {
+				categories: labels,
+				showEmpty: false
+			},
+			credits: {
+				enabled: false
+			},
+			yAxis: {
+				min: 0,
+				title: {
+					text: 'Story Points'
+				}
+			},
+			legend: {
+				align: 'center',
+				x: 0,
+				verticalAlign: 'bottom',
+				y: 0,
+				backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+				borderColor: '#CCC',
+				borderWidth: 1,
+				shadow: false
+			},
+			tooltip: {
+				pointFormat: '<span style="color:{series.color}">{series.name}</span>: ({point.y:.0f})<br/>',
+				shared: true
+			},
+			plotOptions: {
+				line: {
+					dataLabels: {
+						enabled: false,
+						style: {
+							fontSize: '8px'
+						},
+						formatter: function() {
+							return Highcharts.numberFormat(Math.round(this.y), 0, 0, ",");
+						},
+					},
+					enableMouseTracking: true
+				}
+			},
+			exporting: true,
+			series: [{
+				name: 'Planned Story Points',
+				data: commited_story_points,
+				color: '#434348'
+			}, {
+				name: 'Actual Story Points',
+				data: actual_story_points,
+				color: '#228B22'
+			}]
+		};
+		this.setState({ chartData }, this.renderHighChart);
+	}
 
-            ]
-        };
-		this.setState({ chartData });
+	renderHighChart =() => {
+		this.chart = new Highcharts[this.props.type || "Chart"](
+            this.chartContainer.current, 
+            this.state.chartData
+        );
 	}
 
 	showGraph = () => {
+		const element = React.createElement('div', { ref: this.chartContainer, id: Math.random(), key: this.props.key });
 		return (
 			<div className="chart-content-container">
 				{this.state.PlanVsActualChartData ? (
@@ -69,31 +123,7 @@ export class PlanVsActualChart extends Component {
 						<button type="button" className="close close-button" aria-label="Close" onClick={() => this.props.removeChart(this.props.name)}>
 							<span aria-hidden="true">&times;</span>
 						</button>
-                        <Line
-							data={this.state.chartData}
-                            options={{
-								title: {
-									display: true,
-									text: this.props.name,
-									fontSize: 25
-								},
-								legend: {
-									display: true,
-									position: 'bottom'
-								},
-                                scales: {
-                                    yAxes: [{
-										stacked: false,
-										scaleLabel: {
-											display: true,
-											labelString: 'Story Points'
-										}
-                                    }]
-                                }
-                            }}
-                            height={500}
-                            width={700}
-                        />
+						{element}
 					</div>
 				) : (
 					<Loader />

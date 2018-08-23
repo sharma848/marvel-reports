@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Modal, Button, Image, Grid, Row, Col, Thumbnail } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { getAllProjectData } from '../../Actions/index';
 import { headerConst } from '../../Constants/appConstants';
+import durgesh from '../../images/durgesh.jpg'
+import neha from '../../images/neha.jpg'
+import abhishek from '../../images/abhishek.jpg'
+import adit from '../../images/adit.jpg'
+import jatin from '../../images/jatin.jpg'
+import kavya from '../../images/kavya.jpg'
 
 export class Header extends Component {
 
@@ -11,7 +18,8 @@ export class Header extends Component {
 
         this.state = {
             allProjectData: '',
-            selectedProject: ''
+            selectedProject: '',
+            show: false
         };
     }
 
@@ -42,6 +50,80 @@ export class Header extends Component {
         });
 
         return data;
+    }
+
+    handleClick = () => {this.setState({show:true})}
+    
+    handleClose = () => {this.setState({show:false})}
+
+    renderModal = () => {
+        return (
+            <Modal show={this.state.show} onHide={this.handleClose} bsSize="large">
+              <Modal.Header closeButton>
+              </Modal.Header>
+              <Modal.Body>
+                    <div className="border w-100 p-3 " >
+                        <Grid fluid>
+                            <Row>
+                                <Col xs={4}>
+                                    <div>
+                                        <Image src={durgesh} circle/>
+                                    </div>
+                                    <div>
+                                        <a href="https://glo.globallogic.com/users/profile/d.mishra" target="_blank">Durgesh Kumar Mishra</a>
+                                    </div>
+                                </Col>
+                                <Col xs={4}>
+                                    <div>
+                                        <Image src={neha} circle/>
+                                    </div>
+                                    <div>
+                                        <a href="https://glo.globallogic.com/users/profile/neha.sharma2" target="_blank">Neha Sharma</a>
+                                    </div>
+                                </Col>
+                                <Col xs={4}>
+                                    <div>
+                                        <Image src={adit} circle/>
+                                    </div>
+                                    <div>
+                                        <a href="https://glo.globallogic.com/users/profile/adit.garg" target="_blank">Adit Garg</a>
+                                    </div>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col xs={4}>
+                                    <div>
+                                        <Image src={abhishek} circle/>
+                                    </div>
+                                    <div>
+                                        <a href="https://glo.globallogic.com/users/profile/abhishek.sharma5" target="_blank">Abhishek Sharma</a>
+                                    </div>
+                                </Col>
+                                <Col xs={4}>
+                                    <div>
+                                        <Image src={jatin} circle/>
+                                    </div>
+                                    <div>
+                                        <a href="https://glo.globallogic.com/users/profile/jatin.sokhal" target="_blank">Jatin Sokhal</a>
+                                    </div>
+                                </Col>
+                                <Col xs={4}>
+                                    <div>
+                                        <Image src={kavya} circle/>
+                                    </div>
+                                    <div>
+                                        <a href="https://glo.globallogic.com/users/profile/kavya.jain" target="_blank">Kavya Jain</a>
+                                    </div>
+                                </Col>
+                            </Row>    
+                        </Grid>
+                    </div>
+              </Modal.Body>
+              <Modal.Footer>
+                <button className="btn btn-primary" onClick={this.handleClose}>Close</button>
+              </Modal.Footer>
+            </Modal>
+          );
     }
 
     render() {
@@ -84,6 +166,14 @@ export class Header extends Component {
                             </div>
                         </li>
                     </ul> : ''}
+                    <ul className="navbar-nav">
+                        <li className="nav-item">
+                            <a className="nav-link" id="navbarContributors" role="button" aria-haspopup="true" aria-expanded="false" onClick={this.handleClick}>
+                                Contributors
+                            </a>
+                            {this.renderModal()}
+                        </li>
+                    </ul>
                 </div>
             </nav>
         );

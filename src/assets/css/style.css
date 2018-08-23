@@ -165,8 +165,6 @@ a {
 }
 
 .distributed-view canvas {
-  height: 500px !important;
-  width: 700px !important;
 }
 
 .chart {

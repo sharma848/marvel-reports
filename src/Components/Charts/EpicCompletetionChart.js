@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Bar } from 'react-chartjs-2';
 import Highcharts from 'highcharts';
 import Loader from '../Loader/Loader';
-import { getAllComponents, getComponentChartData, postUserDashboard } from '../../Actions/index';
+import { getEpicSumByTeamEpic } from '../../Actions/index';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import { FormGroup, Col, ControlLabel } from 'react-bootstrap';
 
@@ -14,26 +14,16 @@ export class FIxVersionChart extends Component {
 			chartData: null,
 			showGraph: false,
 			chartName: this.props.name,
-			componentChartData: null,
-			componentData: null,
-			component: ''
+			EpicPercentageCompletetionData: null,
+			level: ''
 		};
 		this.chartContainer = React.createRef();
-		this.chart = '';
-	}
-
-	componentDidMount() {
-		this.props.getAllComponents();
-		this.props.postUserDashboard({ graphId: this.props.name });
 	}
 
 	componentWillReceiveProps(nextProps) {
-		const component = this.state.component;
-		if (nextProps.allComponentData && nextProps.allComponentData.data) {
-			this.setState({ componentData: nextProps.allComponentData.data.components });
-		}
-		if (nextProps.componentChartData && nextProps.componentChartData[component] && nextProps.componentChartData[component].data) {
-			this.setState({ componentChartData: nextProps.componentChartData[component].data.epics }, this.setChartData);
+        const level = this.state.level;
+		if (nextProps.EpicPercentageCompletetionData[level] && nextProps.EpicPercentageCompletetionData[level].data) {
+			this.setState({ EpicPercentageCompletetionData: nextProps.EpicPercentageCompletetionData[level].data.epics }, this.setChartData);
 		}
 		if(this.chart) {
 			this.chart.reflow();
@@ -45,7 +35,7 @@ export class FIxVersionChart extends Component {
 		var remainingEpicData = [];
 		var closedEpicData = [];
 		var labels = [];
-		var data = this.state.componentChartData ? this.state.componentChartData.map((value) => {
+		var data = this.state.EpicPercentageCompletetionData ? this.state.EpicPercentageCompletetionData.map((value) => {
 			const completedPercentage = Math.round((value.closedSP / value.totalSP) * 100);
 			const remainingPercentage = Math.round((value.remainingSP / value.totalSP) * 100);
 			if(value.remainingSP == 0 && value.status === 'Accepted') {
@@ -149,23 +139,18 @@ export class FIxVersionChart extends Component {
 		this.setState({ chartData }, this.renderHighChart);
 	}
 
-	reSizeChart = () => {
-		this.props.reSizeChart
-	}
-
 	renderHighChart =() => {
 		this.chart = new Highcharts[this.props.type || "Chart"](
             this.chartContainer.current, 
             this.state.chartData
-		);
-		// this.chart.reflow();
+        );
 	}
 
 	showGraph = () => {
 		const element = React.createElement('div', { ref: this.chartContainer, id: Math.random(), key: this.props.key });
 		return (
 			<div className="chart-content-container">
-				{this.state.componentChartData ? (
+				{this.state.EpicPercentageCompletetionData ? (
 					<div>
 						<button type="button" className="close close-button" aria-label="Close" onClick={() => this.props.removeChart(this.props.name)}>
 							<span aria-hidden="true">&times;</span>
@@ -181,8 +166,8 @@ export class FIxVersionChart extends Component {
 
 	onClick = () => {
 		this.setState({ showGraph: true });
-		console.log('fv:' + this.state.component + ' rec:' + this.state.numberOfRecords);
-		this.props.getComponentChartData([this.state.component]);
+		console.log('level:' + this.state.level + ' rec:' + this.state.numberOfRecords);
+		this.props.getEpicSumByTeamEpic({type: this.state.level});
 	};
 
 	onChange = (e) => {
@@ -192,98 +177,84 @@ export class FIxVersionChart extends Component {
 		this.setState({ [e.target.name]: e.target.value });
 	};
 
-	getComponentOptions = () => {
-		const options = this.state.componentData.map(value => {
-			return (
-				<option value={value}>{value}</option>
-			)
-		});
-		return options;
-	}
-
 	showForm = () => {
-		if(this.state.componentData) {
-			return (
-				<div className="chart-content-container">
-					<button type="button" className="close close-button" aria-label="Close" onClick={() => this.props.removeChart(this.props.name)}>
-						<span aria-hidden="true">&times;</span>
-					</button>
-					<FormGroup>
-						<Col componentClass={ControlLabel} sm={5}>
-							Components:
-						</Col>
-						<Col sm={7}>
-							<FormControl
-								componentClass="select"
-								placeholder="select"
-								onChange={this.onChange}
-								name="component"
-								id="component"
-							>
-								<option value="">Select</option>
-								{this.getComponentOptions()}
-							</FormControl>
-						</Col>
-					</FormGroup>
-					<FormGroup>
-						<Col componentClass={ControlLabel} sm={5}>
-							Enter Chart Name:
-						</Col>
-						<Col sm={7}>
-							<FormControl
-								type="text"
-								name="chartName"
-								id="chartName"
-								placeholder="Enter the Chart Name"
-								onChange={this.onChange}
-							/>
-						</Col>
-					</FormGroup>
-					<FormGroup>
-						<Col componentClass={ControlLabel} sm={5}>
-							Number of Records:
-						</Col>
-						<Col sm={7}>
-							<FormControl
-								type="text"
-								name="numberOfRecords"
-								id="numberOfRecords"
-								placeholder="Enter the number of rows"
-								onChange={this.onChange}
-							/>
-						</Col>
-					</FormGroup>
-					<FormGroup>
-						<Col smOffset={3} sm={5}>
-							<button className="btn btn-primary" type="button" onClick={this.onClick}>
-								Submit
-							</button>
-						</Col>
-					</FormGroup>
-				</div>
-			);
-		} else {
-			return <Loader />
-		}
+        return (
+            <div className="chart-content-container">
+                <button type="button" className="close close-button" aria-label="Close" onClick={() => this.props.removeChart(this.props.name)}>
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <FormGroup>
+                    <Col componentClass={ControlLabel} sm={5}>
+                        Fix Versions:
+                    </Col>
+                    <Col sm={7}>
+                        <FormControl
+                            componentClass="select"
+                            placeholder="select"
+                            onChange={this.onChange}
+                            name="level"
+                            id="level"
+                        >
+                            <option value="">Select</option>
+                            <option value='Team Epic'>Team Epics</option>
+                            <option value='Feature Epic'>Feature Epics</option>
+                            <option value='All Epic'>All Epics</option>
+                        </FormControl>
+                    </Col>
+                </FormGroup>
+                <FormGroup>
+                    <Col componentClass={ControlLabel} sm={5}>
+                        Enter Chart Name:
+                    </Col>
+                    <Col sm={7}>
+                        <FormControl
+                            type="text"
+                            name="chartName"
+                            id="chartName"
+                            placeholder="Enter the Chart Name"
+                            onChange={this.onChange}
+                        />
+                    </Col>
+                </FormGroup>
+                <FormGroup>
+                    <Col componentClass={ControlLabel} sm={5}>
+                        Number of Records:
+                    </Col>
+                    <Col sm={7}>
+                        <FormControl
+                            type="text"
+                            name="numberOfRecords"
+                            id="numberOfRecords"
+                            placeholder="Enter the number of rows"
+                            onChange={this.onChange}
+                        />
+                    </Col>
+                </FormGroup>
+                <FormGroup>
+                    <Col smOffset={3} sm={5}>
+                        <button className="btn btn-primary" type="button" onClick={this.onClick}>
+                            Submit
+                        </button>
+                    </Col>
+                </FormGroup>
+            </div>
+        );
 		
 	};
 
 	render() {
-		return <div>{this.state.showGraph ? this.showGraph() : this.showForm()}</div>;
+		return <div>{this.state.showGraph && this.state.level ? this.showGraph() : this.showForm()}</div>;
 	}
 }
 
 function mapStateToProps(state) {
 	return {
-		allComponentData: state.allComponentData,
-		componentChartData: state.componentChartData
+		EpicPercentageCompletetionData: state.EpicPercentageCompletetionData
 	};
 }
 
 const actions = {
-	getAllComponents: getAllComponents,
-	getComponentChartData: getComponentChartData,
-	postUserDashboard:postUserDashboard
+	getEpicSumByTeamEpic: getEpicSumByTeamEpic
 };
 
 export default connect(mapStateToProps, actions)(FIxVersionChart);

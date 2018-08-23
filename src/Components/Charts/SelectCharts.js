@@ -14,7 +14,7 @@ class SelectCharts extends React.Component {
     super(props);
     this.state = {
       projects: [],
-      allProjects: ['Release Burndown Chart', 'Team Velocity Chart', 'Plan Vs Actual Chart', 'Fix Version Chart','Component Chart'],
+      allProjects: ['Release Burndown Chart', 'Team Velocity Chart', 'Plan Vs Actual Chart', 'Fix Version Chart', 'Component Chart', 'Epic Completetion Chart', 'Current Sprint Report'],
       show: true,
       search: '',
       viewButtonText: 'Expanded View',
@@ -65,7 +65,7 @@ class SelectCharts extends React.Component {
   }
 
   renderProjects = () => {
-      let value = this.state.projects.map((val,index) => <RenderChart name={val} removeChart={this.removeChart} key={index} collapseView={this.state.collapseView} />);
+      let value = this.state.projects.map((val,index) => <RenderChart name={val} removeChart={this.removeChart} key={index} collapseView={this.state.collapseView} viewToggled={this.state.collapseView} />);
       return value;
   }
 

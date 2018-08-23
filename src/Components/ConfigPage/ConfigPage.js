@@ -130,7 +130,7 @@ export class ConfigPage extends Component {
 					<div className="row">
 						<div className="col-lg-6">
 							<h4>Epic Configurations</h4>
-							<div>
+							<div className="form-group">
 								<input
 									type="text"
 									className="form-control"
@@ -141,7 +141,7 @@ export class ConfigPage extends Component {
 									onChange={this.onChangeConfig}
 								/>
 							</div>
-							<div>
+							<div className="form-group">
 								<input
 									type="text"
 									className="form-control"
@@ -152,18 +152,17 @@ export class ConfigPage extends Component {
 									onChange={this.onChangeConfig}
 								/>
 							</div>
-							<div>
-								<input
-									type="text"
+							<div className="form-group">
+								<textarea
 									className="form-control"
-									id="epics"
-									name="epics"
-									placeholder="Enter comma separated epic Ids"
-									defaultValue={this.state.lastConfigurationData ? this.state.lastConfigurationData.epicConfiguration.epics : ''}																	
+									value={this.state.lastConfigurationData ? this.state.lastConfigurationData.epicConfiguration.epics : ''}	
 									onChange={this.onChangeConfig}
-								/>
+									rows={3}
+								>
+								{this.state.lastConfigurationData ? this.state.lastConfigurationData.epicConfiguration.epics : ''}
+								</textarea>
 							</div>
-							<div>
+							<div className="form-group">
 								<input
 									type="text"
 									className="form-control"
@@ -174,7 +173,7 @@ export class ConfigPage extends Component {
 									onChange={this.onChangeConfig}
 								/>
 							</div>
-							<div>
+							<div className="form-group">
 								<input
 									type="text"
 									className="form-control"
@@ -185,7 +184,7 @@ export class ConfigPage extends Component {
 									onChange={this.onChangeConfig}
 								/>
 							</div>
-							<div>
+							<div className="form-group">
 								<input
 									type="text"
 									className="form-control"
@@ -199,7 +198,7 @@ export class ConfigPage extends Component {
 						</div>
 						<div className="col-lg-6">
 							<h4>Velocity Configurations</h4>
-							<div>
+							<div className="form-group">
 								<input
 									type="text"
 									className="form-control"
@@ -210,7 +209,7 @@ export class ConfigPage extends Component {
 									onChange={this.onChangeConfig}
 								/>
 							</div>
-							<div>
+							<div className="form-group">
 								<input
 									type="text"
 									className="form-control"
@@ -221,18 +220,17 @@ export class ConfigPage extends Component {
 									onChange={this.onChangeConfig}
 								/>
 							</div>
-							<div>
-								<input
-									type="text"
+							<div className="form-group">
+								<textarea
 									className="form-control"
-									id="boards"
-									name="boards"
-									placeholder="Enter comma separated board Ids"
-									defaultValue={this.state.lastConfigurationData ? this.state.lastConfigurationData.velocityConfiguration.boards : ''}									
+									value={this.state.lastConfigurationData ? this.state.lastConfigurationData.velocityConfiguration.boards : ''}	
 									onChange={this.onChangeConfig}
-								/>
+									rows={3}
+								>
+								{this.state.lastConfigurationData ? this.state.lastConfigurationData.velocityConfiguration.boards : ''}
+								</textarea>
 							</div>
-							<div>
+							<div className="form-group">
 								<input
 									type="text"
 									className="form-control"
@@ -243,7 +241,7 @@ export class ConfigPage extends Component {
 									onChange={this.onChangeConfig}
 								/>
 							</div>
-							<div>
+							<div className="form-group">
 								<input
 									type="text"
 									className="form-control"
