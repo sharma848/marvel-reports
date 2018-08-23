@@ -30,18 +30,11 @@ export class FIxVersionChart extends Component {
 		var remainingEpicData = [];
 		var closedEpicData = [];
 		var labels = [];
-		var bgColor = []; // green: #228b22 blue: #4765d5 yellow: #ffbf00
 		var data = this.state.EpicPercentageCompletetionData ? this.state.EpicPercentageCompletetionData.map((value) => {
 			const completedPercentage = Math.round((value.closedSP / value.totalSP) * 100);
 			const remainingPercentage = Math.round((value.remainingSP / value.totalSP) * 100);
 			if(value.remainingSP == 0 && value.status === 'Accepted') {
-				bgColor.push('#228b22');
 				closedEpicData.push(100);
-			} else if(value.remainingSP == 0 && value.status === 'Closed'){
-				bgColor.push('#4765d5');
-				closedEpicData.push(100);				
-			} else if(value.status === 'In Progress'){
-				bgColor.push('#228b22');
 			} else {
 				closedEpicData.push(0);
 			}
@@ -55,15 +48,20 @@ export class FIxVersionChart extends Component {
 			labels: labels,
 			datasets: [
 				{
-				  label: 'Remaining %',
-				  data: remainingEpicData,
-				  backgroundColor: '#ffbf00'
-				},
-				{
-				  label: 'Completed %',
-				  data: completedEpicData,
-				  backgroundColor: bgColor
-				}
+					label: 'Remaining %',
+					data: remainingEpicData,
+					backgroundColor: '#ffbf00'
+				  },
+				  {
+					label: 'Completed %',
+					data: completedEpicData,
+					backgroundColor: '#228b22'
+				  },
+				  {
+					label: 'Accepted',
+					data: closedEpicData,
+					backgroundColor: '#4765d5'
+				  }
 			]
 		};
 		this.setState({ chartData });

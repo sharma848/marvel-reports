@@ -39,18 +39,11 @@ export class FIxVersionChart extends Component {
 		var remainingEpicData = [];
 		var closedEpicData = [];
 		var labels = [];
-		var bgColor = []; // green: #228b22 blue: #4765d5 yellow: #ffbf00
 		var data = this.state.fixVersionChartData ? this.state.fixVersionChartData.map((value) => {
 			const completedPercentage = Math.round((value.closedSP / value.totalSP) * 100);
 			const remainingPercentage = Math.round((value.remainingSP / value.totalSP) * 100);
 			if(value.remainingSP == 0 && value.status === 'Accepted') {
-				bgColor.push('#228b22');
 				closedEpicData.push(100);
-			} else if(value.remainingSP == 0 && value.status === 'Closed'){
-				bgColor.push('#4765d5');
-				closedEpicData.push(100);				
-			} else if(value.status === 'In Progress'){
-				bgColor.push('#228b22');
 			} else {
 				closedEpicData.push(0);
 			}
@@ -71,7 +64,12 @@ export class FIxVersionChart extends Component {
 				{
 				  label: 'Completed %',
 				  data: completedEpicData,
-				  backgroundColor: bgColor
+				  backgroundColor: '#228b22'
+				},
+				{
+				  label: 'Accepted',
+				  data: closedEpicData,
+				  backgroundColor: '#4765d5'
 				}
 			]
 		};
@@ -91,23 +89,6 @@ export class FIxVersionChart extends Component {
 							height={500}
 							data={this.state.chartData}
 							options={{
-								animation: {
-									onProgress: function (data) {
-									  var chartInstance = data.chart;
-									  var Chart = data.chart;;
-									  var ctx = chartInstance.ctx;
-									  ctx.textAlign = "center";
-									  ctx.font = '12px "Helvetica Neue", Helvetica, Arial, sans-serif';
-									  ctx.fillStyle = '#fff';
-									  var height = chartInstance.controller.boxes[0].bottom;
-									  this.data.datasets.forEach(function (dataset, i) {
-										var meta = chartInstance.controller.getDatasetMeta(i);
-										meta.data.forEach(function (bar, index) {
-											ctx.fillText(dataset.data[index], bar._model.x, height - ((height - bar._model.y) / 2));
-										});
-									  });
-									}
-								},
 								title: {
 									display: true,
 									text: this.state.chartName,
@@ -148,6 +129,34 @@ export class FIxVersionChart extends Component {
 									}
 								}
 							}}
+							plugins= {{
+								afterDatasetsDraw: function(data) {
+									// To only draw at the end of animation, check for easing === 1
+									var ctx = data.ctx;
+									var Chart = data.chart;
+									Chart.data.datasets.forEach(function (dataset, i) {
+										var meta = data.controller.getDatasetMeta(i);
+										if (!meta.hidden) {
+											meta.data.forEach(function(element, index) {
+												// Draw the text in black, with the specified font
+												ctx.fillStyle = 'rgb(0, 0, 0)';
+												var fontSize = 10;
+												var fontStyle = 'normal';
+												var fontFamily = 'Helvetica Neue';
+												ctx.font = '10px "Helvetica Neue", Helvetica, Arial, sans-serif';
+												// Just naively convert to string for now
+												var dataString = dataset.data[index].toString();
+												// Make sure alignment settings are correct
+												ctx.textAlign = 'center';
+												ctx.textBaseline = 'middle';
+												var padding = 5;
+												var position = element.tooltipPosition();
+												ctx.fillText(dataString, position.x, position.y - (fontSize / 2) + (padding * 4));
+											});
+										}
+									});
+								}}
+							}
 						/>
 					</div>
 				) : (

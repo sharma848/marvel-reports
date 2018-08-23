@@ -153,15 +153,14 @@ export class ConfigPage extends Component {
 								/>
 							</div>
 							<div className="form-group">
-								<input
-									type="text"
+								<textarea
 									className="form-control"
-									id="epics"
-									name="epics"
-									placeholder="Enter comma separated epic Ids"
-									defaultValue={this.state.lastConfigurationData ? this.state.lastConfigurationData.epicConfiguration.epics : ''}																	
+									value={this.state.lastConfigurationData ? this.state.lastConfigurationData.epicConfiguration.epics : ''}	
 									onChange={this.onChangeConfig}
-								/>
+									rows={3}
+								>
+								{this.state.lastConfigurationData ? this.state.lastConfigurationData.epicConfiguration.epics : ''}
+								</textarea>
 							</div>
 							<div className="form-group">
 								<input
@@ -222,15 +221,14 @@ export class ConfigPage extends Component {
 								/>
 							</div>
 							<div className="form-group">
-								<input
-									type="text"
+								<textarea
 									className="form-control"
-									id="boards"
-									name="boards"
-									placeholder="Enter comma separated board Ids"
-									defaultValue={this.state.lastConfigurationData ? this.state.lastConfigurationData.velocityConfiguration.boards : ''}									
+									value={this.state.lastConfigurationData ? this.state.lastConfigurationData.velocityConfiguration.boards : ''}	
 									onChange={this.onChangeConfig}
-								/>
+									rows={3}
+								>
+								{this.state.lastConfigurationData ? this.state.lastConfigurationData.velocityConfiguration.boards : ''}
+								</textarea>
 							</div>
 							<div className="form-group">
 								<input

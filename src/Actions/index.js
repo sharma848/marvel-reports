@@ -22,7 +22,7 @@ export const GENERATE_VELOCITY_DATA = 'GENERATE_VELOCITY_DATA';
 export const GENERATE_EPIC_DATA = 'GENERATE_EPIC_DATA';
 export const EPIC_PERCENTAGE_COMPLETETION = 'EPIC_PERCENTAGE_COMPLETETION';
 
-const ROOT_URL = `http://ab5c3e87.ngrok.io/marvel`;
+const ROOT_URL = `http://ebadd971.ngrok.io/marvel`;
 
 const token = sessionStorage.getItem('SessionToken');
 
