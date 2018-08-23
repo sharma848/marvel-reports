@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Bar } from 'react-chartjs-2';
+import Highcharts from 'highcharts';
 import Loader from '../Loader/Loader';
 import { getEpicSumByTeamEpic } from '../../Actions/index';
 import FormControl from 'react-bootstrap/lib/FormControl';
@@ -16,6 +17,7 @@ export class FIxVersionChart extends Component {
 			EpicPercentageCompletetionData: null,
 			level: ''
 		};
+		this.chartContainer = React.createRef();
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -30,18 +32,11 @@ export class FIxVersionChart extends Component {
 		var remainingEpicData = [];
 		var closedEpicData = [];
 		var labels = [];
-		var bgColor = []; // green: #228b22 blue: #4765d5 yellow: #ffbf00
 		var data = this.state.EpicPercentageCompletetionData ? this.state.EpicPercentageCompletetionData.map((value) => {
 			const completedPercentage = Math.round((value.closedSP / value.totalSP) * 100);
 			const remainingPercentage = Math.round((value.remainingSP / value.totalSP) * 100);
 			if(value.remainingSP == 0 && value.status === 'Accepted') {
-				bgColor.push('#228b22');
 				closedEpicData.push(100);
-			} else if(value.remainingSP == 0 && value.status === 'Closed'){
-				bgColor.push('#4765d5');
-				closedEpicData.push(100);				
-			} else if(value.status === 'In Progress'){
-				bgColor.push('#228b22');
 			} else {
 				closedEpicData.push(0);
 			}
@@ -50,26 +45,107 @@ export class FIxVersionChart extends Component {
 			labels.push(value.id + ' ' + value.name);
 
 		}) : '';
-
 		const chartData = {
-			labels: labels,
-			datasets: [
-				{
-				  label: 'Remaining %',
-				  data: remainingEpicData,
-				  backgroundColor: '#ffbf00'
-				},
-				{
-				  label: 'Completed %',
-				  data: completedEpicData,
-				  backgroundColor: bgColor
+			chart: {
+				type: 'column'
+			},
+			title: {
+				text: this.state.chartName
+			},
+			xAxis: {
+				categories: labels
+			},
+			credits: {
+				enabled: false
+			},
+			yAxis: {
+				min: 0,
+				max: 100,
+				title: {
+					text: 'Percentage'
 				}
-			]
+			},
+			legend: {
+				align: 'center',
+				x: 0,
+				verticalAlign: 'bottom',
+				y: 0,
+				backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+				borderColor: '#CCC',
+				borderWidth: 1,
+				shadow: false
+			},
+			tooltip: {
+				headerFormat: '<b>{point.x}</b><br/>',
+				pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+			},
+			plotOptions: {
+				column: {
+					stacking: 'normal',
+					dataLabels: {
+						enabled: true,
+						color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+					}
+				}
+			},
+			exporting: true,
+			series: [{
+				name: 'Remaining %',
+				data: remainingEpicData,
+				dataLabels: {
+					enabled: true,
+					rotation: -90,
+					color: '#FFFFFF',
+					align: 'right',
+					style: {
+					   fontSize: '8px',
+					   fontWeight: 'normal'
+					}
+				},
+				color: '#ffbf00'
+			}, {
+				name: 'Completed %',
+				data: completedEpicData,
+				dataLabels: {
+					enabled: true,
+					rotation: -90,
+					color: '#FFFFFF',
+					align: 'right',
+					style: {
+					   fontSize: '8px',
+					   fontWeight: 'normal'
+					}
+				},
+				color: '#228b22'
+			},
+			{
+				name: 'Accepted',
+				data: closedEpicData,
+				dataLabels: {
+					enabled: true,
+					rotation: -90,
+					color: '#FFFFFF',
+					align: 'right',
+					style: {
+					   fontSize: '8px',
+					   fontWeight: 'normal'
+					}
+				},
+				color: '#4765d5'
+			}]
 		};
-		this.setState({ chartData });
+		this.setState({ chartData }, this.renderHighChart);
+	}
+
+	renderHighChart =() => {
+		this.chart = new Highcharts[this.props.type || "Chart"](
+            this.chartContainer.current, 
+            this.state.chartData
+        );
 	}
 
 	showGraph = () => {
+		const element = React.createElement('div', { ref: this.chartContainer, id: Math.random(), key: this.props.key });
 		return (
 			<div className="chart-content-container">
 				{this.state.EpicPercentageCompletetionData ? (
@@ -77,67 +153,7 @@ export class FIxVersionChart extends Component {
 						<button type="button" className="close close-button" aria-label="Close" onClick={() => this.props.removeChart(this.props.name)}>
 							<span aria-hidden="true">&times;</span>
 						</button>
-						<Bar
-							width={700}
-							height={500}
-							data={this.state.chartData}
-							options={{
-								animation: {
-									onProgress: function (data) {
-									  var chartInstance = data.chart;
-									  var Chart = data.chart;;
-									  var ctx = chartInstance.ctx;
-									  ctx.textAlign = "center";
-									  ctx.font = '12px "Helvetica Neue", Helvetica, Arial, sans-serif';
-									  ctx.fillStyle = '#fff';
-									  var height = chartInstance.controller.boxes[0].bottom;
-									  this.data.datasets.forEach(function (dataset, i) {
-										var meta = chartInstance.controller.getDatasetMeta(i);
-										meta.data.forEach(function (bar, index) {
-											ctx.fillText(dataset.data[index], bar._model.x, height - ((height - bar._model.y) / 2));
-										});
-									  });
-									}
-								},
-								title: {
-									display: true,
-									text: this.state.chartName,
-									fontSize: 25
-								},
-								legend: {
-									display: true,
-									position: 'bottom'
-								},
-								maintainAspectRatio: false,
-								responsive: true,
-								scales: {
-									xAxes: [{
-										stacked: true,
-										ticks: {
-											autoSkip: false,
-											userCallback: function(value, index, values) {
-												return value.split(" ")[0];
-											}
-										}
-									}],
-									yAxes: [{
-										stacked: true,
-										scaleLabel: {
-											display: true,
-											labelString: 'percentage'
-										}
-									}]
-								},
-								tooltips: {
-									callbacks: {
-										title: function(tooltipItem, data) {
-											var label = data.labels[tooltipItem[0].index];
-											return label;
-										}
-									}
-								}
-							}}
-						/>
+						{element}
 					</div>
 				) : (
 					<Loader />

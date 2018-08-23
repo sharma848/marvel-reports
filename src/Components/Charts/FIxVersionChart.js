@@ -19,7 +19,7 @@ export class FIxVersionChart extends Component {
 			fixVersions: ''
 		};
 		this.chartContainer = React.createRef();
-		}
+	}
 
 	componentDidMount() {
 		this.props.getAllFixVersions();
@@ -40,18 +40,11 @@ export class FIxVersionChart extends Component {
 		var remainingEpicData = [];
 		var closedEpicData = [];
 		var labels = [];
-		var bgColor = []; // green: #228b22 blue: #4765d5 yellow: #ffbf00
 		var data = this.state.fixVersionChartData ? this.state.fixVersionChartData.map((value) => {
 			const completedPercentage = Math.round((value.closedSP / value.totalSP) * 100);
 			const remainingPercentage = Math.round((value.remainingSP / value.totalSP) * 100);
 			if(value.remainingSP == 0 && value.status === 'Accepted') {
-				bgColor.push('#228b22');
 				closedEpicData.push(100);
-			} else if(value.remainingSP == 0 && value.status === 'Closed'){
-				bgColor.push('#4765d5');
-				closedEpicData.push(100);				
-			} else if(value.status === 'In Progress'){
-				bgColor.push('#228b22');
 			} else {
 				closedEpicData.push(0);
 			}
@@ -60,14 +53,12 @@ export class FIxVersionChart extends Component {
 			labels.push(value.id + ' ' + value.name);
 
 		}) : '';
-
-		
 		const chartData = {
 			chart: {
 				type: 'column'
 			},
 			title: {
-				text: 'Stacked column chart'
+				text: this.state.chartName
 			},
 			xAxis: {
 				categories: labels
@@ -101,7 +92,6 @@ export class FIxVersionChart extends Component {
 					stacking: 'normal',
 					dataLabels: {
 						enabled: true,
-						rotation:270,
 						color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
 					}
 				}
@@ -109,13 +99,53 @@ export class FIxVersionChart extends Component {
 			exporting: true,
 			series: [{
 				name: 'Remaining %',
-				data: remainingEpicData
+				data: remainingEpicData,
+				dataLabels: {
+					enabled: true,
+					rotation: -90,
+					color: '#FFFFFF',
+					align: 'right',
+					style: {
+					   fontSize: '8px',
+					   fontWeight: 'normal'
+					}
+				},
+				color: '#ffbf00'
 			}, {
 				name: 'Completed %',
-				data: completedEpicData
+				data: completedEpicData,
+				dataLabels: {
+					enabled: true,
+					rotation: -90,
+					style: {
+					   fontSize: '8px',
+					   fontWeight: 'normal'
+					}
+				},
+				color: '#228b22'
+			},
+			{
+				name: 'Accepted',
+				data: closedEpicData,
+				dataLabels: {
+					enabled: true,
+					rotation: -90,					
+					style: {
+					   fontSize: '8px',
+					   fontWeight: 'normal'
+					}
+				},
+				color: '#4765d5'
 			}]
 		};
 		this.setState({ chartData }, this.renderHighChart);
+	}
+
+	renderHighChart =() => {
+		this.chart = new Highcharts[this.props.type || "Chart"](
+            this.chartContainer.current, 
+            this.state.chartData
+        );
 	}
 
 	renderHighChart =() => {
@@ -144,6 +174,7 @@ export class FIxVersionChart extends Component {
 	};
 
 	showGraph = () => {
+		const element = React.createElement('div', { ref: this.chartContainer, id: Math.random(), key: this.props.key });
 		return (
 			<div className="chart-content-container">
 				{this.state.fixVersionChartData ? (
@@ -151,74 +182,7 @@ export class FIxVersionChart extends Component {
 						<button type="button" className="close close-button" aria-label="Close" onClick={() => this.props.removeChart(this.props.name)}>
 							<span aria-hidden="true">&times;</span>
 						</button>
-						<Bar
-							width={700}
-							height={500}
-							data={this.state.chartData}
-							options={{
-								animation: {
-									onProgress: function (data) {
-									  var chartInstance = data.chart;
-									  var Chart = data.chart;;
-									  var ctx = chartInstance.ctx;
-									  ctx.textAlign = "center";
-									  ctx.font = '12px "Helvetica Neue", Helvetica, Arial, sans-serif';
-									  ctx.fillStyle = '#fff';
-									  var height = chartInstance.controller.boxes[0].bottom;
-									  this.data.datasets.forEach(function (dataset, i) {
-										var meta = chartInstance.controller.getDatasetMeta(i);
-										meta.data.forEach(function (bar, index) {
-											ctx.save();
-											ctx.translate(bar._model.x-400, bar._model.y+500);
-											ctx.rotate(-0.5*Math.PI);
-											ctx.fillText(dataset.data[index], bar._model.x, ((height) ));
-											ctx.restore();
-										});
-									  });
-
-									}
-								},
-								title: {
-									display: true,
-									text: this.state.chartName,
-									fontSize: 25
-								},
-								legend: {
-									display: true,
-									position: 'bottom'
-								},
-								maintainAspectRatio: false,
-								responsive: true,
-								scales: {
-									xAxes: [{
-										stacked: true,
-										scaleFontSize: 4,
-										ticks: {
-											autoSkip: false,
-											fontSize: 10,
-											userCallback: function(value, index, values) {
-												return value.split(" ")[0];
-											}
-										}
-									}],
-									yAxes: [{
-										stacked: true,
-										scaleLabel: {
-											display: true,
-											labelString: 'percentage'
-										}
-									}]
-								},
-								tooltips: {
-									callbacks: {
-										title: function(tooltipItem, data) {
-											var label = data.labels[tooltipItem[0].index];
-											return label;
-										}
-									}
-								}
-							}}
-						/>
+						{element}
 					</div>
 				) : (
 					<Loader />
