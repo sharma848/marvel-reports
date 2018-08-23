@@ -23,13 +23,13 @@ export const GENERATE_EPIC_DATA = 'GENERATE_EPIC_DATA';
 export const EPIC_PERCENTAGE_COMPLETETION = 'EPIC_PERCENTAGE_COMPLETETION';
 export const CURRENT_SPRINT_REPORT_DATA = 'CURRENT_SPRINT_REPORT_DATA';
 
-const ROOT_URL = `http://ebadd971.ngrok.io/marvel`;
+const ROOT_URL = `http://93f0f853.ngrok.io/marvel`;
 
 const token = sessionStorage.getItem('SessionToken');
 
 
 export function signupUser(data) {
-	const params = { eid: data.eid, name: data.name, email: data.email, password: data.password, role: data.role };
+	const params = { eid: data.eid, name: data.name, email: data.email, password: data.password };
 
 	const request = axios.post(`${ROOT_URL}/registration`, params, { headers: { 'content-type': 'application/json' } });
 

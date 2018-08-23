@@ -15,7 +15,6 @@ export class Signup extends Component {
 			name: '',
 			email: '',
 			password: '',
-			role: '',
 			errormsg: '',
 			redirect: false
 		};
@@ -93,16 +92,6 @@ export class Signup extends Component {
 							name="password"
 							id="password"
 							placeholder="Enter your password"
-							onChange={this.onChange}
-						/>
-					</div>
-					<div className="form-group">
-						<input
-							type="text"
-							className="form-control"
-							name="role"
-							id="role"
-							placeholder="Enter your role"
 							onChange={this.onChange}
 						/>
 					</div>
