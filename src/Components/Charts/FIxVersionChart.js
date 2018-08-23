@@ -150,6 +150,31 @@ export class FIxVersionChart extends Component {
         );
 	}
 
+	renderHighChart =() => {
+		this.chart = new Highcharts[this.props.type || "Chart"](
+            this.chartContainer.current, 
+            this.state.chartData
+        );
+	}
+
+	showGraph1 = () => {
+		const element = React.createElement('div', { ref: this.chartContainer, id: Math.random(), key: this.props.key });
+		return (
+			<div className="chart-content-container">
+				{this.state.fixVersionChartData ? (
+					<div>
+						<button type="button" class="close close-button" aria-label="Close" onClick={() => this.props.removeChart(this.props.name)}>
+							<span aria-hidden="true">&times;</span>
+						</button>
+						{element}
+					</div>
+				) : (
+					<Loader />
+				)}
+			</div>
+		);
+	};
+
 	showGraph = () => {
 		const element = React.createElement('div', { ref: this.chartContainer, id: Math.random(), key: this.props.key });
 		return (
@@ -258,7 +283,7 @@ export class FIxVersionChart extends Component {
 	};
 
 	render() {
-		return <div>{this.state.showGraph && this.state.fixVersionData ? this.showGraph() : this.showForm()}</div>;
+		return <div>{this.state.showGraph && this.state.fixVersionData ? this.showGraph1() : this.showForm()}</div>;
 	}
 }
 
