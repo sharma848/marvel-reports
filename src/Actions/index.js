@@ -33,7 +33,7 @@ const token = sessionStorage.getItem('SessionToken');
 
 
 export function signupUser(data) {
-	const params = { eid: data.eid, name: data.name, email: data.email, password: data.password, role: data.role };
+	const params = { eid: data.eid, name: data.name, email: data.email, password: data.password };
 
 	const request = axios.post(`${ROOT_URL}/registration`, params, { headers: { 'content-type': 'application/json' } });
 
