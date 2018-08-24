@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Bar } from 'react-chartjs-2';
-import Highcharts from 'highcharts';
+import Highcharts from 'highcharts'; 
 import Loader from '../Loader/Loader';
 import { getAllFixVersions, getFixVersioChartData, postUserDashboard } from '../../Actions/index';
 import FormControl from 'react-bootstrap/lib/FormControl';
@@ -13,16 +13,23 @@ export class FIxVersionChart extends Component {
 		this.state = {
 			chartData: null,
 			showGraph: false,
-			chartName: this.props.name,
+			chartName: props.settings && props.settings.chartName || this.props.name,
 			fixVersionChartData: null,
 			fixVersionData: null,
-			fixVersions: ''
+			rec: props.settings && props.settings.numberOfRecords,
+			fixVersions: props.settings && props.settings.fv
 		};
 		this.chartContainer = React.createRef();
 	}
 
-	componentDidMount() {
-		this.props.getAllFixVersions();
+	componentDidMount() {		
+		if(this.state.fixVersions && !this.state.fixVersionChartData) {
+			// this.props.getFixVersioChartData([this.state.fixVersions]);
+			this.props.getAllFixVersions();
+		}
+		else {
+			this.props.getAllFixVersions();
+		}
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -163,7 +170,7 @@ export class FIxVersionChart extends Component {
 			<div className="chart-content-container">
 				{this.state.fixVersionChartData ? (
 					<div>
-						<button type="button" class="close close-button" aria-label="Close" onClick={() => this.props.removeChart(this.props.name)}>
+						<button type="button" class="close close-button" aria-label="Close" onClick={() => this.props.removeChart(this.props.name, this.state.fixVersions)}>
 							<span aria-hidden="true">&times;</span>
 						</button>
 						{element}
@@ -181,7 +188,7 @@ export class FIxVersionChart extends Component {
 			<div className="chart-content-container">
 				{this.state.fixVersionChartData ? (
 					<div>
-						<button type="button" className="close close-button" aria-label="Close" onClick={() => this.props.removeChart(this.props.name)}>
+						<button type="button" className="close close-button" aria-label="Close" onClick={() => this.props.removeChart(this.props.name, this.state.fixVersions)}>
 							<span aria-hidden="true">&times;</span>
 						</button>
 						{element}
@@ -196,8 +203,10 @@ export class FIxVersionChart extends Component {
 	onClick = () => {
 		this.setState({ showGraph: true });
 		this.props.postUserDashboard({ graphId: this.props.name, graphSubId: this.state.fixVersions, settings: JSON.stringify({fv: this.state.fixVersions,
-			rec: this.state.numberOfRecords })
+			rec: this.state.numberOfRecords,  chartName: this.state.chartName })
 		});
+		this.props.projectsChanged(this.props.name, this.state.fixVersions);
+		this.props.removeChart(this.props.name);
 		console.log('fv:' + this.state.fixVersions + ' rec:' + this.state.numberOfRecords);
 		this.props.getFixVersioChartData([this.state.fixVersions]);
 	};
@@ -223,7 +232,7 @@ export class FIxVersionChart extends Component {
 		if(this.state.fixVersionData) {
 			return (
 				<div className="chart-content-container">
-					<button type="button" className="close close-button" aria-label="Close" onClick={() => this.props.removeChart(this.props.name)}>
+					<button type="button" className="close close-button" aria-label="Close" onClick={() => this.props.removeChart(this.props.name, this.state.fixVersions)}>
 						<span aria-hidden="true">&times;</span>
 					</button>
 					<FormGroup>

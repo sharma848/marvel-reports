@@ -24,7 +24,7 @@ export default class RenderChart extends Component {
 			case 'Team Velocity Chart':
 				return <TeamVelocityChart name={this.props.name} removeChart={this.props.removeChart} viewToggled={this.props.viewToggled} />;
 			case 'Fix Version Chart':
-				return <FixVersionChart name={this.props.name} removeChart={this.props.removeChart} viewToggled={this.props.viewToggled} />;	
+				return <FixVersionChart name={this.props.name} settings={this.props.settings} removeChart={this.props.removeChart} viewToggled={this.props.viewToggled} projectsChanged={this.props.projectsChanged} />;	
 			case 'Component Chart':
 				return <ComponentChart name={this.props.name} removeChart={this.props.removeChart} viewToggled={this.props.viewToggled} />;
 			case 'Release Burndown Chart':
