@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
+import FormControl from 'react-bootstrap/lib/FormControl';
 import { withRouter } from 'react-router';
 
 import { getUserDetails, updateUserStatus, emptyuserAccessData } from '../../Actions/index';
@@ -11,13 +12,34 @@ export class UserDetail extends Component {
         super(props);
 
         this.state = {
-            actionStatus: null
+            actionStatus: null,
+            roleSelected: '',
+            projectSelected: null
         };
     }
 
     onClick = (status) => {
-        this.props.updateUserStatus(this.props.userData.email, status, this.props.userData.role);
+        const params = {
+            projects: [
+                this.state.projectSelected
+            ],
+            email: this.props.userData.email,
+            role: this.state.roleSelected
+        };
+        this.props.updateUserStatus(status, params);
     }
+
+    onChange = (e) => {
+        this.setState({ [e.target.name]: e.target.value });
+    };
+    
+    onProjectChange = (e) => {
+        this.props.allProjects.map(val => {
+            if(e.target.value === val.name) {
+                this.setState({ projectSelected: val }, () => console.log(this.state.projectSelected));
+            }
+        })
+    };
 
     componentWillReceiveProps(nextProps) {
 
@@ -28,13 +50,46 @@ export class UserDetail extends Component {
         }
     }
 
+    getAllProjectsDropdown() {
+        const options = this.props.allProjects.map(value => {
+            return <option value={value.name}>{value.name}</option>;
+        });
+
+        return options;
+    }
+
     render() {
         const status = this.props.userData.status;
         return (
             <tr>
                 <td>{this.props.userData.name}</td>
                 <td>{this.props.userData.email}</td>
-                <td>{this.props.userData.role}</td>
+                <td>
+                    <FormControl
+                        componentClass="select"
+                        placeholder="select"
+                        onChange={this.onChange}
+                        name="roleSelected"
+                        id="roleSelected"
+                    >
+                        <option value="">Select</option>
+                        <option value='view'>View</option>
+                        <option value='manager'>Manager</option>
+                        <option value='super_adminc'>Super Admin</option>
+                    </FormControl>
+                </td>
+                <td>
+                    <FormControl
+                        componentClass="select"
+                        placeholder="select"
+                        onChange={this.onProjectChange}
+                        name="projectSelected"
+                        id="projectSelected"
+                    >
+                        <option value="">Select</option>
+                        {this.getAllProjectsDropdown()}
+                    </FormControl>
+                </td>
                 <td>{this.props.userData.status}</td>
                 { status === 'pending' || status === 'rejected' ? <td><Button className="btn btn-success" onClick={() => this.onClick('approved')}>Approve</Button></td> : <td />}
                 { status === 'pending' || status === 'approved' ? <td><Button className="btn btn-danger" onClick={() => this.onClick('declined')}>Revoke</Button></td> : <td />}

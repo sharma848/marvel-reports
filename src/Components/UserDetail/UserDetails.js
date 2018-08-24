@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Table } from 'react-bootstrap';
 
-import { getUserDetails } from '../../Actions/index';
+import { getUserDetails, getAllProjectData } from '../../Actions/index';
 import UserDetail from '../UserDetail/UserDetail';
 import Loader from '../Loader/Loader';
 
@@ -11,7 +11,8 @@ export class UserDetails extends Component {
     constructor(props) {
 		super(props);
 		this.state = {
-			allUsers: null
+			allUsers: null,
+			allProjectData: null
 		};
 		this.getDetails = this.getDetails.bind(this);
 	}
@@ -28,11 +29,14 @@ export class UserDetails extends Component {
 			const data = nextProps.usersData.data.data;
 			this.setState({ allUsers: data });
 		}
+		if(nextProps.allProjectData && nextProps.allProjectData.data && nextProps.allProjectData.data.projects) {
+			this.setState({ allProjectData: nextProps.allProjectData.data.projects });
+		}
 	}
 
 	getDetails() {
 		const displayData = this.state.allUsers.map((user, index) => {
-			return <UserDetail userData={user} index={index} key={index} />;
+			return <UserDetail userData={user} allProjects={this.state.allProjectData} index={index} key={index} />;
 		});
 		
 		return (
@@ -42,6 +46,7 @@ export class UserDetails extends Component {
 						<th>Name</th>
 						<th>Email</th>
 						<th>Role</th>
+						<th>Projects</th>
 						<th>Status</th>
 						<th>Approve</th>
 						<th>Revoke</th>
@@ -54,19 +59,21 @@ export class UserDetails extends Component {
 
     render() {
         return (
-            <div className="action-requests">{this.state.allUsers ? this.getDetails() : <Loader />}</div>
+            <div className="action-requests">{this.state.allUsers && this.state.allProjectData ? this.getDetails() : <Loader />}</div>
         );
     }
 }
 
 function mapStateToProps(state) {
 	return {
-		usersData: state.usersData
+		usersData: state.usersData,
+		allProjectData: state.allProjectData
 	};
 }
 
 const actions = {
-	getUserDetails: getUserDetails
+	getUserDetails: getUserDetails,
+	getAllProjectData: getAllProjectData
 };
 
 export default connect(mapStateToProps, actions)(UserDetails);
