@@ -403,3 +403,7 @@ select.form-control:not([size]):not([multiple]) {
 table tbody td {
   text-align: center;
 }
+
+select {
+  min-width: 150px;
+}
