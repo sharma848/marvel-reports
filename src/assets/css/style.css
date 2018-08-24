@@ -407,3 +407,19 @@ table tbody td {
 select {
   min-width: 150px;
 }
+
+.container-fluid {
+  padding: 30px;
+  text-align: center;
+}
+
+.padding-40 {
+  padding: 40px;
+}
+
+.image-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

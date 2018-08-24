@@ -38,7 +38,7 @@ export class UserDetails extends Component {
 		const displayData = this.state.allUsers.map((user, index) => {
 			return <UserDetail userData={user} allProjects={this.state.allProjectData} index={index} key={index} />;
 		});
-		
+
 		return (
 			<Table responsive bordered condensed hover>
 				<thead>
@@ -59,7 +59,7 @@ export class UserDetails extends Component {
 
     render() {
         return (
-            <div className="action-requests">{this.state.allUsers && this.state.allProjectData ? this.getDetails() : <Loader />}</div>
+            <div className="action-requests dashboard-container">{this.state.allUsers && this.state.allProjectData ? this.getDetails() : <Loader />}</div>
         );
     }
 }

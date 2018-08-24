@@ -75,7 +75,7 @@ class SelectCharts extends React.Component {
   renderProjects = () => {
       let value = this.state.projects.map((val,index) => {
         return <RenderChart name={val.graphId}
-        settings={val.settings ? JSON.parse(val.settings) : null }
+          settings={val.settings ? JSON.parse(val.settings) : null }
           removeChart={this.removeChart}
           key={index}
           collapseView={this.state.collapseView}
@@ -108,7 +108,7 @@ class SelectCharts extends React.Component {
   
   render() {
     return (
-      <div className="chart-container">
+      <div className="chart-container dashboard-container">
         {this.state.collapseView ? <span className="toggle-view-image"><img src={expanded_image} alt="Expanded View" onClick={this.changeView} /></span>
         : <span className="toggle-view-image"><img src={collapsed_image} alt="Collapsed View" onClick={this.changeView} /></span>}
         <button className="btn btn-success select-charts-btn" onClick={this.handleShow}>

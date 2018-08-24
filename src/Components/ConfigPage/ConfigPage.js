@@ -100,7 +100,7 @@ export class ConfigPage extends Component {
 
 	render() {
 		return (
-			<div>
+			<div className="dashboard-container">
 				<div className="form-container">
 					<h4>Jira Credentials</h4>
 					<div className="form-group">
