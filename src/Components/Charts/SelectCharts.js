@@ -16,7 +16,7 @@ class SelectCharts extends React.Component {
       projects: [],
       projectsSavedData: null,
       allProjects: ['Release Burndown Chart', 'Team Velocity Chart', 'Plan Vs Actual Chart', 'Fix Version Chart', 'Component Chart', 'Epic Completetion Chart', 'Current Sprint Report'],
-      show: true,
+      showModal: false,
       search: '',
       viewButtonText: 'Expanded View',
       collapseView: true
@@ -39,11 +39,11 @@ class SelectCharts extends React.Component {
 	}
 
   handleClose= () => {
-    this.setState({ show: false });
+    this.setState({ showModal: false });
   }
 
   handleShow = () => {
-    this.setState({ show: true });
+    this.setState({ showModal: true });
   }
 
   projectsChanged = (newProject) => {
@@ -75,7 +75,7 @@ class SelectCharts extends React.Component {
 
   renderModal = () => {
     return (
-      <Modal show={this.state.show} onHide={this.handleClose}>
+      <Modal show={this.state.showModal} onHide={this.handleClose}>
         <Modal.Header closeButton>
         </Modal.Header>
         <Modal.Body>
