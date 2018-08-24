@@ -76,18 +76,7 @@ export function getUserDetails() {
 	};
 }
 
-export function updateUserStatus(email, status, role) {
-	const params = {
-		projects: [
-			{
-				name: 'newscycle',
-				host: 'newscycle.com'
-			}
-		],
-		email,
-		role
-	};
-
+export function updateUserStatus(status, params) {
 	const token = sessionStorage.getItem('SessionToken');
 
 	if (status === 'approved') {

@@ -17,7 +17,7 @@ class SelectCharts extends React.Component {
       viewerProjects: ['Release Burndown Chart', 'Team Velocity Chart', 'Plan Vs Actual Chart'],
       projectsSavedData: null,
       allProjects: ['Release Burndown Chart', 'Team Velocity Chart', 'Plan Vs Actual Chart', 'Fix Version Chart', 'Component Chart', 'Epic Completetion Chart', 'Current Sprint Report'],
-      show: true,
+      showModal: false,
       search: '',
       viewButtonText: 'Expanded View',
       collapseView: true
@@ -33,24 +33,25 @@ class SelectCharts extends React.Component {
   componentWillReceiveProps(nextProps) {
 		if (nextProps.dashboardData && nextProps.dashboardData.userData && this.props.dashboardData.userData !== nextProps.dashboardData.userData) {
       const projectsSavedData = nextProps.dashboardData.userData.configuration;
-      const projects = [];
-      projectsSavedData.forEach(project => projects.push(project.graphId));
-			this.setState({ projectsSavedData: nextProps.dashboardData.userData.configuration, projects });
+      this.setState({ projects: nextProps.dashboardData.userData.configuration });
 		}
 	}
 
   handleClose= () => {
-    this.setState({ show: false });
+    this.setState({ showModal: false });
   }
 
   handleShow = () => {
-    this.setState({ show: true });
+    this.setState({ showModal: true });
   }
 
-  projectsChanged = (newProject) => {
-    this.setState({
-      projects: this.state.projects.concat(newProject)
+  projectsChanged = (newProject, subProjectId) => {
+    const projects = this.state.projects;
+    projects.push({ 
+      graphId: newProject,
+      graphSubId: subProjectId
     });
+    this.setState({ projects });
   }
 
   changeView = () => {
@@ -59,18 +60,27 @@ class SelectCharts extends React.Component {
     });
   }
 
-  removeChart = (chart) => {
+  removeChart = (chart, chartSubId) => {
     const projects = this.state.projects;
-    const index = projects.indexOf(chart);
-    if(index > -1) {
-      projects.splice(index, 1);      
-      this.props.removeUserDashboard({ graphId: chart });
-    }
-    this.setState({ projects: projects });    
+    const updatedProjects = projects.filter(project => {
+      if(project.graphSubId) {
+        return chartSubId ? project.graphId != chart && project.graphSubId != chartSubId : true;  
+      }
+      return project.graphId != chart;
+    });
+    this.props.removeUserDashboard({ graphId: chart, graphSubId: chartSubId });
+    this.setState({ projects: updatedProjects });    
   }
 
-  renderProjects = () => {      
-      let value = this.state.projects.map((val,index) => <RenderChart name={val} removeChart={this.removeChart} key={index} collapseView={this.state.collapseView} viewToggled={this.state.collapseView} />);
+  renderProjects = () => {
+      let value = this.state.projects.map((val,index) => {
+        return <RenderChart name={val.graphId}
+          removeChart={this.removeChart}
+          key={index}
+          collapseView={this.state.collapseView}
+          viewToggled={this.state.collapseView} 
+          projectsChanged={this.projectsChanged}
+      /> }, this);
       return value;
   }
 
@@ -78,7 +88,7 @@ class SelectCharts extends React.Component {
     let role = sessionStorage.getItem('role');
     
     return (
-      <Modal show={this.state.show} onHide={this.handleClose}>
+      <Modal show={this.state.showModal} onHide={this.handleClose}>
         <Modal.Header closeButton>
         </Modal.Header>
         <Modal.Body>
@@ -103,7 +113,7 @@ class SelectCharts extends React.Component {
         <button className="btn btn-success select-charts-btn" onClick={this.handleShow}>
           {chartTexts.btnText}
         </button>
-        {this.renderModal()}
+        { this.state.projects.length === 0 ? this.renderModal() : ''}
         <div className={this.state.collapseView ? "charts" : ''}>
           {this.renderProjects()}
         </div>
