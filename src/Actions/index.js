@@ -28,9 +28,9 @@ export const CURRENT_SPRINT_REPORT_DATA = 'CURRENT_SPRINT_REPORT_DATA';
 
 const ROOT_URL = `http://8c14fbc7.ngrok.io/marvel`;
 
-const graphSettingsBaseUrl = '/api/super_admin/graph/';
+const role = sessionStorage.getItem('role');
+const graphSettingsBaseUrl = `/api/${role}/graph/`;
 const token = sessionStorage.getItem('SessionToken');
-
 
 export function signupUser(data) {
 	const params = { eid: data.eid, name: data.name, email: data.email, password: data.password };
@@ -57,14 +57,17 @@ export function loginUser(data) {
 export function getDashboard() {
 	const token = sessionStorage.getItem('SessionToken');
 
-	return axios.get(`${ROOT_URL}/api/user/detail`, { headers: { jwttoken: token } }).then(response => {
-		return {
-			type: GET_DASHBOARD,
-			payload: response
-		};
-	}).catch((error) => {
-		console.error(error);
-	});
+	return axios
+		.get(`${ROOT_URL}/api/user/detail`, { headers: { jwttoken: token } })
+		.then((response) => {
+			return {
+				type: GET_DASHBOARD,
+				payload: response
+			};
+		})
+		.catch((error) => {
+			console.error(error);
+		});
 }
 
 export function getUserDetails() {
@@ -108,7 +111,10 @@ export function emptyuserAccessData() {
 
 export function setConfigurations(params) {
 	const PId = sessionStorage.getItem('PId');
-	const request = axios.post(`${ROOT_URL}/api/super_admin/configuration/${PId}`, params, { headers: { jwttoken: token } });
+	const role = sessionStorage.getItem('role');
+	const request = axios.post(`${ROOT_URL}/api/${role}/configuration/${PId}`, params, {
+		headers: { jwttoken: token }
+	});
 
 	return {
 		type: SET_CONFIGURATIONS,
@@ -118,7 +124,8 @@ export function setConfigurations(params) {
 
 export function getConfigurations() {
 	const PId = sessionStorage.getItem('PId');
-	const request = axios.get(`${ROOT_URL}/api/super_admin/configuration/${PId}`, { headers: { jwttoken: token } });
+	const role = sessionStorage.getItem('role');
+	const request = axios.get(`${ROOT_URL}/api/${role}/configuration/${PId}`, { headers: { jwttoken: token } });
 
 	return {
 		type: GET_CONFIGURATIONS,
@@ -128,19 +135,23 @@ export function getConfigurations() {
 
 export function getAllProjectData() {
 	const token = sessionStorage.getItem('SessionToken');
-	const request = axios.get(`${ROOT_URL}/api/super_admin/project`, {
+	const role = sessionStorage.getItem('role');
+	const request = axios.get(`${ROOT_URL}/api/${role}/project`, {
 		headers: { jwttoken: token }
 	});
 
 	return {
 		type: GET_ALL_PROJECTS,
 		payload: request
-	}
+	};
 }
 
 export function getAllFixVersions() {
 	const ProjectID = sessionStorage.getItem('PId');
-	const request = axios.get(`${ROOT_URL}/api/super_admin/graph/${ProjectID}/fixversions`, { headers: { jwttoken: token } });
+	const role = sessionStorage.getItem('role');
+	const request = axios.get(`${ROOT_URL}/api/${role}/graph/${ProjectID}/fixversions`, {
+		headers: { jwttoken: token }
+	});
 
 	return {
 		type: GET_ALL_FIX_VERSION,
@@ -150,8 +161,11 @@ export function getAllFixVersions() {
 
 export function getFixVersioChartData(params) {
 	const ProjectID = sessionStorage.getItem('PId');
-	const request = axios.post(`${ROOT_URL}/api/super_admin/graph/${ProjectID}/fixversions`, params, { headers: { jwttoken: token } });
-	return request.then(response => {
+	const role = sessionStorage.getItem('role');
+	const request = axios.post(`${ROOT_URL}/api/${role}/graph/${ProjectID}/fixversions`, params, {
+		headers: { jwttoken: token }
+	});
+	return request.then((response) => {
 		return {
 			type: GET_FIX_VERSION_CHART_DATA,
 			payload: response,
@@ -162,7 +176,10 @@ export function getFixVersioChartData(params) {
 
 export function getAllComponents() {
 	const ProjectID = sessionStorage.getItem('PId');
-	const request = axios.get(`${ROOT_URL}/api/super_admin/graph/${ProjectID}/components`, { headers: { jwttoken: token } });
+	const role = sessionStorage.getItem('role');
+	const request = axios.get(`${ROOT_URL}/api/${role}/graph/${ProjectID}/components`, {
+		headers: { jwttoken: token }
+	});
 
 	return {
 		type: GET_ALL_COMPONENT,
@@ -172,8 +189,11 @@ export function getAllComponents() {
 
 export function getComponentChartData(params) {
 	const ProjectID = sessionStorage.getItem('PId');
-	const request = axios.post(`${ROOT_URL}/api/super_admin/graph/${ProjectID}/components`, params, { headers: { jwttoken: token } });
-	return request.then(response => {
+	const role = sessionStorage.getItem('role');
+	const request = axios.post(`${ROOT_URL}/api/${role}/graph/${ProjectID}/components`, params, {
+		headers: { jwttoken: token }
+	});
+	return request.then((response) => {
 		return {
 			type: GET_COMPONENT_CHART_DATA,
 			payload: response,
@@ -185,8 +205,10 @@ export function getComponentChartData(params) {
 export function getReleaseBurndownChartData() {
 	const ProjectID = sessionStorage.getItem('PId');
 	const role = sessionStorage.getItem('role');
-	const request = axios.get(`${ROOT_URL}/api/${role}/graph/${ProjectID}/sprint_report`, { headers: { jwttoken: token } });
-	return request.then(response => {
+	const request = axios.get(`${ROOT_URL}/api/${role}/graph/${ProjectID}/sprint_report`, {
+		headers: { jwttoken: token }
+	});
+	return request.then((response) => {
 		return {
 			type: GET_RELEASE_BURNDOWN_CHART_DATA,
 			payload: response
@@ -197,8 +219,10 @@ export function getReleaseBurndownChartData() {
 export function getTeamVelocityChartData() {
 	const ProjectID = sessionStorage.getItem('PId');
 	const role = sessionStorage.getItem('role');
-	const request = axios.get(`${ROOT_URL}/api/${role}/graph/${ProjectID}/sprint_report`, { headers: { jwttoken: token } });
-	return request.then(response => {
+	const request = axios.get(`${ROOT_URL}/api/${role}/graph/${ProjectID}/sprint_report`, {
+		headers: { jwttoken: token }
+	});
+	return request.then((response) => {
 		return {
 			type: GET_TEAM_VELOCITY_CHART_DATA,
 			payload: response
@@ -209,8 +233,10 @@ export function getTeamVelocityChartData() {
 export function getPlanVsActualChartData() {
 	const ProjectID = sessionStorage.getItem('PId');
 	const role = sessionStorage.getItem('role');
-	const request = axios.get(`${ROOT_URL}/api/${role}/graph/${ProjectID}/sprint_report`, { headers: { jwttoken: token } });
-	return request.then(response => {
+	const request = axios.get(`${ROOT_URL}/api/${role}/graph/${ProjectID}/sprint_report`, {
+		headers: { jwttoken: token }
+	});
+	return request.then((response) => {
 		return {
 			type: GET_PLAN_VS_ACTUAL_CHART_DATA,
 			payload: response
@@ -220,8 +246,11 @@ export function getPlanVsActualChartData() {
 
 export function generateEpicData() {
 	const ProjectID = sessionStorage.getItem('PId');
-	const request = axios.get(`${ROOT_URL}/api/super_admin/reports/${ProjectID}/epic/generate`, { headers: { jwttoken: token } });
-	return request.then(response => {
+	const role = sessionStorage.getItem('role');
+	const request = axios.get(`${ROOT_URL}/api/${role}/reports/${ProjectID}/epic/generate`, {
+		headers: { jwttoken: token }
+	});
+	return request.then((response) => {
 		return {
 			type: GENERATE_EPIC_DATA,
 			payload: response
@@ -231,8 +260,11 @@ export function generateEpicData() {
 
 export function generateVelocityData() {
 	const ProjectID = sessionStorage.getItem('PId');
-	const request = axios.get(`${ROOT_URL}/api/super_admin/reports/${ProjectID}/velocity/generate`, { headers: { jwttoken: token } });
-	return request.then(response => {
+	const role = sessionStorage.getItem('role');
+	const request = axios.get(`${ROOT_URL}/api/${role}/reports/${ProjectID}/velocity/generate`, {
+		headers: { jwttoken: token }
+	});
+	return request.then((response) => {
 		return {
 			type: GENERATE_VELOCITY_DATA,
 			payload: response
@@ -242,8 +274,11 @@ export function generateVelocityData() {
 
 export function getEpicSumByTeamEpic(params) {
 	const ProjectID = sessionStorage.getItem('PId');
-	const request = axios.post(`${ROOT_URL}/api/super_admin/graph/${ProjectID}/level`, params, { headers: { jwttoken: token } });
-	return request.then(response => {
+	const role = sessionStorage.getItem('role');
+	const request = axios.post(`${ROOT_URL}/api/${role}/graph/${ProjectID}/level`, params, {
+		headers: { jwttoken: token }
+	});
+	return request.then((response) => {
 		return {
 			type: EPIC_PERCENTAGE_COMPLETETION,
 			payload: response,
@@ -254,8 +289,11 @@ export function getEpicSumByTeamEpic(params) {
 
 export function getCurrentSprintReportData() {
 	const ProjectID = sessionStorage.getItem('PId');
-	const request = axios.get(`${ROOT_URL}/api/super_admin/graph/${ProjectID}/sprint-status`, { headers: { jwttoken: token } });
-	return request.then(response => {
+	const role = sessionStorage.getItem('role');
+	const request = axios.get(`${ROOT_URL}/api/${role}/graph/${ProjectID}/sprint-status`, {
+		headers: { jwttoken: token }
+	});
+	return request.then((response) => {
 		return {
 			type: CURRENT_SPRINT_REPORT_DATA,
 			payload: response
@@ -266,16 +304,12 @@ export function getCurrentSprintReportData() {
 export function postUserDashboard(data) {
 	const projectID = sessionStorage.getItem('PId');
 	const params = { graphId: data.graphId, graphSubId: data.graphSubId, settings: data.settings };
-	const request = axios.post(
-		`${ROOT_URL}${graphSettingsBaseUrl}${projectID}/configuration/update`,
-		params,
-		{ 
-			headers: { 
-				jwttoken: token,
-				'content-type': 'application/json'
-			}
+	const request = axios.post(`${ROOT_URL}${graphSettingsBaseUrl}${projectID}/configuration/update`, params, {
+		headers: {
+			jwttoken: token,
+			'content-type': 'application/json'
 		}
-	);
+	});
 
 	return {
 		type: POST_USER_DASHBOARD,
@@ -285,17 +319,14 @@ export function postUserDashboard(data) {
 
 export function getUserDashboard() {
 	const projectID = sessionStorage.getItem('PId');
-	const request = axios.get(
-		`${ROOT_URL}${graphSettingsBaseUrl}${projectID}/configuration`,
-		{ 
-			headers: { 
-				jwttoken: token,
-				'content-type': 'application/json'
-			}
+	const request = axios.get(`${ROOT_URL}${graphSettingsBaseUrl}${projectID}/configuration`, {
+		headers: {
+			jwttoken: token,
+			'content-type': 'application/json'
 		}
-	);
+	});
 
-	return request.then(response => {
+	return request.then((response) => {
 		return {
 			type: GET_USER_DASHBOARD,
 			payload: response
@@ -306,18 +337,15 @@ export function getUserDashboard() {
 export function removeUserDashboard(data) {
 	const projectID = sessionStorage.getItem('PId');
 	const params = { graphId: data.graphId, graphSubId: data.graphSubId };
-	const request = axios.delete(
-		`${ROOT_URL}${graphSettingsBaseUrl}${projectID}/configuration/delete`,
-		{ 
-			data: params,
-			headers: { 
-				jwttoken: token,
-				'content-type': 'application/json'
-			}
+	const request = axios.delete(`${ROOT_URL}${graphSettingsBaseUrl}${projectID}/configuration/delete`, {
+		data: params,
+		headers: {
+			jwttoken: token,
+			'content-type': 'application/json'
 		}
-	);
+	});
 
-	return request.then(response => {
+	return request.then((response) => {
 		return {
 			type: DELETE_USER_DASHBOARD,
 			payload: response

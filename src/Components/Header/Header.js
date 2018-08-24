@@ -24,7 +24,9 @@ export class Header extends Component {
     }
 
     componentDidMount() {
-        this.props.getAllProjectData();
+        if(sessionStorage.getItem("role")) {
+            this.props.getAllProjectData();
+        }
     }
 
     componentWillReceiveProps(nextProps) {

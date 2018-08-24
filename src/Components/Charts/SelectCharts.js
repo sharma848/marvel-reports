@@ -25,7 +25,7 @@ class SelectCharts extends React.Component {
   }
 
   componentWillMount() {
-    if(!(this.props.dashboardData && this.props.dashboardData.userData)) {
+    if(!(this.props.dashboardData && this.props.dashboardData.userData) && sessionStorage.getItem("PId")) {
       this.props.getUserDashboard();
     }
   }
@@ -42,7 +42,7 @@ class SelectCharts extends React.Component {
   }
 
   handleShow = () => {
-    this.setState({ showModal: true });
+    this.setState({ showModal: true }, () => console.log("clicked"));
   }
 
   projectsChanged = (newProject, subProjectId) => {
@@ -75,6 +75,7 @@ class SelectCharts extends React.Component {
   renderProjects = () => {
       let value = this.state.projects.map((val,index) => {
         return <RenderChart name={val.graphId}
+        settings={val.settings ? JSON.parse(val.settings) : null }
           removeChart={this.removeChart}
           key={index}
           collapseView={this.state.collapseView}
@@ -113,7 +114,8 @@ class SelectCharts extends React.Component {
         <button className="btn btn-success select-charts-btn" onClick={this.handleShow}>
           {chartTexts.btnText}
         </button>
-        { this.state.projects.length === 0 ? this.renderModal() : ''}
+        {/* { this.state.projects.length === 0 ? this.renderModal() : ''} */}
+        {this.renderModal()}
         <div className={this.state.collapseView ? "charts" : ''}>
           {this.renderProjects()}
         </div>
