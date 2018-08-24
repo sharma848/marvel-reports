@@ -74,7 +74,7 @@ class SelectCharts extends React.Component {
   renderProjects = () => {
       let value = this.state.projects.map((val,index) => {
         return <RenderChart name={val.graphId}
-          settings={JSON.parse(val.settings)}
+          settings={val.settings ? JSON.parse(val.settings) : null }
           removeChart={this.removeChart}
           key={index}
           collapseView={this.state.collapseView}
