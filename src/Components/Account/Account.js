@@ -4,7 +4,7 @@ export default class Account extends Component {
 
     render() {
         return (
-            <div>
+            <div className="dashboard-container">
                 {this.props.location.userData ? (<div>
                     <dl class="dl-horizontal">
                         <dt>Name:</dt>

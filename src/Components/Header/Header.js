@@ -62,57 +62,39 @@ export class Header extends Component {
               <Modal.Header closeButton>
               </Modal.Header>
               <Modal.Body>
-                    <div className="border w-100 p-3 " >
+                    <div className="w-100 p-3 ">
                         <Grid fluid>
                             <Row>
-                                <Col xs={4}>
+                                <Col xs={4} className="padding-40">
                                     <div>
-                                        <Image src={durgesh} circle/>
-                                    </div>
-                                    <div>
-                                        <a href="https://glo.globallogic.com/users/profile/d.mishra" target="_blank">Durgesh Kumar Mishra</a>
+                                        <a href="https://glo.globallogic.com/users/profile/d.mishra" target="_blank" className="image-section"><Image src={durgesh} circle/>Durgesh Kumar Mishra</a>
                                     </div>
                                 </Col>
-                                <Col xs={4}>
+                                <Col xs={4}  className="padding-40">
                                     <div>
-                                        <Image src={neha} circle/>
-                                    </div>
-                                    <div>
-                                        <a href="https://glo.globallogic.com/users/profile/neha.sharma2" target="_blank">Neha Sharma</a>
+                                        <a href="https://glo.globallogic.com/users/profile/neha.sharma2" target="_blank" className="image-section"><Image src={neha} circle/>Neha Sharma</a>
                                     </div>
                                 </Col>
-                                <Col xs={4}>
+                                <Col xs={4}  className="padding-40">
                                     <div>
-                                        <Image src={adit} circle/>
-                                    </div>
-                                    <div>
-                                        <a href="https://glo.globallogic.com/users/profile/adit.garg" target="_blank">Adit Garg</a>
+                                        <a href="https://glo.globallogic.com/users/profile/adit.garg" target="_blank" className="image-section"><Image src={adit} circle/>Adit Garg</a>
                                     </div>
                                 </Col>
                             </Row>
                             <Row>
-                                <Col xs={4}>
+                                <Col xs={4}  className="padding-40">
                                     <div>
-                                        <Image src={abhishek} circle/>
-                                    </div>
-                                    <div>
-                                        <a href="https://glo.globallogic.com/users/profile/abhishek.sharma5" target="_blank">Abhishek Sharma</a>
+                                        <a href="https://glo.globallogic.com/users/profile/abhishek.sharma5" target="_blank" className="image-section"><Image src={abhishek} circle/>Abhishek Sharma</a>
                                     </div>
                                 </Col>
-                                <Col xs={4}>
+                                <Col xs={4}  className="padding-40">
                                     <div>
-                                        <Image src={jatin} circle/>
-                                    </div>
-                                    <div>
-                                        <a href="https://glo.globallogic.com/users/profile/jatin.sokhal" target="_blank">Jatin Sokhal</a>
+                                        <a href="https://glo.globallogic.com/users/profile/jatin.sokhal" target="_blank" className="image-section"><Image src={jatin} circle/>Jatin Sokhal</a>
                                     </div>
                                 </Col>
-                                <Col xs={4}>
+                                <Col xs={4}  className="padding-40">
                                     <div>
-                                        <Image src={kavya} circle/>
-                                    </div>
-                                    <div>
-                                        <a href="https://glo.globallogic.com/users/profile/kavya.jain" target="_blank">Kavya Jain</a>
+                                        <a href="https://glo.globallogic.com/users/profile/kavya.jain" target="_blank" className="image-section"><Image src={kavya} circle/>Kavya Jain</a>
                                     </div>
                                 </Col>
                             </Row>    
