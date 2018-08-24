@@ -101,13 +101,13 @@ class SelectCharts extends React.Component {
   
   render() {
     return (
-      <div className="chart-container">
+      <div className="chart-container dashboard-container">
         {this.state.collapseView ? <span className="toggle-view-image"><img src={expanded_image} alt="Expanded View" onClick={this.changeView} /></span>
         : <span className="toggle-view-image"><img src={collapsed_image} alt="Collapsed View" onClick={this.changeView} /></span>}
         <button className="btn btn-success select-charts-btn" onClick={this.handleShow}>
           {chartTexts.btnText}
         </button>
-        { this.state.projects.length === 0 ? this.renderModal() : ''}
+        {this.renderModal()}
         <div className={this.state.collapseView ? "charts" : ''}>
           {this.renderProjects()}
         </div>
