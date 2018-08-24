@@ -29,13 +29,12 @@ ReactDOM.render(
 				<Route path="/" exact component={Login} />
 				<Route path="/login" exact component={Login} />
 				<Route path="/signup" exact component={SignUp} />
-				<Dashboard>
-					<Route path="/dashboard/userAccess" exact component={UserDetails} />
-					<Route path="/dashboard/settings" exact render={() => <h3>Settings page</h3>} />
-					<Route path="/dashboard/account" exact component={Account} />
-					<Route path="/dashboard/chart" exact component={SelectCharts} />
-					<Route path="/dashboard/configurations" exact component={ConfigPage} />
-				</Dashboard>
+				<Route path="/dashboard"  component={Dashboard} />
+				<Route path="/dashboard/userAccess" exact component={UserDetails} />
+				<Route path="/dashboard/settings" exact render={() => <h3>Settings page</h3>} />
+				<Route path="/dashboard/account" exact component={Account} />
+				<Route path="/dashboard/chart" exact component={SelectCharts} />
+				<Route path="/dashboard/configurations" exact component={ConfigPage} />
 			</App>
 		</BrowserRouter>
 	</Provider>,
