@@ -13,6 +13,7 @@ export default class SelectCharts extends React.Component {
     super(props);
     this.state = {
       projects: [],
+      viewerProjects: ['Release Burndown Chart', 'Team Velocity Chart', 'Plan Vs Actual Chart'],
       allProjects: ['Release Burndown Chart', 'Team Velocity Chart', 'Plan Vs Actual Chart', 'Fix Version Chart', 'Component Chart', 'Epic Completetion Chart'],
       show: true,
       search: '',
@@ -56,12 +57,18 @@ export default class SelectCharts extends React.Component {
   }
 
   renderModal = () => {
+    let role = sessionStorage.getItem('role');
+    
     return (
       <Modal show={this.state.show} onHide={this.handleClose}>
         <Modal.Header closeButton>
         </Modal.Header>
         <Modal.Body>
-          <RenderProjects projects={this.state.projects} allProjects={this.state.allProjects} projectsChanged={this.projectsChanged} />
+          <RenderProjects
+           projects = {this.state.projects}
+           allProjects= {role==='view'? this.state.viewerProjects : this.state.allProjects}  
+           projectsChanged={this.projectsChanged} 
+          />
         </Modal.Body>
         <Modal.Footer>
           <button className="btn btn-primary" onClick={this.handleClose}>{chartTexts.closeText}</button>

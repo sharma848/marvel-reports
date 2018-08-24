@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
 
-export default class SideBarView extends Component {
+export default class SideBarSuperAdmin extends Component {
     render() {
         return (
-            <div class="sidenav">
-                <a href="">View</a>
-                <a href="">Services</a>
-                <a href="">Clients</a>
-                <a href="">Contact</a>
+            <div className="sidenav">
+                <NavLink to="/dashboard/chart">Reports</NavLink>
             </div>
         );
     }

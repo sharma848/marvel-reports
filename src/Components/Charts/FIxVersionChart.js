@@ -30,8 +30,15 @@ export class FIxVersionChart extends Component {
 		if (nextProps.allFIxVersionData && nextProps.allFIxVersionData.data) {
 			this.setState({ fixVersionData: nextProps.allFIxVersionData.data.fixversions });
 		}
-		if (nextProps.fixVersionChartData && nextProps.fixVersionChartData[fixversion] && nextProps.fixVersionChartData[fixversion].data) {
-			this.setState({ fixVersionChartData: nextProps.fixVersionChartData[fixversion].data.epics }, this.setChartData);
+		if (
+			nextProps.fixVersionChartData &&
+			nextProps.fixVersionChartData[fixversion] &&
+			nextProps.fixVersionChartData[fixversion].data
+		) {
+			this.setState(
+				{ fixVersionChartData: nextProps.fixVersionChartData[fixversion].data.epics },
+				this.setChartData
+			);
 		}
 	}
 
@@ -40,19 +47,20 @@ export class FIxVersionChart extends Component {
 		var remainingEpicData = [];
 		var closedEpicData = [];
 		var labels = [];
-		var data = this.state.fixVersionChartData ? this.state.fixVersionChartData.map((value) => {
-			const completedPercentage = Math.round((value.closedSP / value.totalSP) * 100);
-			const remainingPercentage = Math.round((value.remainingSP / value.totalSP) * 100);
-			if(value.remainingSP == 0 && value.status === 'Accepted') {
-				closedEpicData.push(100);
-			} else {
-				closedEpicData.push(0);
-			}
-			completedEpicData.push(completedPercentage);
-			remainingEpicData.push(remainingPercentage);
-			labels.push(value.id + ' ' + value.name);
-
-		}) : '';
+		var data = this.state.fixVersionChartData
+			? this.state.fixVersionChartData.map((value) => {
+					const completedPercentage = Math.round(value.closedSP / value.totalSP * 100);
+					const remainingPercentage = Math.round(value.remainingSP / value.totalSP * 100);
+					if (value.remainingSP == 0 && value.status === 'Accepted') {
+						closedEpicData.push(100);
+					} else {
+						closedEpicData.push(0);
+					}
+					completedEpicData.push(completedPercentage);
+					remainingEpicData.push(remainingPercentage);
+					labels.push(value.id + ' ' + value.name);
+				})
+			: '';
 		const chartData = {
 			chart: {
 				type: 'column'
@@ -97,71 +105,77 @@ export class FIxVersionChart extends Component {
 				}
 			},
 			exporting: true,
-			series: [{
-				name: 'Remaining %',
-				data: remainingEpicData,
-				dataLabels: {
-					enabled: true,
-					rotation: -90,
-					color: '#FFFFFF',
-					align: 'right',
-					style: {
-					   fontSize: '8px',
-					   fontWeight: 'normal'
-					}
+			series: [
+				{
+					name: 'Remaining %',
+					data: remainingEpicData,
+					dataLabels: {
+						enabled: true,
+						rotation: -90,
+						color: '#FFFFFF',
+						align: 'right',
+						style: {
+							fontSize: '8px',
+							fontWeight: 'normal'
+						}
+					},
+					color: '#ffbf00'
 				},
-				color: '#ffbf00'
-			}, {
-				name: 'Completed %',
-				data: completedEpicData,
-				dataLabels: {
-					enabled: true,
-					rotation: -90,
-					style: {
-					   fontSize: '8px',
-					   fontWeight: 'normal'
-					}
+				{
+					name: 'Completed %',
+					data: completedEpicData,
+					dataLabels: {
+						enabled: true,
+						rotation: -90,
+						style: {
+							fontSize: '8px',
+							fontWeight: 'normal'
+						}
+					},
+					color: '#228b22'
 				},
-				color: '#228b22'
-			},
-			{
-				name: 'Accepted',
-				data: closedEpicData,
-				dataLabels: {
-					enabled: true,
-					rotation: -90,					
-					style: {
-					   fontSize: '8px',
-					   fontWeight: 'normal'
-					}
-				},
-				color: '#4765d5'
-			}]
+				{
+					name: 'Accepted',
+					data: closedEpicData,
+					dataLabels: {
+						enabled: true,
+						rotation: -90,
+						style: {
+							fontSize: '8px',
+							fontWeight: 'normal'
+						}
+					},
+					color: '#4765d5'
+				}
+			]
 		};
 		this.setState({ chartData }, this.renderHighChart);
 	}
 
-	renderHighChart =() => {
-		this.chart = new Highcharts[this.props.type || "Chart"](
-            this.chartContainer.current, 
-            this.state.chartData
-        );
-	}
+	renderHighChart = () => {
+		this.chart = new Highcharts[this.props.type || 'Chart'](this.chartContainer.current, this.state.chartData);
+	};
 
-	renderHighChart =() => {
-		this.chart = new Highcharts[this.props.type || "Chart"](
-            this.chartContainer.current, 
-            this.state.chartData
-        );
-	}
+	renderHighChart = () => {
+		this.chart = new Highcharts[this.props.type || 'Chart'](this.chartContainer.current, this.state.chartData);
+	};
 
 	showGraph1 = () => {
-		const element = React.createElement('div', { ref: this.chartContainer, id: Math.random(), key: this.props.key });
+		const element = React.createElement('div', {
+			ref: this.chartContainer,
+			id: Math.random(),
+			key: this.props.key
+		});
 		return (
 			<div className="chart-content-container">
 				{this.state.fixVersionChartData ? (
 					<div>
-						<button type="button" class="close close-button" aria-label="Close" onClick={() => this.props.removeChart(this.props.name)}>
+						<button
+							type="button"
+							class="close close-button"
+							aria-label="Close"
+							onClick={() => this.props.removeChart(this.props.name)}
+						>
 							<span aria-hidden="true">&times;</span>
 						</button>
 						{element}
@@ -174,12 +188,21 @@ export class FIxVersionChart extends Component {
 	};
 
 	showGraph = () => {
-		const element = React.createElement('div', { ref: this.chartContainer, id: Math.random(), key: this.props.key });
+		const element = React.createElement('div', {
+			ref: this.chartContainer,
+			id: Math.random(),
+			key: this.props.key
+		});
 		return (
 			<div className="chart-content-container">
 				{this.state.fixVersionChartData ? (
 					<div>
-						<button type="button" className="close close-button" aria-label="Close" onClick={() => this.props.removeChart(this.props.name)}>
+						<button
+							type="button"
+							className="close close-button"
+							aria-label="Close"
+							onClick={() => this.props.removeChart(this.props.name)}
+						>
 							<span aria-hidden="true">&times;</span>
 						</button>
 						{element}
@@ -194,7 +217,7 @@ export class FIxVersionChart extends Component {
 	onClick = () => {
 		this.setState({ showGraph: true });
 		console.log('fv:' + this.state.fixVersions + ' rec:' + this.state.numberOfRecords);
-		this.props.getFixVersioChartData([this.state.fixVersions]);
+		this.props.getFixVersioChartData([ this.state.fixVersions ]);
 	};
 
 	onChange = (e) => {
@@ -205,19 +228,22 @@ export class FIxVersionChart extends Component {
 	};
 
 	getFixVersionOptions = () => {
-		const options = this.state.fixVersionData.map(value => {
-			return (
-				<option value={value}>{value}</option>
-			)
+		const options = this.state.fixVersionData.map((value) => {
+			return <option value={value}>{value}</option>;
 		});
 		return options;
-	}
+	};
 
 	showForm = () => {
-		if(this.state.fixVersionData) {
+		if (this.state.fixVersionData) {
 			return (
 				<div className="chart-content-container">
-					<button type="button" className="close close-button" aria-label="Close" onClick={() => this.props.removeChart(this.props.name)}>
+					<button
+						type="button"
+						className="close close-button"
+						aria-label="Close"
+						onClick={() => this.props.removeChart(this.props.name)}
+					>
 						<span aria-hidden="true">&times;</span>
 					</button>
 					<FormGroup>
@@ -275,9 +301,8 @@ export class FIxVersionChart extends Component {
 				</div>
 			);
 		} else {
-			return <Loader />
+			return <Loader />;
 		}
-		
 	};
 
 	render() {

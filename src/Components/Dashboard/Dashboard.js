@@ -28,6 +28,7 @@ export class Dashboard extends Component {
 		if (nextProps.dashboardData && nextProps.dashboardData.data) {
 			const data = nextProps.dashboardData.data.data;
 			this.setState({ data: data });
+			sessionStorage.setItem('role', data.role );
 		}
 	}
 

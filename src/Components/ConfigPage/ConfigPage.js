@@ -31,18 +31,18 @@ export class ConfigPage extends Component {
 	}
 
 	componentDidMount() {
-		this.props.getConfigurations();
+		this.props.getConfigurations();			//get last saved configurations
 	}
 
-	componentWillReceiveProps(nextProps) {
+	componentWillReceiveProps(nextProps) {								//nextProps are the configurations that user last set
 		if(nextProps.configData.data && nextProps.configData.data) {
 			if(nextProps.configData.data.isSuccess) {
 				this.setState({
 					lastConfigurationData: nextProps.configData.data.data
 				});
 			}
-			if(nextProps.configData.key === 'Received') {
-				if(this.dataSavingInprogress) {
+			if(nextProps.configData.key === 'Received') {				
+				if(this.dataSavingInprogress) {					
 					alert("Configuration saved successfully!!!");
 					this.dataSavingInprogress = false;
 				}
@@ -65,7 +65,7 @@ export class ConfigPage extends Component {
 	};
 
 	onSubmit = () => {
-		const props = this.props.configData && this.props.configData.data ? this.props.configData.data.data : '';
+		const props = this.props.configData && this.props.configData.data ? this.props.configData.data.data : '';		
 		const params = {
 			configId: props.configId ? props.configId : this.state.configId,
 			sprint_name: 34,

@@ -43,7 +43,7 @@ export class Signup extends Component {
 		if (data.statusCode === 200) {
 			this.setState({ redirect: true });
 		} else if (data.statusCode !== 200) {
-			this.setState({ errorMessage: data.message });
+			this.setState({ errorMessage: data.data.message });
 		}
 	}
 
