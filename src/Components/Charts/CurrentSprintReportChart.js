@@ -49,6 +49,46 @@ export class CurrentSprintReportChart extends Component {
         return tableBody;
     }
 
+    renderTotal() {
+        var totalStoryPoints = 0;
+        var noOfStories = 0;
+        var definedStories = 0;
+        var inProgressStories = 0;
+        var resolvedStories = 0;
+        var backlogStories = 0;
+        var acceptedStories = 0;
+        const tableBody = this.state.CurrentSprintReportChartData.currentSprints.teamSprintList.map(data => {
+            totalStoryPoints += data.numberOfStoryPoints;
+            noOfStories += data.numberOfIssues;
+            if(data.statusMap.Defined) {
+                definedStories += data.statusMap.Defined.story;
+            }
+            if(data.statusMap['In Progress']) {
+                inProgressStories += data.statusMap['In Progress'].story;
+            }
+            if(data.statusMap.Resolved) {
+                resolvedStories += data.statusMap.Resolved.story;
+            }
+            if(data.statusMap.Backlog) {
+                backlogStories += data.statusMap.Backlog.story;
+            }
+            if(data.statusMap.Accepted) {
+                acceptedStories += data.statusMap.Accepted.story;
+            }
+            
+        });
+        return (<tr>
+            <td><b>Total</b></td>
+            <td><b>{totalStoryPoints}</b></td>
+            <td><b>{noOfStories}</b></td>
+            <td><b>{definedStories}</b></td>
+            <td><b>{inProgressStories}</b></td>
+            <td><b>{resolvedStories}</b></td>
+            <td><b>{backlogStories}</b></td>
+            <td><b>{acceptedStories}</b></td>
+        </tr>)
+    }
+
     render() {
         return (
             <div>
@@ -66,6 +106,7 @@ export class CurrentSprintReportChart extends Component {
                             </thead>
                             <tbody>
                                 {this.renderTableBody()}
+                                {this.renderTotal()}
                             </tbody>
                         </Table>
                     </div>) : <Loader /> }
