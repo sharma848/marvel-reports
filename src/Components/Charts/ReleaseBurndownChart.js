@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Highcharts from 'highcharts';
 import { Line } from 'react-chartjs-2';
+import HighchartsExporting from 'highcharts-exporting';
 import Loader from '../Loader/Loader';
-import { getReleaseBurndownChartData } from '../../Actions/index';
+import { getReleaseBurndownChartData, postUserDashboard } from '../../Actions/index';
 
 export class ReleaseBurndownChart extends Component {
 	constructor(props) {
@@ -20,11 +21,15 @@ export class ReleaseBurndownChart extends Component {
 
 	componentDidMount() {
 		this.props.getReleaseBurndownChartData();
+		this.props.postUserDashboard({ graphId: this.props.name });
 	}
 
 	componentWillReceiveProps(nextProps) {
 		if (nextProps.ReleaseBurndownChartData && nextProps.ReleaseBurndownChartData && nextProps.ReleaseBurndownChartData.data) {
 			this.setState({ ReleaseBurndownChartData: nextProps.ReleaseBurndownChartData.data.data }, this.setChartData);
+		}
+		if(this.chart) {
+			this.chart.reflow();
 		}
 	}
 
@@ -79,16 +84,21 @@ export class ReleaseBurndownChart extends Component {
 				shadow: false
 			},
 			tooltip: {
-				headerFormat: '<b>{point.x}</b><br/>',
-				pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+				pointFormat: '<span style="color:{series.color}">{series.name}</span>: ({point.y:.0f})<br/>',
+				shared: true
 			},
 			plotOptions: {
-				column: {
-					stacking: 'normal',
+				line: {
 					dataLabels: {
-						enabled: true,
-						color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
-					}
+						enabled: false,
+						style: {
+							fontSize: '8px'
+						},
+						formatter: function() {
+							return Highcharts.numberFormat(Math.round(this.y), 0, 0, ",");
+						},
+					},
+					enableMouseTracking: true
 				}
 			},
 			exporting: true,
@@ -113,7 +123,8 @@ export class ReleaseBurndownChart extends Component {
 		this.chart = new Highcharts[this.props.type || "Chart"](
             this.chartContainer.current, 
             this.state.chartData
-        );
+		);
+		// HighchartsExporting(this.chart);
 	}
 
 	showGraph = () => {
@@ -147,7 +158,8 @@ function mapStateToProps(state) {
 }
 
 const actions = {
-	getReleaseBurndownChartData: getReleaseBurndownChartData
+	getReleaseBurndownChartData: getReleaseBurndownChartData,
+	postUserDashboard: postUserDashboard
 };
 
 export default connect(mapStateToProps, actions)(ReleaseBurndownChart);

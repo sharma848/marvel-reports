@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Bar } from 'react-chartjs-2';
 import Highcharts from 'highcharts';
 import Loader from '../Loader/Loader';
-import { getAllFixVersions, getFixVersioChartData } from '../../Actions/index';
+import { getAllFixVersions, getFixVersioChartData, postUserDashboard } from '../../Actions/index';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import { FormGroup, Col, ControlLabel } from 'react-bootstrap';
 
@@ -39,6 +39,9 @@ export class FIxVersionChart extends Component {
 				{ fixVersionChartData: nextProps.fixVersionChartData[fixversion].data.epics },
 				this.setChartData
 			);
+		}
+		if (this.chart) {
+			this.chart.reflow();
 		}
 	}
 
@@ -92,16 +95,12 @@ export class FIxVersionChart extends Component {
 				shadow: false
 			},
 			tooltip: {
-				headerFormat: '<b>{point.x}</b><br/>',
-				pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+				pointFormat: '<span style="color:{series.color}">{series.name}</span>: ({point.percentage:.0f}%)<br/>',
+				shared: true
 			},
 			plotOptions: {
 				column: {
-					stacking: 'normal',
-					dataLabels: {
-						enabled: true,
-						color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
-					}
+					stacking: 'percent'
 				}
 			},
 			exporting: true,
@@ -117,7 +116,8 @@ export class FIxVersionChart extends Component {
 						style: {
 							fontSize: '8px',
 							fontWeight: 'normal'
-						}
+						},
+						format: '{point.percentage:.0f}%'
 					},
 					color: '#ffbf00'
 				},
@@ -130,9 +130,23 @@ export class FIxVersionChart extends Component {
 						style: {
 							fontSize: '8px',
 							fontWeight: 'normal'
-						}
+						},
+						format: '{point.percentage:.0f}%'
 					},
 					color: '#228b22'
+				},
+				{
+					name: 'Accepted %',
+					data: closedEpicData,
+					dataLabels: {
+						enabled: true,
+						rotation: -90,
+						style: {
+							fontSize: '8px',
+							fontWeight: 'normal'
+						},
+						format: '{point.percentage:.0f}%'
+					}
 				},
 				{
 					name: 'Accepted',
@@ -216,6 +230,14 @@ export class FIxVersionChart extends Component {
 
 	onClick = () => {
 		this.setState({ showGraph: true });
+		this.props.postUserDashboard({
+			graphId: this.props.name,
+			graphSubId: this.state.fixVersions,
+			settings: JSON.stringify({
+				fv: this.state.fixVersions,
+				rec: this.state.numberOfRecords
+			})
+		});
 		console.log('fv:' + this.state.fixVersions + ' rec:' + this.state.numberOfRecords);
 		this.props.getFixVersioChartData([ this.state.fixVersions ]);
 	};
@@ -319,7 +341,8 @@ function mapStateToProps(state) {
 
 const actions = {
 	getAllFixVersions: getAllFixVersions,
-	getFixVersioChartData: getFixVersioChartData
+	getFixVersioChartData: getFixVersioChartData,
+	postUserDashboard: postUserDashboard
 };
 
 export default connect(mapStateToProps, actions)(FIxVersionChart);

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Bar } from 'react-chartjs-2';
 import Highcharts from 'highcharts';
 import Loader from '../Loader/Loader';
-import { getAllComponents, getComponentChartData } from '../../Actions/index';
+import { getAllComponents, getComponentChartData, postUserDashboard } from '../../Actions/index';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import { FormGroup, Col, ControlLabel } from 'react-bootstrap';
 
@@ -19,10 +19,12 @@ export class FIxVersionChart extends Component {
 			component: ''
 		};
 		this.chartContainer = React.createRef();
+		this.chart = '';
 	}
 
 	componentDidMount() {
 		this.props.getAllComponents();
+		this.props.postUserDashboard({ graphId: this.props.name });
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -32,6 +34,9 @@ export class FIxVersionChart extends Component {
 		}
 		if (nextProps.componentChartData && nextProps.componentChartData[component] && nextProps.componentChartData[component].data) {
 			this.setState({ componentChartData: nextProps.componentChartData[component].data.epics }, this.setChartData);
+		}
+		if(this.chart) {
+			this.chart.reflow();
 		}
 	}
 
@@ -84,16 +89,12 @@ export class FIxVersionChart extends Component {
 				shadow: false
 			},
 			tooltip: {
-				headerFormat: '<b>{point.x}</b><br/>',
-				pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+				pointFormat: '<span style="color:{series.color}">{series.name}</span>: ({point.percentage:.0f}%)<br/>',
+				shared: true
 			},
 			plotOptions: {
 				column: {
-					stacking: 'normal',
-					dataLabels: {
-						enabled: true,
-						color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
-					}
+					stacking: 'percent'
 				}
 			},
 			exporting: true,
@@ -108,7 +109,8 @@ export class FIxVersionChart extends Component {
 					style: {
 					   fontSize: '8px',
 					   fontWeight: 'normal'
-					}
+					},
+					format: '{point.percentage:.0f}%'
 				},
 				color: '#ffbf00'
 			}, {
@@ -122,12 +124,13 @@ export class FIxVersionChart extends Component {
 					style: {
 					   fontSize: '8px',
 					   fontWeight: 'normal'
-					}
+					},
+					format: '{point.percentage:.0f}%'
 				},
 				color: '#228b22'
 			},
 			{
-				name: 'Accepted',
+				name: 'Accepted %',
 				data: closedEpicData,
 				dataLabels: {
 					enabled: true,
@@ -137,7 +140,8 @@ export class FIxVersionChart extends Component {
 					style: {
 					   fontSize: '8px',
 					   fontWeight: 'normal'
-					}
+					},
+					format: '{point.percentage:.0f}%'
 				},
 				color: '#4765d5'
 			}]
@@ -145,11 +149,16 @@ export class FIxVersionChart extends Component {
 		this.setState({ chartData }, this.renderHighChart);
 	}
 
+	reSizeChart = () => {
+		this.props.reSizeChart
+	}
+
 	renderHighChart =() => {
 		this.chart = new Highcharts[this.props.type || "Chart"](
             this.chartContainer.current, 
             this.state.chartData
-        );
+		);
+		// this.chart.reflow();
 	}
 
 	showGraph = () => {
@@ -273,7 +282,8 @@ function mapStateToProps(state) {
 
 const actions = {
 	getAllComponents: getAllComponents,
-	getComponentChartData: getComponentChartData
+	getComponentChartData: getComponentChartData,
+	postUserDashboard:postUserDashboard
 };
 
 export default connect(mapStateToProps, actions)(FIxVersionChart);

@@ -17,6 +17,7 @@ import PlanVsActualChartReducer from './PlanVsActualChartReducer';
 import GenerateEpicDataReducer from './GenerateEpicDataReducer';
 import GenerateVelocityDataReducer from './GenerateVelocityDataReducer';
 import EpicPercentageCompletetionReducer from './EpicPercentageCompletetionReducer';
+import CurrentSprintReportChartReducer from './CurrentSprintReportChartReducer';
  
 const rootReducer = combineReducers({
     loginData: loginReducer,
@@ -35,7 +36,8 @@ const rootReducer = combineReducers({
     PlanVsActualChartData: PlanVsActualChartReducer,
     GenerateEpicData: GenerateEpicDataReducer,
     GenerateVelocityData: GenerateVelocityDataReducer,
-    EpicPercentageCompletetionData: EpicPercentageCompletetionReducer
+    EpicPercentageCompletetionData: EpicPercentageCompletetionReducer,
+    CurrentSprintReportChartData: CurrentSprintReportChartReducer
 });
 
 export default rootReducer;
