@@ -1,3 +1,11 @@
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+}
+
 .form-container {
   width: 350px;
   height: auto;
@@ -422,4 +430,31 @@ select {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+/*
+  css for login page
+*/
+
+.login-container {
+  width: 400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  border-radius: 20px;
+  background: #e8e8e8;
+}
+
+.login-container .login-panel {
+  background: #e8e8e8;
+}
+
+.login-page-rendered {
+  background-image: url("https://previews.123rf.com/images/vinnstock/vinnstock1407/vinnstock140700047/29826360-pen-on-blue-charts-graphs-data-and-reports-background-for-education-and-business-concepts.jpg");
+  background-repeat: no-repeat;
+  height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }

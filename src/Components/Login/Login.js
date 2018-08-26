@@ -22,11 +22,16 @@ export class Login extends Component {
         if(sessionStorage.getItem('SessionToken') != null) {
             this.setState({ redirect: true });
         }
+        document.body.className="login-page-rendered";
     }
 
     componentWillReceiveProps(nextProps) {
         const data = nextProps.loginData.data;
         this.validateLogin(data);
+    }
+
+    componentWillUnmount() {
+        document.body.className="";
     }
 
     validateLogin(data) {
@@ -54,7 +59,7 @@ export class Login extends Component {
             return (<Redirect to={'/dashboard'} />);
         }
         return (
-            <div className="col-md-4 col-md-offset-4">
+            <div className="login-container">
                 <div className="text-center">
                     <h1 className="login-brand-text">{LoginData.loginText}</h1>
                 </div>
