@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
+import { FormControl } from 'react-bootstrap';
+import Select from 'react-select';
 import SweetAlert from 'react-bootstrap-sweetalert';
-import FormControl from 'react-bootstrap/lib/FormControl';
 import { withRouter } from 'react-router';
 
 import { getUserDetails, updateUserStatus, emptyuserAccessData } from '../../Actions/index';
@@ -14,14 +15,14 @@ export class UserDetail extends Component {
 		this.state = {
 			actionStatus: null,
 			roleSelected: '',
-			projectSelected: null,
+			projectSelected: [],
 			alert: false
 		};
 	}
 
 	onClick = (status) => {
 		const params = {
-			projects: [ this.state.projectSelected ],
+			projects: this.state.projectSelected,
 			email: this.props.userData.email,
 			role: this.state.roleSelected
 		};
@@ -41,13 +42,20 @@ export class UserDetail extends Component {
 		this.setState({ [e.target.name]: e.target.value });
 	};
 
-	onProjectChange = (e) => {
-		this.props.allProjects.map((val) => {
-			if (e.target.value === val.name) {
-				this.setState({ projectSelected: val }, () => console.log(this.state.projectSelected));
-			}
-		});
-	};
+	onProjectChange = (e, action) => {
+        switch(action.action){
+            case "select-option": 
+            this.setState({ projectSelected: e }, () => console.log(this.state.projectSelected));
+            break;
+            case "remove-value": 
+            this.setState({ projectSelected: this.state.projectSelected.filter(obj => obj.name != action.removedValue.name) });
+            break;
+            case "clear": 
+            this.setState({ projectSelected: [] });
+            break;
+        }
+        
+    };
 
 	componentWillReceiveProps(nextProps) {
 		if (nextProps.userAccessData && nextProps.userAccessData.data) {
@@ -64,12 +72,13 @@ export class UserDetail extends Component {
 	}
 
 	getAllProjectsDropdown() {
-		const options = this.props.allProjects.map((value) => {
-			return <option value={value.name}>{value.name}</option>;
-		});
-
-		return options;
-	}
+        const options = this.props.allProjects.map(obj => {
+            obj.label = obj.name;
+            obj.value = obj.name;
+            return obj;
+        });
+        return options;
+    }
 
 	render() {
 		const status = this.props.userData.status;
@@ -93,16 +102,15 @@ export class UserDetail extends Component {
 						</FormControl>
 					</td>
 					<td>
-						<FormControl
-							componentClass="select"
-							placeholder="select"
-							onChange={this.onProjectChange}
-							name="projectSelected"
-							id="projectSelected"
-						>
-							<option value="">Select</option>
-							{this.getAllProjectsDropdown()}
-						</FormControl>
+						<Select
+                            placeholder="select"
+                            isMulti
+                            name="projectSelected"
+                            options={this.getAllProjectsDropdown()}
+                            className="basic-multi-select"
+                            classNamePrefix="select"
+                            onChange={this.onProjectChange}
+                        />
 					</td>
 					<td>{this.props.userData.status}</td>
 					{status === 'pending' || status === 'rejected' ? (
