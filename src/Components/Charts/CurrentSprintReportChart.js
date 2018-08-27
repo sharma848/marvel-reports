@@ -34,16 +34,23 @@ export class CurrentSprintReportChart extends Component {
 
     renderTableBody() {
         const tableBody = this.state.CurrentSprintReportChartData.currentSprints.teamSprintList.map(data => {
-            return (<tr>
+            const keys = Object.keys(data.statusMap);
+            const statusOptions =this.state.CurrentSprintReportChartData.currentSprints.statusNames.map(status => {  
+                const val = keys.indexOf(status);            
+                if(val >= 0) {
+                    return <td>{`${data.statusMap[`${status}`].story} (${data.statusMap[`${status}`].storyPoints})`}</td>;
+                } else {
+                    return <td>0</td>;
+                }
+            });
+
+        return (
+            <tr>
                 <td>{data.teamName}</td>
                 <td>{data.numberOfStoryPoints}</td>
                 <td>{data.numberOfIssues}</td>
-                <td>{data.statusMap.Defined ? `${data.statusMap.Defined.story} (${data.statusMap.Defined.storyPoints})` : 0}</td>
-                <td>{data.statusMap['In Progress'] ? `${data.statusMap['In Progress'].story} (${data.statusMap['In Progress'].storyPoints})` : 0}</td>
-                <td>{data.statusMap.Resolved ? `${data.statusMap.Resolved.story} (${data.statusMap.Resolved.storyPoints})` : 0}</td>
-                <td>{data.statusMap.Backlog ? `${data.statusMap.Backlog.story} (${data.statusMap.Backlog.storyPoints})` : 0}</td>
-                <td>{data.statusMap.Accepted ? `${data.statusMap.Accepted.story} (${data.statusMap.Accepted.storyPoints})` : 0}</td>
-            </tr>)
+                {statusOptions}
+            </tr>);
         });
 
         return tableBody;
@@ -106,7 +113,6 @@ export class CurrentSprintReportChart extends Component {
                             </thead>
                             <tbody>
                                 {this.renderTableBody()}
-                                {this.renderTotal()}
                             </tbody>
                         </Table>
                     </div>) : <Loader /> }
