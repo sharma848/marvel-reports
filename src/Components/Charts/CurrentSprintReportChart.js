@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Table } from 'react-bootstrap';
 import Loader from '../Loader/Loader';
-import { getCurrentSprintReportData } from '../../Actions/index';
+import { getCurrentSprintReportData, postUserDashboard } from '../../Actions/index';
 
 export class CurrentSprintReportChart extends Component {
     constructor(props) {
@@ -14,10 +14,11 @@ export class CurrentSprintReportChart extends Component {
 
     componentDidMount() {
         this.props.getCurrentSprintReportData();
+        this.props.postUserDashboard({ graphId: this.props.name });
     }
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.CurrentSprintReportChartData && nextProps.CurrentSprintReportChartData.data) {
+        if (nextProps.CurrentSprintReportChartData && nextProps.CurrentSprintReportChartData.data) {
             this.setState({
                 CurrentSprintReportChartData: nextProps.CurrentSprintReportChartData.data.data
             });
@@ -60,22 +61,22 @@ export class CurrentSprintReportChart extends Component {
         const tableBody = this.state.CurrentSprintReportChartData.currentSprints.teamSprintList.map(data => {
             totalStoryPoints += data.numberOfStoryPoints;
             noOfStories += data.numberOfIssues;
-            if(data.statusMap.Defined) {
+            if (data.statusMap.Defined) {
                 definedStories += data.statusMap.Defined.story;
             }
-            if(data.statusMap['In Progress']) {
+            if (data.statusMap['In Progress']) {
                 inProgressStories += data.statusMap['In Progress'].story;
             }
-            if(data.statusMap.Resolved) {
+            if (data.statusMap.Resolved) {
                 resolvedStories += data.statusMap.Resolved.story;
             }
-            if(data.statusMap.Backlog) {
+            if (data.statusMap.Backlog) {
                 backlogStories += data.statusMap.Backlog.story;
             }
-            if(data.statusMap.Accepted) {
+            if (data.statusMap.Accepted) {
                 acceptedStories += data.statusMap.Accepted.story;
             }
-            
+
         });
         return (<tr>
             <td><b>Total</b></td>
@@ -101,7 +102,7 @@ export class CurrentSprintReportChart extends Component {
                         <Table id="current_sprint_table" responsive striped bordered condensed hover>
                             <thead>
                                 <tr>
-                                {this.renderTableHeading()}
+                                    {this.renderTableHeading()}
                                 </tr>
                             </thead>
                             <tbody>
@@ -109,7 +110,7 @@ export class CurrentSprintReportChart extends Component {
                                 {this.renderTotal()}
                             </tbody>
                         </Table>
-                    </div>) : <Loader /> }
+                    </div>) : <Loader />}
             </div>
         );
     }
@@ -122,7 +123,8 @@ function mapStateToProps(state) {
 }
 
 const actions = {
-    getCurrentSprintReportData: getCurrentSprintReportData
+    getCurrentSprintReportData: getCurrentSprintReportData,
+	postUserDashboard: postUserDashboard
 };
 
 export default connect(mapStateToProps, actions)(CurrentSprintReportChart);

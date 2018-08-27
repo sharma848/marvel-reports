@@ -16,19 +16,18 @@ export class FIxVersionChart extends Component {
 			chartName: (props.settings && props.settings.chartName) || this.props.name,
 			fixVersionChartData: null,
 			fixVersionData: null,
-			rec: props.settings && props.settings.numberOfRecords,
-			fixVersions: props.settings && props.settings.fv
+			numberOfRecords: props.settings && props.settings.numberOfRecords,
+			fixVersions: props.settings && props.settings.fixVersions
 		};
 		this.chartContainer = React.createRef();
+		
 	}
 
 	componentDidMount() {
 		if (this.state.fixVersions && !this.state.fixVersionChartData) {
-			// this.props.getFixVersioChartData([this.state.fixVersions]);
-			this.props.getAllFixVersions();
-		} else {
-			this.props.getAllFixVersions();
+				this.setState({ showGraph: true });
 		}
+		this.props.getAllFixVersions();
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -176,11 +175,10 @@ export class FIxVersionChart extends Component {
 		this.chart = new Highcharts[this.props.type || 'Chart'](this.chartContainer.current, this.state.chartData);
 	};
 
-	renderHighChart = () => {
-		this.chart = new Highcharts[this.props.type || 'Chart'](this.chartContainer.current, this.state.chartData);
-	};
-
 	showGraph1 = () => {
+		if (this.state.fixVersions && !this.state.fixVersionChartData) {
+			this.props.getFixVersioChartData([  this.state.fixVersions ]);
+		}
 		const element = React.createElement('div', {
 			ref: this.chartContainer,
 			id: Math.random(),
@@ -240,15 +238,15 @@ export class FIxVersionChart extends Component {
 			graphId: this.props.name,
 			graphSubId: this.state.fixVersions,
 			settings: JSON.stringify({
-				fv: this.state.fixVersions,
-				rec: this.state.numberOfRecords,
+				fixVersions: this.state.fixVersions,
+				numberOfRecords: this.state.numberOfRecords,
 				chartName: this.state.chartName
 			})
 		});
 		this.props.projectsChanged(this.props.name, this.state.fixVersions);
 		this.props.removeChart(this.props.name);
 		console.log('fv:' + this.state.fixVersions + ' rec:' + this.state.numberOfRecords);
-		this.props.getFixVersioChartData([ this.state.fixVersions ]);
+		// this.props.getFixVersioChartData([ this.state.fixVersions ]);
 	};
 
 	onChange = (e) => {
