@@ -26,13 +26,13 @@ export default class RenderChart extends Component {
 			case 'Fix Version Chart':
 				return <FixVersionChart name={this.props.name} settings={this.props.settings} removeChart={this.props.removeChart} viewToggled={this.props.viewToggled} projectsChanged={this.props.projectsChanged} />;	
 			case 'Component Chart':
-				return <ComponentChart name={this.props.name} removeChart={this.props.removeChart} viewToggled={this.props.viewToggled} />;
+				return <ComponentChart name={this.props.name} settings={this.props.settings} removeChart={this.props.removeChart} viewToggled={this.props.viewToggled} projectsChanged={this.props.projectsChanged} />;
 			case 'Release Burndown Chart':
 				return <ReleaseBurndownChart name={this.props.name} removeChart={this.props.removeChart} viewToggled={this.props.viewToggled} />;
 			case 'Plan Vs Actual Chart':
 				return <PlanVsActualChart name={this.props.name} removeChart={this.props.removeChart} viewToggled={this.props.viewToggled} />;
 			case 'Epic Completetion Chart':
-				return <EpicCompletetionChart name={this.props.name} removeChart={this.props.removeChart} viewToggled={this.props.viewToggled} />;
+				return <EpicCompletetionChart name={this.props.name} settings={this.props.settings} removeChart={this.props.removeChart} viewToggled={this.props.viewToggled} projectsChanged={this.props.projectsChanged} />;
 			case 'Current Sprint Report':
 				return <CurrentSprintReportChart name={this.props.name} removeChart={this.props.removeChart} viewToggled={this.props.viewToggled} />;
 			default: 

@@ -13,18 +13,20 @@ export class FIxVersionChart extends Component {
 		this.state = {
 			chartData: null,
 			showGraph: false,
-			chartName: this.props.name,
+			chartName: (props.settings && props.settings.chartName) || this.props.name,
 			componentChartData: null,
 			componentData: null,
-			component: ''
+			component: props.settings && props.settings.component
 		};
 		this.chartContainer = React.createRef();
 		this.chart = '';
 	}
 
 	componentDidMount() {
+		if (this.state.component && !this.state.componentChartData) {
+			this.setState({ showGraph: true });
+		}
 		this.props.getAllComponents();
-		this.props.postUserDashboard({ graphId: this.props.name });
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -35,7 +37,7 @@ export class FIxVersionChart extends Component {
 		if (nextProps.componentChartData && nextProps.componentChartData[component] && nextProps.componentChartData[component].data) {
 			this.setState({ componentChartData: nextProps.componentChartData[component].data.epics }, this.setChartData);
 		}
-		if(this.chart) {
+		if (this.chart) {
 			this.chart.reflow();
 		}
 	}
@@ -48,7 +50,7 @@ export class FIxVersionChart extends Component {
 		var data = this.state.componentChartData ? this.state.componentChartData.map((value) => {
 			const completedPercentage = Math.round((value.closedSP / value.totalSP) * 100);
 			const remainingPercentage = Math.round((value.remainingSP / value.totalSP) * 100);
-			if(value.remainingSP == 0 && value.status === 'Accepted') {
+			if (value.remainingSP == 0 && value.status === 'Accepted') {
 				closedEpicData.push(100);
 			} else {
 				closedEpicData.push(0);
@@ -107,8 +109,8 @@ export class FIxVersionChart extends Component {
 					color: '#FFFFFF',
 					align: 'right',
 					style: {
-					   fontSize: '8px',
-					   fontWeight: 'normal'
+						fontSize: '8px',
+						fontWeight: 'normal'
 					},
 					format: '{point.percentage:.0f}%'
 				},
@@ -122,8 +124,8 @@ export class FIxVersionChart extends Component {
 					color: '#FFFFFF',
 					align: 'right',
 					style: {
-					   fontSize: '8px',
-					   fontWeight: 'normal'
+						fontSize: '8px',
+						fontWeight: 'normal'
 					},
 					format: '{point.percentage:.0f}%'
 				},
@@ -138,8 +140,8 @@ export class FIxVersionChart extends Component {
 					color: '#FFFFFF',
 					align: 'right',
 					style: {
-					   fontSize: '8px',
-					   fontWeight: 'normal'
+						fontSize: '8px',
+						fontWeight: 'normal'
 					},
 					format: '{point.percentage:.0f}%'
 				},
@@ -153,36 +155,49 @@ export class FIxVersionChart extends Component {
 		this.props.reSizeChart
 	}
 
-	renderHighChart =() => {
+	renderHighChart = () => {
 		this.chart = new Highcharts[this.props.type || "Chart"](
-            this.chartContainer.current, 
-            this.state.chartData
+			this.chartContainer.current,
+			this.state.chartData
 		);
 		// this.chart.reflow();
 	}
 
 	showGraph = () => {
+		if (this.state.component && !this.state.componentChartData) {
+			this.props.getComponentChartData([this.state.component]);
+		}
 		const element = React.createElement('div', { ref: this.chartContainer, id: Math.random(), key: this.props.key });
 		return (
 			<div className="chart-content-container">
 				{this.state.componentChartData ? (
 					<div>
-						<button type="button" className="close close-button" aria-label="Close" onClick={() => this.props.removeChart(this.props.name)}>
+						<button type="button" className="close close-button" aria-label="Close" onClick={() => this.props.removeChart(this.props.name, this.state.component)}>
 							<span aria-hidden="true">&times;</span>
 						</button>
 						{element}
 					</div>
 				) : (
-					<Loader />
-				)}
+						<Loader />
+					)}
 			</div>
 		);
 	};
 
 	onClick = () => {
 		this.setState({ showGraph: true });
+		this.props.postUserDashboard({
+			graphId: this.props.name,
+			graphSubId: this.state.component,
+			settings: JSON.stringify({
+				component: this.state.component,
+				numberOfRecords: this.state.numberOfRecords,
+				chartName: this.state.chartName
+			})
+		});
+		this.props.projectsChanged(this.props.name, this.state.component);
+		this.props.removeChart(this.props.name);
 		console.log('fv:' + this.state.component + ' rec:' + this.state.numberOfRecords);
-		this.props.getComponentChartData([this.state.component]);
 	};
 
 	onChange = (e) => {
@@ -202,10 +217,10 @@ export class FIxVersionChart extends Component {
 	}
 
 	showForm = () => {
-		if(this.state.componentData) {
+		if (this.state.componentData) {
 			return (
 				<div className="chart-content-container">
-					<button type="button" className="close close-button" aria-label="Close" onClick={() => this.props.removeChart(this.props.name)}>
+					<button type="button" className="close close-button" aria-label="Close" onClick={() => this.props.removeChart(this.props.name, this.state.component)}>
 						<span aria-hidden="true">&times;</span>
 					</button>
 					<FormGroup>
@@ -265,7 +280,7 @@ export class FIxVersionChart extends Component {
 		} else {
 			return <Loader />
 		}
-		
+
 	};
 
 	render() {
@@ -283,7 +298,7 @@ function mapStateToProps(state) {
 const actions = {
 	getAllComponents: getAllComponents,
 	getComponentChartData: getComponentChartData,
-	postUserDashboard:postUserDashboard
+	postUserDashboard: postUserDashboard
 };
 
 export default connect(mapStateToProps, actions)(FIxVersionChart);

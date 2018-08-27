@@ -26,7 +26,7 @@ export const GENERATE_EPIC_DATA = 'GENERATE_EPIC_DATA';
 export const EPIC_PERCENTAGE_COMPLETETION = 'EPIC_PERCENTAGE_COMPLETETION';
 export const CURRENT_SPRINT_REPORT_DATA = 'CURRENT_SPRINT_REPORT_DATA';
 
-const ROOT_URL = `http://8c14fbc7.ngrok.io/marvel`;
+const ROOT_URL = `http://3395f67f.ngrok.io/marvel`;
 
 const role = sessionStorage.getItem('role');
 const graphSettingsBaseUrl = `/api/${role}/graph/`;
@@ -110,6 +110,7 @@ export function emptyuserAccessData() {
 }
 
 export function setConfigurations(params) {
+	const token = sessionStorage.getItem('SessionToken');
 	const PId = sessionStorage.getItem('PId');
 	const role = sessionStorage.getItem('role');
 	const request = axios.post(`${ROOT_URL}/api/${role}/configuration/${PId}`, params, {
@@ -123,6 +124,7 @@ export function setConfigurations(params) {
 }
 
 export function getConfigurations() {
+	const token = sessionStorage.getItem('SessionToken');
 	const PId = sessionStorage.getItem('PId');
 	const role = sessionStorage.getItem('role');
 	const request = axios.get(`${ROOT_URL}/api/${role}/configuration/${PId}`, { headers: { jwttoken: token } });
@@ -147,6 +149,7 @@ export function getAllProjectData() {
 }
 
 export function getAllFixVersions() {
+	const token = sessionStorage.getItem('SessionToken');
 	const ProjectID = sessionStorage.getItem('PId');
 	const role = sessionStorage.getItem('role');
 	const request = axios.get(`${ROOT_URL}/api/${role}/graph/${ProjectID}/fixversions`, {
@@ -160,6 +163,7 @@ export function getAllFixVersions() {
 }
 
 export function getFixVersioChartData(params) {
+	const token = sessionStorage.getItem('SessionToken');
 	const ProjectID = sessionStorage.getItem('PId');
 	const role = sessionStorage.getItem('role');
 	const request = axios.post(`${ROOT_URL}/api/${role}/graph/${ProjectID}/fixversions`, params, {
@@ -175,6 +179,7 @@ export function getFixVersioChartData(params) {
 }
 
 export function getAllComponents() {
+	const token = sessionStorage.getItem('SessionToken');
 	const ProjectID = sessionStorage.getItem('PId');
 	const role = sessionStorage.getItem('role');
 	const request = axios.get(`${ROOT_URL}/api/${role}/graph/${ProjectID}/components`, {
@@ -188,6 +193,7 @@ export function getAllComponents() {
 }
 
 export function getComponentChartData(params) {
+	const token = sessionStorage.getItem('SessionToken');
 	const ProjectID = sessionStorage.getItem('PId');
 	const role = sessionStorage.getItem('role');
 	const request = axios.post(`${ROOT_URL}/api/${role}/graph/${ProjectID}/components`, params, {
@@ -203,6 +209,7 @@ export function getComponentChartData(params) {
 }
 
 export function getReleaseBurndownChartData() {
+	const token = sessionStorage.getItem('SessionToken');
 	const ProjectID = sessionStorage.getItem('PId');
 	const role = sessionStorage.getItem('role');
 	const request = axios.get(`${ROOT_URL}/api/${role}/graph/${ProjectID}/sprint_report`, {
@@ -217,6 +224,7 @@ export function getReleaseBurndownChartData() {
 }
 
 export function getTeamVelocityChartData() {
+	const token = sessionStorage.getItem('SessionToken');
 	const ProjectID = sessionStorage.getItem('PId');
 	const role = sessionStorage.getItem('role');
 	const request = axios.get(`${ROOT_URL}/api/${role}/graph/${ProjectID}/sprint_report`, {
@@ -231,6 +239,7 @@ export function getTeamVelocityChartData() {
 }
 
 export function getPlanVsActualChartData() {
+	const token = sessionStorage.getItem('SessionToken');
 	const ProjectID = sessionStorage.getItem('PId');
 	const role = sessionStorage.getItem('role');
 	const request = axios.get(`${ROOT_URL}/api/${role}/graph/${ProjectID}/sprint_report`, {
@@ -245,6 +254,7 @@ export function getPlanVsActualChartData() {
 }
 
 export function generateEpicData() {
+	const token = sessionStorage.getItem('SessionToken');
 	const ProjectID = sessionStorage.getItem('PId');
 	const role = sessionStorage.getItem('role');
 	const request = axios.get(`${ROOT_URL}/api/${role}/reports/${ProjectID}/epic/generate`, {
@@ -259,6 +269,7 @@ export function generateEpicData() {
 }
 
 export function generateVelocityData() {
+	const token = sessionStorage.getItem('SessionToken');
 	const ProjectID = sessionStorage.getItem('PId');
 	const role = sessionStorage.getItem('role');
 	const request = axios.get(`${ROOT_URL}/api/${role}/reports/${ProjectID}/velocity/generate`, {
@@ -273,6 +284,7 @@ export function generateVelocityData() {
 }
 
 export function getEpicSumByTeamEpic(params) {
+	const token = sessionStorage.getItem('SessionToken');
 	const ProjectID = sessionStorage.getItem('PId');
 	const role = sessionStorage.getItem('role');
 	const request = axios.post(`${ROOT_URL}/api/${role}/graph/${ProjectID}/level`, params, {
@@ -288,6 +300,7 @@ export function getEpicSumByTeamEpic(params) {
 }
 
 export function getCurrentSprintReportData() {
+	const token = sessionStorage.getItem('SessionToken');
 	const ProjectID = sessionStorage.getItem('PId');
 	const role = sessionStorage.getItem('role');
 	const request = axios.get(`${ROOT_URL}/api/${role}/graph/${ProjectID}/sprint-status`, {
@@ -302,6 +315,7 @@ export function getCurrentSprintReportData() {
 }
 
 export function postUserDashboard(data) {
+	const token = sessionStorage.getItem('SessionToken');
 	const projectID = sessionStorage.getItem('PId');
 	const params = { graphId: data.graphId, graphSubId: data.graphSubId, settings: data.settings };
 	const request = axios.post(`${ROOT_URL}${graphSettingsBaseUrl}${projectID}/configuration/update`, params, {
@@ -318,6 +332,7 @@ export function postUserDashboard(data) {
 }
 
 export function getUserDashboard() {
+	const token = sessionStorage.getItem('SessionToken');
 	const projectID = sessionStorage.getItem('PId');
 	const request = axios.get(`${ROOT_URL}${graphSettingsBaseUrl}${projectID}/configuration`, {
 		headers: {
@@ -335,6 +350,7 @@ export function getUserDashboard() {
 }
 
 export function removeUserDashboard(data) {
+	const token = sessionStorage.getItem('SessionToken');
 	const projectID = sessionStorage.getItem('PId');
 	const params = { graphId: data.graphId, graphSubId: data.graphSubId };
 	const request = axios.delete(`${ROOT_URL}${graphSettingsBaseUrl}${projectID}/configuration/delete`, {

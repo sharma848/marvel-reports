@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Table } from 'react-bootstrap';
 import Loader from '../Loader/Loader';
-import { getCurrentSprintReportData } from '../../Actions/index';
+import { getCurrentSprintReportData, postUserDashboard } from '../../Actions/index';
 
 export class CurrentSprintReportChart extends Component {
     constructor(props) {
@@ -14,10 +14,11 @@ export class CurrentSprintReportChart extends Component {
 
     componentDidMount() {
         this.props.getCurrentSprintReportData();
+        this.props.postUserDashboard({ graphId: this.props.name });
     }
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.CurrentSprintReportChartData && nextProps.CurrentSprintReportChartData.data) {
+        if (nextProps.CurrentSprintReportChartData && nextProps.CurrentSprintReportChartData.data) {
             this.setState({
                 CurrentSprintReportChartData: nextProps.CurrentSprintReportChartData.data.data
             });
@@ -34,16 +35,23 @@ export class CurrentSprintReportChart extends Component {
 
     renderTableBody() {
         const tableBody = this.state.CurrentSprintReportChartData.currentSprints.teamSprintList.map(data => {
-            return (<tr>
+            const keys = Object.keys(data.statusMap);
+            const statusOptions =this.state.CurrentSprintReportChartData.currentSprints.statusNames.map(status => {  
+                const val = keys.indexOf(status);            
+                if(val >= 0) {
+                    return <td>{`${data.statusMap[`${status}`].story} (${data.statusMap[`${status}`].storyPoints})`}</td>;
+                } else {
+                    return <td>0</td>;
+                }
+            });
+
+        return (
+            <tr>
                 <td>{data.teamName}</td>
                 <td>{data.numberOfStoryPoints}</td>
                 <td>{data.numberOfIssues}</td>
-                <td>{data.statusMap.Defined ? `${data.statusMap.Defined.story} (${data.statusMap.Defined.storyPoints})` : 0}</td>
-                <td>{data.statusMap['In Progress'] ? `${data.statusMap['In Progress'].story} (${data.statusMap['In Progress'].storyPoints})` : 0}</td>
-                <td>{data.statusMap.Resolved ? `${data.statusMap.Resolved.story} (${data.statusMap.Resolved.storyPoints})` : 0}</td>
-                <td>{data.statusMap.Backlog ? `${data.statusMap.Backlog.story} (${data.statusMap.Backlog.storyPoints})` : 0}</td>
-                <td>{data.statusMap.Accepted ? `${data.statusMap.Accepted.story} (${data.statusMap.Accepted.storyPoints})` : 0}</td>
-            </tr>)
+                {statusOptions}
+            </tr>);
         });
 
         return tableBody;
@@ -60,22 +68,22 @@ export class CurrentSprintReportChart extends Component {
         const tableBody = this.state.CurrentSprintReportChartData.currentSprints.teamSprintList.map(data => {
             totalStoryPoints += data.numberOfStoryPoints;
             noOfStories += data.numberOfIssues;
-            if(data.statusMap.Defined) {
+            if (data.statusMap.Defined) {
                 definedStories += data.statusMap.Defined.story;
             }
-            if(data.statusMap['In Progress']) {
+            if (data.statusMap['In Progress']) {
                 inProgressStories += data.statusMap['In Progress'].story;
             }
-            if(data.statusMap.Resolved) {
+            if (data.statusMap.Resolved) {
                 resolvedStories += data.statusMap.Resolved.story;
             }
-            if(data.statusMap.Backlog) {
+            if (data.statusMap.Backlog) {
                 backlogStories += data.statusMap.Backlog.story;
             }
-            if(data.statusMap.Accepted) {
+            if (data.statusMap.Accepted) {
                 acceptedStories += data.statusMap.Accepted.story;
             }
-            
+
         });
         return (<tr>
             <td><b>Total</b></td>
@@ -101,15 +109,14 @@ export class CurrentSprintReportChart extends Component {
                         <Table id="current_sprint_table" responsive striped bordered condensed hover>
                             <thead>
                                 <tr>
-                                {this.renderTableHeading()}
+                                    {this.renderTableHeading()}
                                 </tr>
                             </thead>
                             <tbody>
                                 {this.renderTableBody()}
-                                {this.renderTotal()}
                             </tbody>
                         </Table>
-                    </div>) : <Loader /> }
+                    </div>) : <Loader />}
             </div>
         );
     }
@@ -122,7 +129,8 @@ function mapStateToProps(state) {
 }
 
 const actions = {
-    getCurrentSprintReportData: getCurrentSprintReportData
+    getCurrentSprintReportData: getCurrentSprintReportData,
+	postUserDashboard: postUserDashboard
 };
 
 export default connect(mapStateToProps, actions)(CurrentSprintReportChart);
