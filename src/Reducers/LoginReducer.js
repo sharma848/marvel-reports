@@ -23,7 +23,7 @@ function updateLoginState(apiResponse) {
     } else {
         isSuccess = false;
         statusCode = apiResponse.status;
-        message = apiResponse.message;
+        message = apiResponse.response.data.message;
     }
 
     return {
