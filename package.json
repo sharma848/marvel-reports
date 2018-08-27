@@ -14,6 +14,7 @@
     "lodash": "^4.17.10",
     "react": "^16.3.1",
     "react-bootstrap": "^0.32.1",
+    "react-bootstrap-sweetalert": "^4.4.1",
     "react-chartjs-2": "^2.7.4",
     "react-checkbox-group": "^4.0.1",
     "react-dom": "^16.3.1",
@@ -25,7 +26,8 @@
     "react-scripts": "1.1.4",
     "redux": "^4.0.0",
     "redux-promise": "^0.5.3",
-    "selectly": "^0.5.0"
+    "selectly": "^0.5.0",
+    "sweetalert": "^2.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
