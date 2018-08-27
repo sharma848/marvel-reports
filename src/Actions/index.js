@@ -25,8 +25,9 @@ export const GENERATE_VELOCITY_DATA = 'GENERATE_VELOCITY_DATA';
 export const GENERATE_EPIC_DATA = 'GENERATE_EPIC_DATA';
 export const EPIC_PERCENTAGE_COMPLETETION = 'EPIC_PERCENTAGE_COMPLETETION';
 export const CURRENT_SPRINT_REPORT_DATA = 'CURRENT_SPRINT_REPORT_DATA';
+export const GET_MODULE_SUB_MODULE_CHART_DATA = 'GET_MODULE_SUB_MODULE_CHART_DATA';
 
-const ROOT_URL = `http://3395f67f.ngrok.io/marvel`;
+const ROOT_URL = `http://99c4d78b.ngrok.io/marvel`;
 
 const role = sessionStorage.getItem('role');
 const graphSettingsBaseUrl = `/api/${role}/graph/`;
@@ -365,6 +366,22 @@ export function removeUserDashboard(data) {
 		return {
 			type: DELETE_USER_DASHBOARD,
 			payload: response
+		};
+	});
+}
+
+export function getModuleSubModuleChartData(params) {
+	const token = sessionStorage.getItem('SessionToken');
+	const ProjectID = sessionStorage.getItem('PId');
+	const role = sessionStorage.getItem('role');
+	const request = axios.post(`${ROOT_URL}/api/${role}/graph/${ProjectID}/components`, params, {
+		headers: { jwttoken: token }
+	});
+	return request.then((response) => {
+		return {
+			type: GET_MODULE_SUB_MODULE_CHART_DATA,
+			payload: response,
+			id: params[0]
 		};
 	});
 }

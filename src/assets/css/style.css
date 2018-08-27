@@ -412,6 +412,10 @@ table tbody td {
   text-align: center;
 }
 
+table thead td {
+  text-align: center;
+}
+
 select {
   min-width: 150px;
 }

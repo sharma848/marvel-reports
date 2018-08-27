@@ -16,7 +16,7 @@ class SelectCharts extends React.Component {
       projects: [],
       viewerProjects: ['Release Burndown Chart', 'Team Velocity Chart', 'Plan Vs Actual Chart'],
       projectsSavedData: null,
-      allProjects: ['Release Burndown Chart', 'Team Velocity Chart', 'Plan Vs Actual Chart', 'Fix Version Chart', 'Component Chart', 'Epic Completetion Chart', 'Current Sprint Report'],
+      allProjects: ['Release Burndown Chart', 'Team Velocity Chart', 'Plan Vs Actual Chart', 'Fix Version Chart', 'Component Chart', 'Epic Completetion Chart', 'Current Sprint Report', 'Module Sub-Module Report'],
       showModal: false,
       search: '',
       viewButtonText: 'Expanded View',

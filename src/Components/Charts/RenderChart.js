@@ -7,6 +7,7 @@ import PlanVsActualChart from './PlanVsActualChart';
 import TeamVelocityChart from './TeamVelocityChart';
 import EpicCompletetionChart from './EpicCompletetionChart';
 import CurrentSprintReportChart from './CurrentSprintReportChart';
+import ModuleSubModuleChart from './moduleSubModuleChart';
 
 export default class RenderChart extends Component {
 
@@ -35,6 +36,8 @@ export default class RenderChart extends Component {
 				return <EpicCompletetionChart name={this.props.name} settings={this.props.settings} removeChart={this.props.removeChart} viewToggled={this.props.viewToggled} projectsChanged={this.props.projectsChanged} />;
 			case 'Current Sprint Report':
 				return <CurrentSprintReportChart name={this.props.name} removeChart={this.props.removeChart} viewToggled={this.props.viewToggled} />;
+			case 'Module Sub-Module Report':
+				return <ModuleSubModuleChart name={this.props.name} settings={this.props.settings} removeChart={this.props.removeChart} viewToggled={this.props.viewToggled} projectsChanged={this.props.projectsChanged} />;
 			default: 
 				return this.underConstruction();
 		}

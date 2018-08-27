@@ -18,6 +18,7 @@ import GenerateEpicDataReducer from './GenerateEpicDataReducer';
 import GenerateVelocityDataReducer from './GenerateVelocityDataReducer';
 import EpicPercentageCompletetionReducer from './EpicPercentageCompletetionReducer';
 import CurrentSprintReportChartReducer from './CurrentSprintReportChartReducer';
+import moduleSubModuleReducer from './moduleSubModuleReducer';
  
 const rootReducer = combineReducers({
     loginData: loginReducer,
@@ -37,7 +38,8 @@ const rootReducer = combineReducers({
     GenerateEpicData: GenerateEpicDataReducer,
     GenerateVelocityData: GenerateVelocityDataReducer,
     EpicPercentageCompletetionData: EpicPercentageCompletetionReducer,
-    CurrentSprintReportChartData: CurrentSprintReportChartReducer
+    CurrentSprintReportChartData: CurrentSprintReportChartReducer,
+    moduleSubModuleData: moduleSubModuleReducer
 });
 
 export default rootReducer;
