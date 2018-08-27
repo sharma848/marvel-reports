@@ -32,7 +32,7 @@ export class UserDetail extends Component {
 	};
 
 	getAlert = (status) => (
-		<SweetAlert success title="Done" onCancel={() => this.hideAlert()}>
+		<SweetAlert success title="Done" onConfirm={() => this.hideAlert()}>
 			Request {status}
 		</SweetAlert>
 	);
