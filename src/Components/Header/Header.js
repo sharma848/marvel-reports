@@ -33,9 +33,10 @@ export class Header extends Component {
         if(nextProps.AllProjects.data && nextProps.AllProjects.data.projects) {
             this.setState({
                 allProjectData: nextProps.AllProjects.data.projects,
-                selectedProject: nextProps.AllProjects.data.projects[0].name
+                selectedProject: nextProps.AllProjects.data.projects[0] ? nextProps.AllProjects.data.projects[0].name : ''
             });
-            sessionStorage.setItem('PId', nextProps.AllProjects.data.projects[0].pid);
+            sessionStorage.setItem('PId', nextProps.AllProjects.data.projects[0] ? 
+            nextProps.AllProjects.data.projects[0].pid : '');
         }
     }
 

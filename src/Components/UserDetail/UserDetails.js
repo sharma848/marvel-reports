@@ -40,7 +40,7 @@ export class UserDetails extends Component {
 		});
 
 		return (
-			<Table responsive bordered condensed hover>
+			<Table responsive striped bordered condensed hover>
 				<thead>
 					<tr>
 						<th>Name</th>
@@ -48,8 +48,6 @@ export class UserDetails extends Component {
 						<th>Role</th>
 						<th>Projects</th>
 						<th>Status</th>
-						<th>Approve</th>
-						<th>Revoke</th>
 					</tr>
 				</thead>
 				<tbody>{displayData}</tbody>

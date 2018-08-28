@@ -123,7 +123,7 @@ export class moduleSubModuleChart extends Component {
             this.setState({ componentsSelected: e }, () => console.log(this.state.componentsSelected));
             break;
             case "remove-value": 
-            this.setState({ componentsSelected: this.state.projectSelected.filter(obj => obj.name != action.removedValue.name) });
+            this.setState({ componentsSelected: this.state.componentsSelected.filter(obj => obj.name != action.removedValue.name) });
             break;
             case "clear": 
             this.setState({ componentsSelected: [] });
@@ -169,7 +169,7 @@ export class moduleSubModuleChart extends Component {
 							/>
 						</Col>
 					</FormGroup>
-					<FormGroup>
+					{/* <FormGroup>
 						<Col componentClass={ControlLabel} sm={5}>
 							Number of Records:
 						</Col>
@@ -182,7 +182,7 @@ export class moduleSubModuleChart extends Component {
 								onChange={this.onChange}
 							/>
 						</Col>
-					</FormGroup>
+					</FormGroup> */}
 					<FormGroup>
 						<Col smOffset={3} sm={5}>
 							<button className="btn btn-primary" type="button" onClick={this.onClick}>
