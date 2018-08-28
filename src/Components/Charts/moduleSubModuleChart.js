@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Loader from '../Loader/Loader';
 import Select from 'react-select';
-import { getAllComponents, getModuleSubModuleChartData } from '../../Actions/index';
+import { getAllComponents, getModuleSubModuleChartData, postUserDashboard } from '../../Actions/index';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import { FormGroup, Col, ControlLabel, Table } from 'react-bootstrap';
 
@@ -11,15 +11,15 @@ export class moduleSubModuleChart extends Component {
 		super(props);
 		this.state = {
 			showGraph: false,
-			chartName: this.props.name,
+			chartName: (props.settings && props.settings.chartName) || this.props.name,
 			moduleSubModuleData: null,
 			componentData: null,
-			componentsSelected: null
+			componentsSelected:  props.settings && JSON.parse(props.settings.componentsSelected)
 		};
 	}
 
 	componentDidMount() {
-		if (this.state.component && !this.state.moduleSubModuleData) {
+		if (this.state.componentsSelected && !this.state.moduleSubModuleData) {
 			this.setState({ showGraph: true });
 		}
 		this.props.getAllComponents();
@@ -38,8 +38,9 @@ export class moduleSubModuleChart extends Component {
 
 
 	showGraph = () => {
-		if (this.state.component && !this.state.moduleSubModuleData) {
-			this.props.getComponentChartData([this.state.component]);
+		if (this.state.componentsSelected && !this.state.moduleSubModuleData) {
+			const params = this.state.componentsSelected.map(data => data.value);
+			this.props.getModuleSubModuleChartData(params);
 		}
 		return (
 			<div className="chart-content-container">
@@ -90,8 +91,18 @@ export class moduleSubModuleChart extends Component {
 
 	onClick = () => {
 		this.setState({ showGraph: true });
-		const params = this.state.componentsSelected.map(data => data.value);
-		this.props.getModuleSubModuleChartData(params);
+		const settings = JSON.stringify({
+			componentsSelected: JSON.stringify(this.state.componentsSelected),
+			numberOfRecords: this.state.numberOfRecords,
+			chartName: this.state.chartName
+		});
+		this.props.postUserDashboard({
+			graphId: this.props.name,
+			graphSubId: JSON.stringify(this.state.componentsSelected),
+			settings
+		});
+		this.props.projectsChanged(this.props.name,  JSON.stringify(this.state.componentsSelected), settings);
+		this.props.removeChart(this.props.name);
 	};
 
 	onChange = (e) => {
@@ -212,7 +223,8 @@ function mapStateToProps(state) {
 
 const actions = {
 	getAllComponents: getAllComponents,
-	getModuleSubModuleChartData: getModuleSubModuleChartData
+	getModuleSubModuleChartData: getModuleSubModuleChartData,
+	postUserDashboard: postUserDashboard
 };
 
 export default connect(mapStateToProps, actions)(moduleSubModuleChart);
