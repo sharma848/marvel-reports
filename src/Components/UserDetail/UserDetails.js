@@ -48,8 +48,6 @@ export class UserDetails extends Component {
 						<th>Role</th>
 						<th>Projects</th>
 						<th>Status</th>
-						<th>Approve</th>
-						<th>Revoke</th>
 					</tr>
 				</thead>
 				<tbody>{displayData}</tbody>

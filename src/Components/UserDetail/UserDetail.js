@@ -81,7 +81,7 @@ export class UserDetail extends Component {
     }
 
 	render() {
-		const status = this.props.userData.status;
+        const status = this.props.userData.status;
 		return (
 			<React.Fragment>
 				<tr>
@@ -112,25 +112,20 @@ export class UserDetail extends Component {
                             onChange={this.onProjectChange}
                         />
 					</td>
-					<td>{this.props.userData.status}</td>
 					{status === 'pending' || status === 'rejected' ? (
 						<td>
 							<Button className="btn btn-success" onClick={() => this.onClick('approved')}>
 								Approve
 							</Button>
 						</td>
-					) : (
-						<td />
-					)}
-					{status === 'pending' || status === 'approved' ? (
+					) :
+					(
 						<td>
 							<Button className="btn btn-danger" onClick={() => this.onClick('declined')}>
 								Revoke
 							</Button>
 						</td>
-					) : (
-						<td />
-					)}
+					) }
 				</tr>
 				{this.state.alert ? this.getAlert(this.state.status) : ''}
 			</React.Fragment>
