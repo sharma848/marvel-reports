@@ -98,7 +98,7 @@ export class UserDetail extends Component {
 							<option value="">Select</option>
 							<option value="view">View</option>
 							<option value="manager">Manager</option>
-							<option value="super_adminc">Super Admin</option>
+							<option value="super_admin">Super Admin</option>
 						</FormControl>
 					</td>
 					<td>
