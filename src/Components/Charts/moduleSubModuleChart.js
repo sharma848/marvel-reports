@@ -169,7 +169,7 @@ export class moduleSubModuleChart extends Component {
 							/>
 						</Col>
 					</FormGroup>
-					<FormGroup>
+					{/* <FormGroup>
 						<Col componentClass={ControlLabel} sm={5}>
 							Number of Records:
 						</Col>
@@ -182,7 +182,7 @@ export class moduleSubModuleChart extends Component {
 								onChange={this.onChange}
 							/>
 						</Col>
-					</FormGroup>
+					</FormGroup> */}
 					<FormGroup>
 						<Col smOffset={3} sm={5}>
 							<button className="btn btn-primary" type="button" onClick={this.onClick}>
