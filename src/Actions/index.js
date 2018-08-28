@@ -27,7 +27,7 @@ export const EPIC_PERCENTAGE_COMPLETETION = 'EPIC_PERCENTAGE_COMPLETETION';
 export const CURRENT_SPRINT_REPORT_DATA = 'CURRENT_SPRINT_REPORT_DATA';
 export const GET_MODULE_SUB_MODULE_CHART_DATA = 'GET_MODULE_SUB_MODULE_CHART_DATA';
 
-const ROOT_URL = `http://99c4d78b.ngrok.io/marvel`;
+const ROOT_URL = `http://3ce50912.ngrok.io/marvel`;
 
 const role = sessionStorage.getItem('role');
 const graphSettingsBaseUrl = `/api/${role}/graph/`;

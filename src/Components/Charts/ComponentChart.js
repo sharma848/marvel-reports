@@ -7,7 +7,7 @@ import { getAllComponents, getComponentChartData, postUserDashboard } from '../.
 import FormControl from 'react-bootstrap/lib/FormControl';
 import { FormGroup, Col, ControlLabel } from 'react-bootstrap';
 
-export class FIxVersionChart extends Component {
+export class ComponentChart extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -186,16 +186,17 @@ export class FIxVersionChart extends Component {
 
 	onClick = () => {
 		this.setState({ showGraph: true });
+		const settings = JSON.stringify({
+			component: this.state.component,
+			numberOfRecords: this.state.numberOfRecords,
+			chartName: this.state.chartName
+		});
 		this.props.postUserDashboard({
 			graphId: this.props.name,
 			graphSubId: this.state.component,
-			settings: JSON.stringify({
-				component: this.state.component,
-				numberOfRecords: this.state.numberOfRecords,
-				chartName: this.state.chartName
-			})
+			settings
 		});
-		this.props.projectsChanged(this.props.name, this.state.component);
+		this.props.projectsChanged(this.props.name, this.state.component, settings);
 		this.props.removeChart(this.props.name);
 		console.log('fv:' + this.state.component + ' rec:' + this.state.numberOfRecords);
 	};
@@ -301,4 +302,4 @@ const actions = {
 	postUserDashboard: postUserDashboard
 };
 
-export default connect(mapStateToProps, actions)(FIxVersionChart);
+export default connect(mapStateToProps, actions)(ComponentChart);

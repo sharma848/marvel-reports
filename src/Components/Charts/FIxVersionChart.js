@@ -234,16 +234,17 @@ export class FIxVersionChart extends Component {
 
 	onClick = () => {
 		this.setState({ showGraph: true });
+		const settings = JSON.stringify({
+			fixVersions: this.state.fixVersions,
+			numberOfRecords: this.state.numberOfRecords,
+			chartName: this.state.chartName
+		});
 		this.props.postUserDashboard({
 			graphId: this.props.name,
 			graphSubId: this.state.fixVersions,
-			settings: JSON.stringify({
-				fixVersions: this.state.fixVersions,
-				numberOfRecords: this.state.numberOfRecords,
-				chartName: this.state.chartName
-			})
+			settings
 		});
-		this.props.projectsChanged(this.props.name, this.state.fixVersions);
+		this.props.projectsChanged(this.props.name, this.state.fixVersions, settings);
 		this.props.removeChart(this.props.name);
 		console.log('fv:' + this.state.fixVersions + ' rec:' + this.state.numberOfRecords);
 		// this.props.getFixVersioChartData([ this.state.fixVersions ]);

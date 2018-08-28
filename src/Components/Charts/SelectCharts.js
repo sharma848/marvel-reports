@@ -45,11 +45,12 @@ class SelectCharts extends React.Component {
     this.setState({ showModal: true }, () => console.log("clicked"));
   }
 
-  projectsChanged = (newProject, subProjectId) => {
+  projectsChanged = (newProject, subProjectId, settings) => {
     const projects = this.state.projects;
     projects.push({ 
       graphId: newProject,
-      graphSubId: subProjectId
+      graphSubId: subProjectId,
+      settings
     });
     this.setState({ projects });
   }
@@ -68,6 +69,7 @@ class SelectCharts extends React.Component {
       }
       return project.graphId != chart;
     });
+    console.log(projects, updatedProjects);
     this.props.removeUserDashboard({ graphId: chart, graphSubId: chartSubId });
     this.setState({ projects: updatedProjects });    
   }

@@ -175,15 +175,18 @@ export class FIxVersionChart extends Component {
 
 	onClick = () => {
 		this.setState({ showGraph: true });
+		const settings = JSON.stringify({
+			level: this.state.level,
+			numberOfRecords: this.state.numberOfRecords,
+			chartName: this.state.chartName
+		});
 		this.props.postUserDashboard({
 			graphId: this.props.name,
 			graphSubId: this.state.level,
-			settings: JSON.stringify({
-				level: this.state.level,
-				numberOfRecords: this.state.numberOfRecords,
-				chartName: this.state.chartName
-			})
+			settings
 		});
+		this.props.projectsChanged(this.props.name, this.state.level, settings);
+		this.props.removeChart(this.props.name);
 		console.log('level:' + this.state.level + ' rec:' + this.state.numberOfRecords);		
 	};
 
