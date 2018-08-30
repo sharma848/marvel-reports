@@ -61,7 +61,7 @@ class SelectCharts extends React.Component {
     });
   }
 
-  removeChart = (chart, chartSubId) => {
+  removeChart = (chart, chartSubId, makeServerCall=true) => {
     const projects = this.state.projects;
     const updatedProjects = projects.filter(project => {
       if(project.graphSubId) {
@@ -70,7 +70,9 @@ class SelectCharts extends React.Component {
       return project.graphId != chart;
     });
     console.log(projects, updatedProjects);
-    this.props.removeUserDashboard({ graphId: chart, graphSubId: chartSubId });
+    if(makeServerCall) {
+      this.props.removeUserDashboard({ graphId: chart, graphSubId: chartSubId });
+    }
     this.setState({ projects: updatedProjects });    
   }
 

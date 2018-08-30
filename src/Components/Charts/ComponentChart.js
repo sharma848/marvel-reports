@@ -197,7 +197,7 @@ export class ComponentChart extends Component {
 			settings
 		});
 		this.props.projectsChanged(this.props.name, this.state.component, settings);
-		this.props.removeChart(this.props.name);
+		this.props.removeChart(this.props.name, null, false);
 		console.log('fv:' + this.state.component + ' rec:' + this.state.numberOfRecords);
 	};
 

@@ -245,7 +245,7 @@ export class FIxVersionChart extends Component {
 			settings
 		});
 		this.props.projectsChanged(this.props.name, this.state.fixVersions, settings);
-		this.props.removeChart(this.props.name);
+		this.props.removeChart(this.props.name, null, false);
 		console.log('fv:' + this.state.fixVersions + ' rec:' + this.state.numberOfRecords);
 		// this.props.getFixVersioChartData([ this.state.fixVersions ]);
 	};
